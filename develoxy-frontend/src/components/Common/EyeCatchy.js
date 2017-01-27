@@ -3,6 +3,11 @@ import onClickOutside from 'react-onclickoutside';
 
 
 class Content extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+    
     componentDidMount() {
         window.addEventListener("keydown", this.handleKeyDown);
     }
@@ -18,14 +23,12 @@ class Content extends Component {
         }
     }
     
-    handleClickOutside = () => {
-        const { hide } = this.props;
-        hide();
-    }
-
     render() {
-        const { hidden, children } = this.props;
-        return hidden ? null : <div>{children}</div>
+        const { children } = this.props;
+        return <div>{children}</div>;
+    }
+    handleClickOutside() {
+        this.props.hide();
     }
 }
 
@@ -41,8 +44,11 @@ class EyeCatchy extends Component {
     render() {
         const { children, hidden } = this.props;
         const { handleHide } = this;
+
+        if(hidden) return null;
+
         return (
-            <Content hidden={hidden} hide={e=>handleHide()}>
+            <Content  hide={handleHide}>
                 {children}
             </Content>
         )
