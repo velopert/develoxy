@@ -1,0 +1,15 @@
+.sidebar-button {
+    float: left;
+    font-size: 1.6rem;
+    line-height: 4rem;
+    color: $oc-gray-7;
+    margin-right: 0.3rem;
+    cursor: pointer;
+    transition: all .4s;
+    &:hover {
+        color: $oc-pink-5;
+    }
+    @include media(">=desktop") {
+        display: none;
+    }
+}

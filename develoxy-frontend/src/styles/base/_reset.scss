@@ -1,0 +1,11 @@
+body {
+    background-color: $oc-gray-1;
+    margin: 0;
+    font-family: 'Noto Sans KR', 'NanumGothic', sans-serif;
+}
+
+::selection {
+    background: $oc-pink-6;
+    color: white;
+    text-shadow: none;
+}

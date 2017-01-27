@@ -1,0 +1,36 @@
+.header-wrapper {
+    background: white;
+    height: 4rem;
+    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.2);
+    position: fixed;
+    width: 100%;
+
+    .header {
+        margin: 0 auto;
+        width: 1000px;
+        height: 4rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+
+        @import 'SidebarButton';
+        @import 'BrandLogo';
+        @import 'AuthButton';
+    }
+
+    @include media(">wide-desktop") {
+        .header {
+            width: 1200px;
+        }
+    }
+    @include media("<desktop") {
+        .header {
+            width: 100%;
+        }
+    }
+}
+
+
+.header-spacer {
+    height: 4rem;
+    width: 100%;
+}
