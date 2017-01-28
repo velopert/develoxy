@@ -3,10 +3,6 @@ import onClickOutside from 'react-onclickoutside';
 
 
 class Content extends Component {
-
-    constructor(props) {
-        super(props);
-    }
     
     componentDidMount() {
         window.addEventListener("keydown", this.handleKeyDown);
