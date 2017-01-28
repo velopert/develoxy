@@ -6,6 +6,7 @@ import * as modal from 'redux/modules/base/modal'
 import Header, {SidebarButton, BrandLogo, AuthButton} from 'components/Base/Header/Header';
 import LoginModal, { SocialLoginButton } from 'components/Base/LoginModal/LoginModal';
 import auth from 'helpers/firebase/auth';
+import * as users from 'helpers/firebase/database/users';
 
 
 class App extends Component {
@@ -13,8 +14,13 @@ class App extends Component {
 
     componentDidMount() {
         auth.authStateChanged(
-            (firebaseUser) => {
+            async (firebaseUser) => {
                 if(firebaseUser) {
+                    // 유저 데이터가 존재하는지 확인
+                    const user = await users.findUserById(firebaseUser.uid);
+                    if(!user.exists()) {
+                        await users.createUserData(firebaseUser);
+                    }
                     console.log('로그인이 됐다요', firebaseUser);
                 } else {
                     console.log('로그인 안됐는데? 어쩔건데?')
@@ -27,7 +33,9 @@ class App extends Component {
         auth[provider]().catch(
             error => {
                 if(error.code === 'auth/account-exists-with-different-credential') {
-                    auth.resolveDuplicate(error);
+                    auth.resolveDuplicate(error).then(
+                        (response) => {console.log(response)}
+                    );
                 }
             }
         );
