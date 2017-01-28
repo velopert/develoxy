@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import * as header from 'redux/modules/base/header';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -23,14 +22,15 @@ class App extends Component {
     }
 }
 
+App = connect(
+    state => ({
+        status: {
+            // something: state.something.get('something')
+        }
+    }),
+    dispatch => ({
+        // SomeActions: bindActionCreators(something, dispatch)
+    })
+)(App);
+
 export default App;
-// export default connect(
-//     state => ({
-//         status: {
-            
-//         }
-//     }),
-//     dispatch => ({
-//         HeaderActions: bindActionCreators(header, dispatch)
-//     })
-// )(App);
