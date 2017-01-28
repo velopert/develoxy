@@ -1,0 +1,69 @@
+.login-modal-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: $z-index-modal;
+    .login-modal {
+        @import 'SocialLoginButton';
+
+        background: white;
+        width: 30rem;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+        .exit {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            &:hover {
+                color: $oc-red-1;
+            }
+            &:active {
+                color: $oc-red-2;
+            }
+        }
+
+        .logo {
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            line-height: 3rem;
+            padding-bottom: 2rem;
+            background: $oc-pink-6;
+        }
+
+        .description {
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            p {
+                margin-bottom: 0.2rem;
+                font-size: 1.2rem;
+                color: $oc-gray-7;
+            }
+        }
+
+        .buttons-wrapper {
+            padding-left: 2rem;
+            padding-bottom: 2rem;
+            padding-right: 2rem;
+            padding: 1
+        }
+
+        // 애니메이션 설정
+        &.flipInX, &.flipOutX {
+            -webkit-animation-duration: 0.7s;
+            animation-duration: 0.7s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+    }
+}

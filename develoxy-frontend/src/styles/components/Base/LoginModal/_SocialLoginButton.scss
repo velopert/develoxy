@@ -1,0 +1,56 @@
+.social-login-button {
+    position: relative;
+    text-align: center;
+    font-size: 1.2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 1px solid $oc-gray-3;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .3s;
+    color: $oc-gray-7;
+
+    b {
+        text-transform: capitalize;
+    }
+
+    .icon {
+        position: absolute;
+        left: 2rem;
+        font-size: 2rem;
+    }
+
+    &.github {
+        background: $oc-gray-1;
+        &:hover {
+            background: $oc-gray-2;
+        }
+        &:active {
+            background: $oc-gray-3;
+        }
+    }
+
+    &.google {
+        &:hover {
+            background: $oc-gray-0;
+        }
+        &:active {
+            background: $oc-gray-1;
+        }
+    }
+
+    &.facebook {
+        background: #3B5998;
+        color: white;
+        &:hover {
+            background: darken(#3B5998, 5%);
+        }
+        &:active {
+            background: darken(#3B5998, 10%);
+        }
+    }
+}
+
+.social-login-button + .social-login-button {
+    margin-top: 1rem;
+}
