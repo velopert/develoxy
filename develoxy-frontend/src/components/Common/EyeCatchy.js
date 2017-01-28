@@ -25,7 +25,7 @@ class Content extends Component {
     
     render() {
         const { children } = this.props;
-        return <div>{children}</div>;
+        return children;
     }
     handleClickOutside() {
         this.props.hide();
