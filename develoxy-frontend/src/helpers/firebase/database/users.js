@@ -5,10 +5,9 @@ export function findUserById(uid) {
 }
 
 export function createUserData(user) {
-    const { uid, email, providerData, photoURL, displayName} = user;
+    const { uid, email, photoURL, displayName} = user;
     return firebase.database().ref('users/' + uid).set({
         email,
-        providerData, 
         photoURL, 
         displayName
     });
