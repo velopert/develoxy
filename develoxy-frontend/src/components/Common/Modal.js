@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Dimmer from 'components/Common/Dimmer';
 import EyeCatchy from 'components/Common/EyeCatchy';
 
-class LoginModal extends Component {
+class Modal extends Component {
 
     state = {
         closing: false
@@ -27,7 +27,7 @@ class LoginModal extends Component {
     }
     
     render() {
-        const { children, visible, onHide } = this.props;
+        const { children, visible, onHide, className } = this.props;
         const { closing } = this.state;
 
         if(!closing && !visible) return null; 
@@ -36,18 +36,10 @@ class LoginModal extends Component {
 
         return (
             <div>
-                <div className="login-modal-wrapper">
+                <div className="modal-wrapper">
                     <EyeCatchy onHide={onHide}>
-                        <div ref={ref=>{this.modal = ref}} className={`login-modal ${animation}`}>
-                            <div className="exit" onClick={onHide}>✕</div>
-                            <div className="logo">develoxy</div>
-                            <div className="description">
-                                <p><b>개발자</b>들을 위한 <b>글쓰기 플랫폼</b>,</p>
-                                <p>여러분들도 한번 <b>시작</b>해보세요!</p>
-                            </div>
-                            <div className="buttons-wrapper">
-                                {children}
-                            </div>
+                        <div ref={ref=>{this.modal = ref}} className={`modal ${animation} ${className}`}>
+                            { children }
                         </div>
                     </EyeCatchy>
                 </div>
@@ -57,5 +49,4 @@ class LoginModal extends Component {
     }
 }
 
-export { default as SocialLoginButton } from './SocialLoginButton';
-export default LoginModal;
+export default Modal;

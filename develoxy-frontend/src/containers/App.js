@@ -5,12 +5,13 @@ import * as modal from 'redux/modules/base/modal'
 // // load components
 import Header, {SidebarButton, BrandLogo, AuthButton} from 'components/Base/Header/Header';
 import LoginModal, { SocialLoginButton } from 'components/Base/LoginModal/LoginModal';
+import LinkAccountModal from 'components/Base/LoginModal/LinkAccountModal';
+
 import auth from 'helpers/firebase/auth';
 import * as users from 'helpers/firebase/database/users';
 
 
 class App extends Component {
-
 
     componentDidMount() {
         auth.authStateChanged(
@@ -30,46 +31,53 @@ class App extends Component {
     }
 
     handleAuth = (provider) => {
+        this.handleModal.close('login');
         auth[provider]().catch(
             error => {
                 if(error.code === 'auth/account-exists-with-different-credential') {
-                    auth.resolveDuplicate(error).then(
-                        (response) => {console.log(response)}
-                    );
+                    this.handleModal.open({ 
+                        modalName: 'linkAccount',
+                        data: error
+                    })
+                    // auth.resolveDuplicate(error).then(
+                    //     (response) => {console.log(response)}
+                    // );
                 }
             }
         );
     }
     
-
-    handleLoginModal = (() => {
+    handleModal =(() => {
         const { ModalActions } = this.props;
         return {
-            open: () => {
-                ModalActions.openModal({modalName: 'login'});
+            open: ({modalName, data}) => {
+                ModalActions.openModal({modalName, data});
             },
-            close: () => {
-                ModalActions.closeModal('login');
+            close: (modalName) => {
+                ModalActions.closeModal(modalName);
             }
         }
     })()
 
+    
+
     render() {        
         const { children, status: {modal} } = this.props;
-        const { handleLoginModal, handleAuth } = this;
+        const { handleAuth, handleModal } = this;
 
         return (
             <div>
                 <Header>
                     <SidebarButton/>
                     <BrandLogo/>
-                    <AuthButton onClick={handleLoginModal.open}/>
+                    <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                 </Header>
-                <LoginModal visible={modal.getIn(['login', 'open'])} onHide={handleLoginModal.close}>
+                <LoginModal visible={modal.getIn(['login', 'open'])} onHide={ () => handleModal.close('login')}>
                     <SocialLoginButton onClick={() => handleAuth('github')} type="github"/>
                     <SocialLoginButton onClick={() => handleAuth('google')} type="google"/>
                     <SocialLoginButton onClick={() => handleAuth('facebook')} type="facebook"/>
                 </LoginModal>
+                <LinkAccountModal visible={modal.getIn(['linkAccount', 'open'])} onHide={()=>handleModal.close('linkAccount')}/>
                 {children}
             </div>
         );

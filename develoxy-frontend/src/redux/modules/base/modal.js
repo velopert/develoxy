@@ -14,6 +14,9 @@ export const closeModal = createAction(MODAL_CLOSE);
 const initialState = Map({
     login: Map({
         open: false,
+    }),
+    linkAccount: Map({
+        open: false
     })
 })
 
