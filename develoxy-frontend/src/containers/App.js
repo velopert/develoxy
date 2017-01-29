@@ -2,10 +2,15 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as modal from 'redux/modules/base/modal'
-// // load components
+// load components
 import Header, {SidebarButton, BrandLogo, AuthButton} from 'components/Base/Header/Header';
-import LoginModal, { SocialLoginButton } from 'components/Base/LoginModal/LoginModal';
-import LinkAccountModal from 'components/Base/LoginModal/LinkAccountModal';
+
+import * as Modals from 'components/Base/Modals';
+const { LoginModal, LinkAccountModal } = Modals;
+const { SocialLoginButton } = LoginModal;
+
+// import LoginModal, { SocialLoginButton } from 'components/Base/LoginModal/LoginModal';
+// import LinkAccountModal from 'components/Base/LoginModal/LinkAccountModal';
 
 import auth from 'helpers/firebase/auth';
 import * as users from 'helpers/firebase/database/users';
@@ -72,12 +77,18 @@ class App extends Component {
                     <BrandLogo/>
                     <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                 </Header>
+
+
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={ () => handleModal.close('login')}>
                     <SocialLoginButton onClick={() => handleAuth('github')} type="github"/>
                     <SocialLoginButton onClick={() => handleAuth('google')} type="google"/>
                     <SocialLoginButton onClick={() => handleAuth('facebook')} type="facebook"/>
                 </LoginModal>
+
                 <LinkAccountModal visible={modal.getIn(['linkAccount', 'open'])} onHide={()=>handleModal.close('linkAccount')}/>
+                {/* 
+                
+                */}
                 {children}
             </div>
         );
