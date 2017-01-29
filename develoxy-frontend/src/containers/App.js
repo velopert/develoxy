@@ -37,7 +37,7 @@ class App extends Component {
         );
     }
 
-    test = async () => {
+    testing = async () => {
         console.log(this);
     }
 
@@ -95,7 +95,7 @@ class App extends Component {
                     <BrandLogo/>
                     <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                 </Header>
-                <button onClick={this.test}>뭐냐너</button>
+                <button onClick={this.testing}>뭐냐너</button>
 
 
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={ () => handleModal.close('login')}>
