@@ -1,8 +1,17 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import Dimmer from 'components/Common/Dimmer';
 import EyeCatchy from 'components/Common/EyeCatchy';
 
 class Modal extends Component {
+
+    static propTypes = { 
+        // 모달을 숨기는 함수
+        onHide: PropTypes.func,
+        // 모달이 보여질지 안보여질지 정함
+        visible: PropTypes.bool,
+        // 모달을 위한 엑스트라 클래스
+        className: PropTypes.string
+    }
 
     state = {
         closing: false

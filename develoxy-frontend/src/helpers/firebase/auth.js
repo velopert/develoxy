@@ -21,6 +21,11 @@ const auth = (function() {
         logout: () => {
             return firebase.auth().signOut()
         },
+        getExistingProvider: async (email) => {
+            const existingProviders = await firebase.auth().fetchProvidersForEmail(email);
+            const provider = existingProviders[0].split('.')[0];
+            return provider;
+        },
         resolveDuplicate: async (error) => {
             const { credential, email } = error;
             const existingProviders = await firebase.auth().fetchProvidersForEmail(email);

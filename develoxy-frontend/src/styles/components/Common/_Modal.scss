@@ -4,10 +4,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: $z-index-modal;
-    .modal {
-        background: white;
-        width: 30rem;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
+}
+
+.modal {
+    background: white;
+    width: 30rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 

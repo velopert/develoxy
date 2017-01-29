@@ -18,6 +18,8 @@ import * as users from 'helpers/firebase/database/users';
 
 class App extends Component {
 
+
+
     componentDidMount() {
         auth.authStateChanged(
             async (firebaseUser) => {
@@ -35,21 +37,37 @@ class App extends Component {
         );
     }
 
-    handleAuth = (provider) => {
-        this.handleModal.close('login');
-        auth[provider]().catch(
-            error => {
-                if(error.code === 'auth/account-exists-with-different-credential') {
-                    this.handleModal.open({ 
-                        modalName: 'linkAccount',
-                        data: error
-                    })
-                    // auth.resolveDuplicate(error).then(
-                    //     (response) => {console.log(response)}
-                    // );
-                }
+    test = async () => {
+        console.log(this);
+    }
+
+    handleAuth = async (provider) => {
+
+        const { handleModal } = this.props;
+
+        handleModal.close('login');
+
+        try {
+            await auth[provider]();
+        } catch (e) {
+            // 이미 존재하는 이메일일 경우 발생하는 에러
+            if(e.code === 'auth/account-exists-with-different-credential') {
+                // 계정 링크를 시도한다
+
+                // 어떤 provider 로 가입되어있는지 알아낸다
+                const provider = await auth.getExistingProvider(e.email);
+
+                // 모달을 보여준다, 링크할래? 하고
+                handleModal.open({
+                    modalName: 'linkAccount',
+                    data: {
+                        e,
+                        provider
+                    }
+                });
+
             }
-        );
+        }
     }
     
     handleModal =(() => {
@@ -77,6 +95,7 @@ class App extends Component {
                     <BrandLogo/>
                     <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                 </Header>
+                <button onClick={this.test}>뭐냐너</button>
 
 
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={ () => handleModal.close('login')}>
