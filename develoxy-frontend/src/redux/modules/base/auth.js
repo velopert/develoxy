@@ -2,19 +2,23 @@ import { createAction, handleActions } from 'redux-actions';
 import { Map} from 'immutable';
 
 /* actions */
-const SOMETHING = "something/SOMETHING";
+const AUTHENTICATE = "auth/AUTHENTICATE";
+
 
 /* action creators */
-export const something = createAction(SOMETHING);
+export const authenticate = createAction(AUTHENTICATE);
 
 /* initialState */
 const initialState = Map({
-    something: true
+    user: null
 })
 
 /* reducer */
 export default handleActions({
-    [SOMETHING]: (state, action) => (
-        state
-    )
+    [AUTHENTICATE]: (state, action) => {
+        // user 정보를 저장한다
+        const user = action.payload;
+        
+        return state.set('user', user);
+    }
 }, initialState);

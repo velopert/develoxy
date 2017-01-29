@@ -26,6 +26,10 @@ const auth = (function() {
             const provider = existingProviders[0].split('.')[0];
             return provider;
         },
+        linkAccount: async ({provider, credential}) => {
+            const result = await firebase.auth().signInWithPopup(providers[provider]);
+            return result.user.link(credential);
+        },
         resolveDuplicate: async (error) => {
             const { credential, email } = error;
             const existingProviders = await firebase.auth().fetchProvidersForEmail(email);

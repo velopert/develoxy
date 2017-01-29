@@ -5,7 +5,8 @@ import auth from './auth';
 
 const base = combineReducers({
     header,
-    modal
+    modal,
+    auth
 });
 
 export default base;

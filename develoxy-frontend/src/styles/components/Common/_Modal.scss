@@ -10,5 +10,14 @@
     background: white;
     width: 30rem;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+
+        // 애니메이션 설정
+    &.flipInX, &.flipOutX {
+        -webkit-animation-duration: 0.7s;
+        animation-duration: 0.7s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
 }
 

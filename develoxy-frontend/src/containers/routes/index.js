@@ -1,7 +1,2 @@
-import MainRoute from './MainRoute';
-import AuthRoute from './AuthRoute';
-
-export {
-    MainRoute,
-    AuthRoute
-}
+export { default as MainRoute } from './MainRoute';
+export { default as RegisterRoute } from './RegisterRoute';

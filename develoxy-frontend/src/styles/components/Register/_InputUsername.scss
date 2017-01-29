@@ -1,0 +1,19 @@
+.input-username {
+    margin-top: 2rem;
+    .input {
+        width: 100%;
+
+    }
+
+    .button {
+        font-size: 1.3rem;
+    }
+
+    @include media(">=desktop") {
+        input {
+            font-size: 1.5rem;
+        }
+    }
+
+    
+}
