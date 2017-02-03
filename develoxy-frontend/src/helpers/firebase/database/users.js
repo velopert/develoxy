@@ -1,10 +1,9 @@
-// usersHelper 는 users 와 userSettings 를 담당한다
 const usersHelper = (() => {
     let users = null;
     return {
         // 헬퍼 initialize
         initialize: (database) => {
-            users = users.ref('/users/');
+            users = database.ref('/users/');
         },
 
         /* 탐색 */
@@ -14,6 +13,10 @@ const usersHelper = (() => {
             return users.child('profiles').child(uid).once('value');
         },
 
+        findProfileByIdSync: (uid, cb) => {
+            return users.child('profiles').child(uid).on('value', cb);
+        },
+
         // 계정 설정 찾기
         findSettingById: (uid) => {
             return users.child('settings').child(uid).once('value');
@@ -21,12 +24,23 @@ const usersHelper = (() => {
 
         findProfileByUsername: (username) => {
             return users.child('settings').orderByChild('username')
-                                          .equalTo(username);
+                                          .equalTo(username)
+                                          .once('child_added');
+        },
+
+        checkUsername: async (username) => {
+            const data = await users.child('usernames').child(username).once('value');
+            return { available: !data.exists() };
         },
 
         /* 수정 */
 
         /* 생성 */
+
+        // username 정하기
+        claimUsername: ({uid, username}) => {
+            return users.child('usernames').child(username).set(uid);
+        },
 
         // 유저 생성
         create: ({uid, username, displayName, email, thumbnail}) => {
@@ -36,12 +50,12 @@ const usersHelper = (() => {
                 thumbnail
             });
 
-            const setting = users.child('settings').child('uid').set({
+            const setting = users.child('settings').child(uid).set({
                 email
                 // 나중에 더 추가 할 것임
             });
 
-            return Promise.all([profile, setting]);
+            return Promise.all([profile, setting, username]);
         }
     }
 })();

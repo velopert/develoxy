@@ -1,21 +1,9 @@
 import React, { Component } from 'react';
 import { Icon, Input } from 'semantic-ui-react';
-
 class InputUsername extends Component {
-    state = {
-        value: ''
-    }
-
-    handleChange = (e) => {
-        this.setState({
-            value: e.target.value
-        });
-    }
-
     render() {
-        const { handleChange } = this;
-        const { onClick } = this.props;
-        const { value } = this.state;
+        const { onClick, error, loading, value, onChange } = this.props;
+        
         return (
             <div className="input-username">
                 <Input
@@ -25,12 +13,16 @@ class InputUsername extends Component {
                             labelPosition: 'right', 
                             icon: 'chevron right', 
                             content: '계속하기', 
-                            onClick: () => { onClick(value) }
+                            onClick,
+                            disabled: error || value === '',
+                            loading: loading.claimUsername || loading.register
                         }
                     }
                     placeholder="아이디"
-                    onChange={handleChange}
+                    onChange={onChange}
                     value={value}
+                    error={error}
+                    loading={loading.checkUsername} icon='user' iconPosition='left'
                 />
             </div>
         ); 

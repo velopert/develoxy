@@ -12,19 +12,35 @@ const { LoginModal, LinkAccountModal } = Modals;
 const { SocialLoginButton } = LoginModal;
 
 import auth from 'helpers/firebase/auth';
-// import * as users from 'helpers/firebase/database/users';
+import users from 'helpers/firebase/database/users';
 
 
 class App extends Component {
-    async componentDidMount() {
+
+    static contextTypes = {
+        router: React.PropTypes.object
+    }
+
+    profileRef = null
+
+    componentDidMount() {
+
         // 계정 인증 리스너
         auth.authStateChanged(
             async (firebaseUser) => {
+                if(this.profileRef) {
+                    this.profileRef.off();
+                    this.profileRef = null;
+                }
                 const { AuthActions } = this.props;
                 
                 if(firebaseUser) {
                     AuthActions.authenticate(firebaseUser);
-                    console.log(firebaseUser);
+                    this.profileRef = users.findProfileByIdSync(firebaseUser.uid, (snapshot) => {
+                        // 내 프로필 업데이트
+                        console.log(snapshot.val());
+                    })
+
                     // // 유저 데이터가 존재하는지 확인
                     // const user = await users.findUserById(firebaseUser.uid);
                     // if(!user.exists()) {
@@ -39,6 +55,9 @@ class App extends Component {
             }
         );
 
+        // const exists = await users.checkUsernameExists('validatedfailure');
+        // console.log(exists);
+
         
     }
 
@@ -49,7 +68,22 @@ class App extends Component {
         handleModal.close('login');
 
         try {
-            await auth.signInWithPopup(provider);
+            const loginData = await auth.signInWithPopup(provider);
+            
+            // 해당 유저가 가입되어있는지 체크한다
+            // 리덕스에 넣는게 의미가 없으므로, 바로 사용한다
+            const uid = loginData.user.uid;
+            const profile = await users.findProfileById(uid);
+            
+
+            if(profile.exists()) {
+               // 이미 가입한 유저다 
+            } else {
+                // 가입되지 않은 유저일 때
+                this.context.router.push('/register');
+            }
+            
+
         } catch (e) {
             // 이미 존재하는 이메일일 경우 발생하는 에러
             if(e.code === 'auth/account-exists-with-different-credential') {

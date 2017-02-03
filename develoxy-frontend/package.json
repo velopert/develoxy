@@ -53,6 +53,7 @@
     "firebase": "^3.6.7",
     "immutable": "^3.8.1",
     "include-media": "^1.4.9",
+    "lodash": "^4.17.4",
     "open-color": "^1.4.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

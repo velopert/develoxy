@@ -13,6 +13,10 @@
                 "email": "email@email.com",
                 "...": "..."
             }
+        },
+        "usernames": {
+            "velopert": "uid...",
+            "jn4kim": "uid...."
         }
     }
 }

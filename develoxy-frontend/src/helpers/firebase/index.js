@@ -2,6 +2,7 @@ import * as firebase from 'firebase';
 import config from './config';
 
 import authHelper from './auth';
+import databaseHelper from './database';
 
 // firebase 를 프로젝트에서 조금 더 쉽게 사용하기 위한 헬퍼
 
@@ -17,6 +18,8 @@ const firebaseHelper = (
                 const database = firebase.database();
                 
                 authHelper.initialize(auth);
+                databaseHelper.initialize(database);
+
             }
         }
     }
