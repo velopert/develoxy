@@ -12,12 +12,11 @@ const { LoginModal, LinkAccountModal } = Modals;
 const { SocialLoginButton } = LoginModal;
 
 import auth from 'helpers/firebase/auth';
-import * as users from 'helpers/firebase/database/users';
+// import * as users from 'helpers/firebase/database/users';
 
 
 class App extends Component {
-    componentDidMount() {
-
+    async componentDidMount() {
         // 계정 인증 리스너
         auth.authStateChanged(
             async (firebaseUser) => {
@@ -25,16 +24,22 @@ class App extends Component {
                 
                 if(firebaseUser) {
                     AuthActions.authenticate(firebaseUser);
-                    // 유저 데이터가 존재하는지 확인
-                    const user = await users.findUserById(firebaseUser.uid);
-                    if(!user.exists()) {
-                        // await users.createUserData(firebaseUser);
-                    }
+                    console.log(firebaseUser);
+                    // // 유저 데이터가 존재하는지 확인
+                    // const user = await users.findUserById(firebaseUser.uid);
+                    // if(!user.exists()) {
+                    //     // await users.createUserData(firebaseUser);
+                    // }
+
+                    // // const result = await users.findUserByUsername('velopert');
+                    // console.log(result.val());
                 } else {
 
                 }
             }
         );
+
+        
     }
 
     handleAuth = async (provider) => {
@@ -43,8 +48,8 @@ class App extends Component {
 
         handleModal.close('login');
 
-        try {authAction
-            await auth[provider]();
+        try {
+            await auth.signInWithPopup(provider);
         } catch (e) {
             // 이미 존재하는 이메일일 경우 발생하는 에러
             if(e.code === 'auth/account-exists-with-different-credential') {

@@ -1,0 +1,18 @@
+{
+    "users": {
+        "profiles": {
+            "uid": {
+                "username": "username",
+                "thumbnail": "https://something/image.png",
+                "displayName": "Minjun Kim",
+                "description": "Hi! 어쩌고.."
+            }
+        },
+        "settings": {
+            "uid": {
+                "email": "email@email.com",
+                "...": "..."
+            }
+        }
+    }
+}

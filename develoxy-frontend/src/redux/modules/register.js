@@ -2,7 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { Map } from 'immutable';
 import Request, { requize, pend, fulfill, reject } from 'helpers/request';
 import * as users from 'helpers/firebase/database/users';
-
+// import * as profiles from 'helpers/firebase/database/profiles';
 
 /* actions */
 const REGISTER = requize("register/REGISTER");

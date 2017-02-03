@@ -1,6 +1,8 @@
 import * as firebase from 'firebase';
 
-const auth = (function() {
+const authHelper = (function() {
+
+    let auth;
 
     const providers = {
         github: (new firebase.auth.GithubAuthProvider()),
@@ -9,14 +11,11 @@ const auth = (function() {
     };
 
     return {
-        github: () => {
-            return firebase.auth().signInWithPopup(providers.github);
+        initialize: function(authentication) {
+            auth = authentication;
         },
-        google: () => {
-            return firebase.auth().signInWithPopup(providers.google);
-        },
-        facebook: () => {
-            return firebase.auth().signInWithPopup(providers.facebook);
+        signInWithPopup: (provider) => {
+            return auth.signInWithPopup(providers[provider]);
         },
         logout: () => {
             return firebase.auth().signOut()
@@ -45,4 +44,4 @@ const auth = (function() {
     }
 })();
 
-export default auth;
+export default authHelper;

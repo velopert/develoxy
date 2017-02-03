@@ -1,0 +1,9 @@
+.ui.pink.button {
+    background: $oc-pink-6!important;
+    &:hover {
+        background: $oc-pink-5!important;
+    }
+    &:active {
+        background: $oc-pink-7!important;
+    }
+}
