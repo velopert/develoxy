@@ -5,7 +5,7 @@ import * as modal from 'redux/modules/base/modal';
 import * as authAction from 'redux/modules/base/auth';
 
 // load components
-import Header, {SidebarButton, BrandLogo, AuthButton} from 'components/Base/Header/Header';
+import Header, {SidebarButton, BrandLogo, AuthButton, UserButton, UserMenu } from 'components/Base/Header/Header';
 
 import * as Modals from 'components/Base/Modals';
 const { LoginModal, LinkAccountModal } = Modals;
@@ -14,6 +14,7 @@ const { SocialLoginButton } = LoginModal;
 import auth from 'helpers/firebase/auth';
 import users from 'helpers/firebase/database/users';
 
+import storage from 'helpers/storage';
 
 class App extends Component {
 
@@ -23,11 +24,26 @@ class App extends Component {
 
     profileRef = null
 
+
+    
+    componentWillMount() {
+        // 프로필을 임시로 불러온다
+        const { AuthActions } = this.props;
+        const profile = storage.get('profile');
+
+        if(profile) {
+            AuthActions.syncProfile(profile);
+        }
+    }
+    
+
     componentDidMount() {
 
         // 계정 인증 리스너
         auth.authStateChanged(
             async (firebaseUser) => {
+
+                // 기존 프로필 동기화 중지
                 if(this.profileRef) {
                     this.profileRef.off();
                     this.profileRef = null;
@@ -37,18 +53,16 @@ class App extends Component {
                 if(firebaseUser) {
                     AuthActions.authenticate(firebaseUser);
                     this.profileRef = users.findProfileByIdSync(firebaseUser.uid, (snapshot) => {
-                        // 내 프로필 업데이트
-                        console.log(snapshot.val());
+                        
+                        const profile = snapshot.val();
+
+                        // 내 프로필 동기화
+                        AuthActions.syncProfile(profile);
+                        
+                        // 만약에, profile 이 valid 하면, 그 정보를 localStorage 에 넣는다.
+                        storage.set('profile', profile);
+                        
                     })
-
-                    // // 유저 데이터가 존재하는지 확인
-                    // const user = await users.findUserById(firebaseUser.uid);
-                    // if(!user.exists()) {
-                    //     // await users.createUserData(firebaseUser);
-                    // }
-
-                    // // const result = await users.findUserByUsername('velopert');
-                    // console.log(result.val());
                 } else {
 
                 }
@@ -125,6 +139,7 @@ class App extends Component {
         const provider = modal.getIn(['linkAccount', 'existingProvider']);
         const { handleModal } = this;
 
+
         console.log(credential, provider);
         await auth.linkAccount({credential, provider});
         handleModal.close('linkAccount')
@@ -132,7 +147,7 @@ class App extends Component {
     }
 
     render() {        
-        const { children, status: {modal} } = this.props;
+        const { children, status: {modal,profile} } = this.props;
         const { handleAuth, handleModal, handleLinkAccount } = this;
 
         return (
@@ -140,7 +155,14 @@ class App extends Component {
                 <Header>
                     <SidebarButton/>
                     <BrandLogo/>
-                    <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
+
+                    {   
+                        profile.get('username') 
+                        ?  <UserButton thumbnail={profile.get('thumbnail')}/>
+                        :  <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
+                    }
+
+                    <UserMenu/>
                 </Header>
                 
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={ () => handleModal.close('login')}>
@@ -167,7 +189,8 @@ class App extends Component {
 App = connect(
     state => ({
         status: {
-            modal: state.base.modal
+            modal: state.base.modal,
+            profile: state.base.auth.get('profile')
             // something: state.something.get('something')
         }
     }),

@@ -3,7 +3,8 @@ import Register, {
     TitleBar,
     Content,
     PreviousButton,
-    InputUsername
+    InputUsername,
+    Loader
 } from 'components/Register/Register';
 import { connect } from 'react-redux';
 import * as form from 'redux/modules/form';
@@ -40,9 +41,20 @@ class RegisterRoute extends Component {
     }
 
     componentDidMount() {
-        const { FormActions } = this.props;
+        const { FormActions, status: { auth } } = this.props;
         FormActions.initialize('register');
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { status: { auth } } = this.props;
+        
+        // 프로필이 생성 되었으면 메인페이지로 이동한다
+        if(auth.getIn(['profile', 'username'])) {
+            this.context.router.push('/');
+        }
+        
+    }
+    
     
 
     handleRegister = async () => {
@@ -138,7 +150,7 @@ class RegisterRoute extends Component {
     
     render() {
         const { handleRegister, handleValidate, handleChange } = this;
-        const { status: { validation, loading }, form: { value } } = this.props;
+        const { status: { auth, validation, loading }, form: { value } } = this.props;
 
 
         return (
@@ -162,6 +174,7 @@ class RegisterRoute extends Component {
                             </Message>
                         )
                     }
+                    <Loader visible={!auth.get('profileSynced')}/>
                 </Content>
             </Register>
         );

@@ -14,7 +14,9 @@ const usersHelper = (() => {
         },
 
         findProfileByIdSync: (uid, cb) => {
-            return users.child('profiles').child(uid).on('value', cb);
+            const ref = users.child('profiles').child(uid);
+            ref.on('value', cb)
+            return ref;
         },
 
         // 계정 설정 찾기

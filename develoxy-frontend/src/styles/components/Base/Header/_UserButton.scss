@@ -1,0 +1,27 @@
+.user-button {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    height: 4rem;
+    
+    .thumbnail {
+
+        background: $oc-gray-2;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 1.5rem;
+        /*border: 1px solid rgba(0,0,0,.1);*/
+        transition: all 0.3s;
+        
+        &:hover {
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+    }
+}

@@ -1,0 +1,29 @@
+.user-menu {
+    position: absolute;
+    top: 500px;
+    .tooltip {
+      position: absolute;
+      width: 100px;
+      height: 20px;
+      padding: 10px;
+      font-size: 14px;
+      text-align: center;
+      color: rgb(113, 157, 171);
+      background: rgb(255, 255, 255);
+      border: 4px solid rgb(255, 255, 255);
+      border-radius: 3px;
+      text-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 1px;
+      box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 2px 0px;
+}
+    .tooltip:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent transparent #FFFFFF transparent;
+        top: -20px;
+        right: 5px;
+    }
+}

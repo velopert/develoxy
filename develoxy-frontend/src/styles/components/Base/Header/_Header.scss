@@ -16,6 +16,8 @@
         @import 'SidebarButton';
         @import 'BrandLogo';
         @import 'AuthButton';
+        @import 'UserButton';
+        @import 'UserMenu';
     }
 
     @include media(">wide-desktop") {

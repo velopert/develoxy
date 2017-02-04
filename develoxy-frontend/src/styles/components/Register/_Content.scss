@@ -1,5 +1,8 @@
 .content {
     @import 'InputUsername';
+    @import 'Loader';
+    
+    position: relative;
 
     .greeting {
         text-align: center;
