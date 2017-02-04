@@ -1,0 +1,47 @@
+.sorter-wrapper {
+    .sorter {
+        background: white;
+        display: inline-block;
+        height: 3.5rem;
+        width: 10.5rem;
+        border-radius: 1.75rem;
+        position: relative;
+         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        .selected {
+            position: absolute;
+            background: $oc-pink-6;;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 3.5rem;
+            transition: all .5s;
+            transform: translateX(7rem);
+        }
+        .sort-item {
+            display: inline-block;
+            width: 3.5rem;
+            height: 3.5rem;
+            position: relative;
+            .icon {
+                z-index: 1;
+                font-size: 2rem;
+                position: absolute;
+                left: 50%;
+                transition: all .5s;
+                transform: translateX(-50%);
+                &.clock {
+                    
+                    top: 1rem;
+                }
+                &.heart {
+                    
+                    top: 1rem;
+                }
+                &.line {
+                    color: white;
+                    top: 1rem;
+                    font-size: 1.5rem;
+                }
+            }
+        }
+    }
+}

@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import Main, { 
     LeftColumn,
     CenterColumn,
-    RightColumn
+    RightColumn,
+    // 좌측
+    Sorter
 } from 'components/Main/Main';
 
 
@@ -12,7 +14,7 @@ class MainRoute extends Component {
         return (
             <Main>
                 <LeftColumn>
-                    1
+                    <Sorter/>
                 </LeftColumn>
                 <CenterColumn>
                     2
