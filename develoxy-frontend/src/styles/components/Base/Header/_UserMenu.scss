@@ -1,29 +1,93 @@
-.user-menu {
+.user-menu-wrapper {
+    z-index: $z-index-user-menu;
+    transition: all 0.5s;
     position: absolute;
-    top: 500px;
-    .tooltip {
-      position: absolute;
-      width: 100px;
-      height: 20px;
-      padding: 10px;
-      font-size: 14px;
-      text-align: center;
-      color: rgb(113, 157, 171);
-      background: rgb(255, 255, 255);
-      border: 4px solid rgb(255, 255, 255);
-      border-radius: 3px;
-      text-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 1px;
-      box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 2px 0px;
-}
-    .tooltip:after {
+    top: 4.5rem;
+    right: 13.5rem;
+    .user-menu {
+        position: absolute;
+        width: 15rem;
+        font-size: 14px;
+        text-align: center;
+        background: rgb(255, 255, 255);
+        border-radius: 3px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        
+        .menu-item {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all .3s;
+
+            .menu-name {
+                .icon {
+                    font-size: 1rem;
+                    line-height: 1.3rem;
+                    color: $oc-gray-6;
+                    margin-right: 0.5rem;
+                }
+                span {
+                    font-weight: 500;
+                    line-height: 1.3rem;
+                    color: $oc-gray-8;
+                    b { 
+                        font-weight: 600; 
+                    }
+                }
+            }
+            .description {
+                margin-left: 1.75rem;
+                color: $oc-gray-7;
+                margin-top: 0.4rem;
+                b {
+                    font-weight: 500;
+                }
+            }
+
+            &:hover {
+                background: $oc-pink-6;
+                .menu-name {
+                    .icon {
+                        color: $oc-pink-1;
+                    }
+                    span {
+                        color: white;
+                    }
+                }
+                .description {
+                    color: $oc-pink-1;
+                }
+            }
+
+            &:active {
+                background: $oc-pink-7;
+            }
+        }
+
+        .menu-item + .menu-item {
+            border-top: 1px solid $oc-gray-2;
+        }
+    }
+    .user-menu:after {
         content: "";
         position: absolute;
         width: 0;
         height: 0;
-        border-width: 10px;
+        border-width: 0.5rem;
         border-style: solid;
-        border-color: transparent transparent #FFFFFF transparent;
-        top: -20px;
-        right: 5px;
+        border-color: transparent transparent $oc-gray-9 transparent;
+        top: -1rem;
+        right: 1rem;
+    }
+
+    // 애니메이션 설정
+    &.flipInX, &.flipOutX {
+        -webkit-animation-duration: 0.7s;
+        animation-duration: 0.7s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
     }
 }

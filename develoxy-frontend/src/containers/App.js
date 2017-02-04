@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as modal from 'redux/modules/base/modal';
 import * as authAction from 'redux/modules/base/auth';
+import * as header from 'redux/modules/base/header';
 
 // load components
 import Header, {SidebarButton, BrandLogo, AuthButton, UserButton, UserMenu } from 'components/Base/Header/Header';
@@ -38,7 +39,8 @@ class App extends Component {
     
 
     componentDidMount() {
-
+        // storage.remove('profile');
+        // auth.logout();
         // 계정 인증 리스너
         auth.authStateChanged(
             async (firebaseUser) => {
@@ -121,7 +123,7 @@ class App extends Component {
     }
     
     
-    handleModal =(() => {
+    handleModal = (() => {
         const { ModalActions } = this.props;
         return {
             open: ({modalName, data}) => {
@@ -129,6 +131,18 @@ class App extends Component {
             },
             close: (modalName) => {
                 ModalActions.closeModal(modalName);
+            }
+        }
+    })()
+
+    handleUserMenu = (() => {
+        const { HeaderActions } = this.props;
+        return {
+            open: () => {
+                HeaderActions.openUserMenu();
+            },
+            close: () => {
+                HeaderActions.closeUserMenu();
             }
         }
     })()
@@ -141,14 +155,14 @@ class App extends Component {
 
 
         console.log(credential, provider);
-        await auth.linkAccount({credential, provider});
+        await auth.linkAccoopenUserMenuunt({credential, provider});
         handleModal.close('linkAccount')
         
     }
 
     render() {        
-        const { children, status: {modal,profile} } = this.props;
-        const { handleAuth, handleModal, handleLinkAccount } = this;
+        const { children, status: { modal,profile, header } } = this.props;
+        const { handleAuth, handleModal, handleLinkAccount, handleUserMenu } = this;
 
         return (
             <div>
@@ -158,11 +172,11 @@ class App extends Component {
 
                     {   
                         profile.get('username') 
-                        ?  <UserButton thumbnail={profile.get('thumbnail')}/>
+                        ?  <UserButton thumbnail={profile.get('thumbnail')} onClick={handleUserMenu.open}/>
                         :  <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                     }
 
-                    <UserMenu/>
+                    <UserMenu visible={header.getIn(['userMenu', 'open'])} onHide={handleUserMenu.close}/>
                 </Header>
                 
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={ () => handleModal.close('login')}>
@@ -189,6 +203,7 @@ class App extends Component {
 App = connect(
     state => ({
         status: {
+            header: state.base.header,
             modal: state.base.modal,
             profile: state.base.auth.get('profile')
             // something: state.something.get('something')
@@ -196,7 +211,8 @@ App = connect(
     }),
     dispatch => ({
         ModalActions: bindActionCreators(modal, dispatch),
-        AuthActions: bindActionCreators(authAction, dispatch)
+        AuthActions: bindActionCreators(authAction, dispatch),
+        HeaderActions: bindActionCreators(header, dispatch)
     })
 )(App);
 

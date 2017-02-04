@@ -49,7 +49,7 @@ const usersHelper = (() => {
             const profile = users.child('profiles').child(uid).set({
                 username,
                 displayName,
-                thumbnail
+                thumbnail: 'https://firebasestorage.googleapis.com/v0/b/develoxy-2f498.appspot.com/o/static%2Fthumbnail.png?alt=media&token=ae708dc5-9bf0-4924-847e-8cf9e7ac176b'
             });
 
             const setting = users.child('settings').child(uid).set({
