@@ -11,8 +11,8 @@ const UserMenu = ({displayName, visible, onHide}) => {
                 enter: 'flipInX',
                 leave: 'flipOutX'
             }}
-            transitionEnterTimeout={700}
-            transitionLeaveTimeout={700}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
         >
             {
                 visible && (
