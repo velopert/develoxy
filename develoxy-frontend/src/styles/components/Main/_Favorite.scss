@@ -51,7 +51,6 @@
                 .icon {
                     transition: transform .5s;
                     transform: rotate(-180deg);
-
                     &:hover {
                         color: $oc-pink-6;
                     }

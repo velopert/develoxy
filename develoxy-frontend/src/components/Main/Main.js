@@ -21,5 +21,6 @@ export { default as RightColumn } from './Column/RightColumn';
 // 좌측 컬룸
 export { default as Sorter } from './Sorter';
 export { default as Favorite } from './Favorite';
+export { default as ButtonSet } from './ButtonSet';
 
 export default Main;

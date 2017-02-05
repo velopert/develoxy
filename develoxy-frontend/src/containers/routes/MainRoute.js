@@ -5,7 +5,8 @@ import Main, {
     RightColumn,
     // 좌측
     Sorter,
-    Favorite
+    Favorite,
+    ButtonSet
 } from 'components/Main/Main';
 
 import { bindActionCreators } from 'redux';
@@ -39,6 +40,7 @@ class MainRoute extends Component {
                 <LeftColumn>
                     <Sorter onSelect={mainHandler.setSorter} value={sorterValue}/>
                     <Favorite/>
+                    <ButtonSet/>
                 </LeftColumn>
                 <CenterColumn>
                     2

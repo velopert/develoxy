@@ -1,0 +1,25 @@
+.button-set {
+    margin-top: 2rem;
+    .button {
+        padding: 1rem;
+        cursor: pointer;
+        transition: all .3s;
+        .text {
+            color: $oc-pink-7;
+            font-weight: 500;
+        }
+        .count {
+            color: $oc-gray-5;
+            float: right;
+        }
+        &:hover { 
+            background: $oc-gray-0;
+        }
+        &:active {
+            background: $oc-gray-1;
+        }
+    }
+    .button + .button {
+        border-top: 1px solid $oc-gray-3;
+    }
+}
