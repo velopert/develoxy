@@ -7,14 +7,36 @@ import Main, {
     Sorter
 } from 'components/Main/Main';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as main from 'redux/modules/main';
+
 
 class MainRoute extends Component {
 
+    mainHandler =(() => {
+        const { MainActions } = this.props;
+
+        return {
+            setSorter: (value) => {
+                MainActions.setSorter(value);
+            }
+        }
+    })()
+
     render() {
+
+        const { mainHandler } = this;
+        const { status } = this.props;
+
+        /* sorter */
+        const sorterValue = status.main.getIn(['sorter', 'value']);
+
+
         return (
             <Main>
                 <LeftColumn>
-                    <Sorter/>
+                    <Sorter onSelect={mainHandler.setSorter} value={sorterValue}/>
                 </LeftColumn>
                 <CenterColumn>
                     2
@@ -27,17 +49,15 @@ class MainRoute extends Component {
     }
 }
 
+MainRoute = connect(
+    state => ({
+        status: {
+            main: state.main
+        }
+    }),
+    dispatch => ({
+        MainActions: bindActionCreators(main, dispatch)
+    })
+)(MainRoute);
+
 export default MainRoute;
-
-
-                // <Grid columns="equal">
-                //     <Column>
-                //         1
-                //     </Column>
-                //     <Column width={8}>
-                //         2
-                //     </Column>
-                //     <Column>
-                //         3
-                //     </Column>
-                // </Grid>

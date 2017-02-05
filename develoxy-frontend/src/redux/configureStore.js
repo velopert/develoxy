@@ -5,6 +5,8 @@ import promiseMiddleware from 'redux-promise-middleware';
 import base from './modules/base';
 import form from './modules/form';
 import register from './modules/register';
+import main from './modules/main';
+
 
 
 /* configure middleware */
@@ -16,7 +18,8 @@ const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const reducer = combineReducers({
     base,
     form,
-    register
+    register,
+    main
 });
 
 const configureStore = (initialState) => createStoreWithMiddleware(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
