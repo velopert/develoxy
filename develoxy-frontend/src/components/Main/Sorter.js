@@ -1,8 +1,6 @@
 import React from 'react';
 import { Icon, Popup } from 'semantic-ui-react';
 
-
-
 const SortItem = ({value, position, currentValue, icon, onSelect, tooltip}) => (
     <Popup 
         trigger={(
@@ -17,14 +15,6 @@ const SortItem = ({value, position, currentValue, icon, onSelect, tooltip}) => (
         inverted
     />
 );
-
-
-    // <Popup
-    //     trigger={<Icon name='heart' color='red' size='large' circular />}
-    //     content='I am positioned to the bottom center'
-    //     positioning='bottom center'
-    //     inverted
-    // />
 
 const Sorter = ({value, onSelect}) => {
 

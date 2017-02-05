@@ -1,0 +1,80 @@
+.favorite {
+    margin-top: 1.5rem;
+
+    .title {
+        padding: 1rem;
+        color: $oc-pink-7;
+        font-weight: 500;
+        border-bottom: 1px solid $oc-gray-3;
+    }
+
+    .list {
+        .item {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            background: $oc-gray-0;
+            transition: all .3s;
+
+
+            cursor: pointer;
+
+            .prefix {
+                top: -0.1rem;
+                float: left;
+                position: relative;
+                width: 1.2rem;
+                text-align: center;
+                color: $oc-gray-6;
+                /*font-weight: 600;*/
+                margin-right: 0.5rem;
+            }
+
+            .name {
+                color: $oc-gray-9;
+                font-weight: 500;
+                width: 8rem;
+                line-height: 1rem;
+                height: 1.2rem;
+                overflow:hidden;
+                display:inline-block;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .icon-pack {
+                float: right;
+                color: $oc-gray-0;
+                font-size: 1.2rem;
+               
+                .icon {
+                    transition: transform .5s;
+                    transform: rotate(-180deg);
+
+                    &:hover {
+                        color: $oc-pink-6;
+                    }
+                }
+            }
+
+            &:hover {
+                background: white;
+                .icon-pack {
+                    color: $oc-gray-6;
+                    .icon {
+                        transform: rotate(0deg);
+                    }
+                }
+            }
+
+            &:active {
+                background: $oc-gray-1;
+            }
+        }
+        .item + .item {
+            border-top: 1px solid $oc-gray-2;
+        }
+    }
+    
+}
