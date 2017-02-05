@@ -1,0 +1,29 @@
+.title-input {
+    flex: 1;
+    height: 5rem;
+    border-bottom: 1px solid $oc-gray-2;
+    /*padding: 1rem;*/
+    display: flex;
+    flex-direction: row-reverse;
+
+    .save-button {
+        margin-right: 1rem;
+        width: 9rem;
+        display: flex;
+        align-items: center;
+        
+    }
+
+    .input-wrapper {
+        padding: 1rem;
+        flex-grow: 1;
+        input {
+            background: rgba(0,0,0,0);
+            border: none;
+            outline: none;
+            font-size: 2rem;
+            font-weight: 600;
+            width: 100%;
+        }
+    }
+}

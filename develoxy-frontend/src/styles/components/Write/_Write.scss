@@ -1,0 +1,8 @@
+.route.write {
+    @import 'Sidebar';
+    @import 'Content';
+    background: white;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+}
