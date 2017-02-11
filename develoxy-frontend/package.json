@@ -50,6 +50,7 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "codemirror": "^5.23.0",
     "firebase": "^3.6.7",
     "immutable": "^3.8.1",
     "include-media": "^1.4.9",
@@ -66,7 +67,8 @@
     "redux-logger": "^2.7.4",
     "redux-promise-middleware": "^4.2.0",
     "semantic-ui-css": "^2.2.4",
-    "semantic-ui-react": "^0.64.4"
+    "semantic-ui-react": "^0.64.4",
+    "showdown": "^1.6.4"
   },
   "scripts": {
     "start": "node scripts/start.js",

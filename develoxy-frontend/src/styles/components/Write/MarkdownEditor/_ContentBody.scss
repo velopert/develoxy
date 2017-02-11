@@ -1,0 +1,6 @@
+.content-body {
+    @import 'Editor';
+    @import 'Preview';
+    display: flex;
+    flex-grow: 1;
+}
