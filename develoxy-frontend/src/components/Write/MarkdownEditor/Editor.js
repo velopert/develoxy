@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import CodeMirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/markdown/markdown';
+import 'codemirror/mode/gfm/gfm';
 import 'codemirror/theme/monokai.css';
 
 import debounce from 'lodash/debounce';
@@ -29,7 +29,7 @@ class Editor extends Component {
 
     componentDidMount() {
         this.editorInstance = CodeMirror(this.mirror, {
-            mode:  "markdown",
+            mode:  "gfm",
             lineNumbers: true,
             theme: 'monokai',
             lineWrapping: true,
