@@ -17,9 +17,12 @@ const store = configureStore();
 const rootElement = document.getElementById('root');
 
 
-ReactDOM.render(
-    <Root store={store} history={browserHistory}/>, rootElement
-);
+window.onload = function () {
+    ReactDOM.render(
+        <Root store={store} history={browserHistory}/>, rootElement
+    );
+}
+
 // ReactDOM.render(
 //     <AppContainer><Root store={store} history={browserHistory}/></AppContainer>, rootElement
 // )

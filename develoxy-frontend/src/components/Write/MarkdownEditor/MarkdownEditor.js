@@ -21,7 +21,7 @@ class MarkdownEditor extends Component {
             <div className="markdown-editor">
                 <TitleInput onChange={onChangeTitle}/>
                 <ContentBody>
-                    <Editor onChange={onChangeMarkdown}/>
+                    <Editor onChange={onChangeMarkdown} value={markdown}/>
                     <Preview markdown={markdown}/>
                 </ContentBody>
             </div>

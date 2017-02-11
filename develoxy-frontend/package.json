@@ -50,13 +50,16 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "brace": "^0.9.1",
     "codemirror": "^5.23.0",
     "firebase": "^3.6.7",
+    "highlight.js": "^9.9.0",
     "immutable": "^3.8.1",
     "include-media": "^1.4.9",
     "lodash": "^4.17.4",
     "open-color": "^1.4.2",
     "react": "^15.4.2",
+    "react-ace": "^4.1.4",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-onclickoutside": "^5.8.3",

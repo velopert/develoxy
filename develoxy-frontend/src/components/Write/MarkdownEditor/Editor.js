@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import CodeMirror from 'codemirror';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/gfm/gfm';
-import 'codemirror/theme/monokai.css';
 
-import debounce from 'lodash/debounce';
+import * as ace from 'brace';
+import 'brace/mode/markdown';
+import 'brace/theme/monokai';
+
+
+import throttle from 'lodash/throttle';
 
 class Editor extends Component {
 
@@ -13,38 +14,36 @@ class Editor extends Component {
         value: PropTypes.string
     }
 
-    mirror = null
-    editorInstance = null
+    editor = null
 
     constructor(props) {
         super(props);
-        this.handleChange = debounce(this.handleChange, 300);
-    }
-    handleChange = () => {
-        console.log('뭐냐이거!');
-        const { onChange } = this.props;
-        
-        onChange(this.editorInstance.getValue());
+        this.handleChange = throttle(this.handleChange, 500);
     }
 
     componentDidMount() {
-        this.editorInstance = CodeMirror(this.mirror, {
-            mode:  "gfm",
-            lineNumbers: true,
-            theme: 'monokai',
-            lineWrapping: true,
-        });
+        const editor = ace.edit('ace-editor');
+        editor.getSession().setMode('ace/mode/markdown');
+        editor.setTheme('ace/theme/monokai');
+        editor.$blockScrolling = Infinity;
+        this.editor = editor;
+        window.editor = editor;
     }
     
+    handleChange = (value) => {
+        const { onChange } = this.props;        
+        onChange(this.editor.getValue());
+    }
+
+
     render() {
         const { handleChange } = this;
+        const { value } = this.props;
 
         return (
             <div className="editor-wrapper">
-                <div className="editor">
-                    <div className="mirror" ref={(ref) => { this.mirror = ref }}
-                        onKeyUp={handleChange}
-                    ></div>
+                <div className="editor" id="ace-editor" onKeyUp={handleChange}>
+                    
                 </div>
             </div>
         );
