@@ -19,11 +19,11 @@ class Preview extends Component {
 
 
     componentDidMount() {
-        const { markdown } = this.props;
+        const { markdown, title } = this.props;
 
         this.converter = new showdown.Converter();
         
-        const html = this.converter.makeHtml(markdown);
+        const html = this.converter.makeHtml(`# ${title}\n` + markdown);
 
         this.setState({
             html
@@ -37,10 +37,10 @@ class Preview extends Component {
 
     componentWillReceiveProps(nextProps) {
         
-        if(nextProps.markdown === this.props.markdown) return;
+        if(nextProps.markdown === this.props.markdown && nextProps.title === this.props.title) return;
 
-        const { markdown } = nextProps;
-        const html = this.converter.makeHtml(markdown);
+        const { markdown, title } = nextProps;
+        const html = this.converter.makeHtml(`# ${title}\n` + markdown);
         
         this.setState({
             html
