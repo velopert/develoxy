@@ -18,14 +18,16 @@ class Editor extends Component {
 
     constructor(props) {
         super(props);
-        this.handleChange = throttle(this.handleChange, 500);
+        this.handleChange = throttle(this.handleChange, 200);
     }
 
     componentDidMount() {
         const editor = ace.edit('ace-editor');
         editor.getSession().setMode('ace/mode/markdown');
+        editor.getSession().setUseWrapMode(true);
         editor.setTheme('ace/theme/monokai');
         editor.$blockScrolling = Infinity;
+        editor.setShowPrintMargin(false);
         this.editor = editor;
     }
     
