@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import showdown from 'showdown';
-
+import hljs from 'highlight.js';
+import 'highlight.js/styles/monokai-sublime.css';
+import $ from 'jquery';
 
 
 class Preview extends Component {
@@ -26,6 +28,10 @@ class Preview extends Component {
         this.setState({
             html
         });
+
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
     }
 
 
@@ -42,7 +48,9 @@ class Preview extends Component {
     }    
 
     componentDidUpdate(prevProps, prevState) {
-
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
     }
     
     createMarkup = () => ({

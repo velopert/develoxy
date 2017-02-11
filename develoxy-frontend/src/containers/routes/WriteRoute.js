@@ -18,7 +18,6 @@ class WriteRoute extends Component {
                 WriteActions.changeTitle(title);
             },
             changeMarkdown: (markdown) => {
-                console.log(markdown);
                 WriteActions.changeMarkdown(markdown);
             }
         }

@@ -27,7 +27,6 @@ class Editor extends Component {
         editor.setTheme('ace/theme/monokai');
         editor.$blockScrolling = Infinity;
         this.editor = editor;
-        window.editor = editor;
     }
     
     handleChange = (value) => {
