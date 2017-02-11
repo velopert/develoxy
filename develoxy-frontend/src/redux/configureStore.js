@@ -6,6 +6,7 @@ import base from './modules/base';
 import form from './modules/form';
 import register from './modules/register';
 import main from './modules/main';
+import write from './modules/write';
 
 
 
@@ -19,7 +20,8 @@ const reducer = combineReducers({
     base,
     form,
     register,
-    main
+    main,
+    write
 });
 
 const configureStore = (initialState) => createStoreWithMiddleware(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

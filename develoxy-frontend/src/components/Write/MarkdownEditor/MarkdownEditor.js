@@ -15,12 +15,14 @@ class MarkdownEditor extends Component {
     }
 
     render() {
+        const { onChangeTitle, onChangeMarkdown, title, markdown } = this.props;
+
         return (
             <div className="markdown-editor">
-                <TitleInput/>
+                <TitleInput onChange={onChangeTitle}/>
                 <ContentBody>
-                    <Editor/>
-                    <Preview/>
+                    <Editor onChange={onChangeMarkdown}/>
+                    <Preview markdown={markdown}/>
                 </ContentBody>
             </div>
         );

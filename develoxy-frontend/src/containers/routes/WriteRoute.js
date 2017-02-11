@@ -3,11 +3,27 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as header from 'redux/modules/base/header';
+import * as write from 'redux/modules/write';
 
 import Write, { Sidebar, Content, MarkdownEditor } from 'components/Write/Write';
 
 class WriteRoute extends Component {
-    
+
+    handleEditor = (() =>{
+        const { WriteActions } = this.props;
+
+        return {
+            changeTitle: (title) => {
+                
+                WriteActions.changeTitle(title);
+            },
+            changeMarkdown: (markdown) => {
+                console.log(markdown);
+                WriteActions.changeMarkdown(markdown);
+            }
+        }
+    })()
+
     componentWillMount() {
         // 헤더를 숨긴다
         const { HeaderActions } = this.props;
@@ -23,11 +39,19 @@ class WriteRoute extends Component {
     
     render() {
 
+        const { handleEditor } = this;
+        const { status: { write } } = this.props;
+
         return (
             <Write>
                 <Sidebar/>
                 <Content>
-                    <MarkdownEditor/>
+                    <MarkdownEditor
+                        onChangeTitle={handleEditor.changeTitle}
+                        onChangeMarkdown={handleEditor.changeMarkdown}
+                        title={write.getIn(['editor', 'title'])}
+                        markdown={write.getIn(['editor', 'markdown'])}
+                    />
                 </Content>
             </Write>
         );
@@ -39,11 +63,13 @@ class WriteRoute extends Component {
 WriteRoute = connect(
     state => ({
         status: {
-            header: state.base.header
+            header: state.base.header,
+            write: state.write
         }
     }),
     dispatch => ({
-        HeaderActions: bindActionCreators(header, dispatch)
+        HeaderActions: bindActionCreators(header, dispatch),
+        WriteActions: bindActionCreators(write, dispatch)
     })
 )(WriteRoute);
 

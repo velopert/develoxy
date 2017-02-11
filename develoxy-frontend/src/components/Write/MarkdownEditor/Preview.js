@@ -53,8 +53,8 @@ class Preview extends Component {
         const { createMarkup } = this;
 
         return (
-            <div className="preview">
-                <div className="preview-contents" dangerouslySetInnerHTML={createMarkup()}></div>
+            <div className="preview-wrapper">
+                <div className="preview" dangerouslySetInnerHTML={createMarkup()}></div>
             </div>
         );
     }
