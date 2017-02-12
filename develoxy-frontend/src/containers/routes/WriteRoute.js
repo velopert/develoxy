@@ -19,6 +19,15 @@ class WriteRoute extends Component {
             },
             changeMarkdown: (markdown) => {
                 WriteActions.changeMarkdown(markdown);
+            },
+            setFullscreen: (value) => {
+                WriteActions.setFullscreen(value);
+            },
+            setScrollPercentage: (value) => {
+                WriteActions.setScrollPercentage(value)
+            },
+            setIsLastLine: (value) => {
+                WriteActions.setIsLastLine(value);
             }
         }
     })()
@@ -48,8 +57,14 @@ class WriteRoute extends Component {
                     <MarkdownEditor
                         onChangeTitle={handleEditor.changeTitle}
                         onChangeMarkdown={handleEditor.changeMarkdown}
+                        onSetFullscreen={handleEditor.setFullscreen}
+                        onSetScrollPercentage={handleEditor.setScrollPercentage}
+                        onSetIsLastLine={handleEditor.setIsLastLine}
                         title={write.getIn(['editor', 'title'])}
                         markdown={write.getIn(['editor', 'markdown'])}
+                        fullscreen={write.getIn(['editor', 'fullscreen'])}
+                        scrollPercentage={write.getIn(['editor', 'scrollPercentage'])}
+                        isLastLine={write.getIn(['editor', 'isLastLine'])}
                     />
                 </Content>
             </Write>

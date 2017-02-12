@@ -7,7 +7,7 @@ class TitleInput extends Component {
     constructor(props) {
         super(props);
         // this.handleChange = debounce(this.handleChange, 500);
-        this.delayedChange = debounce(this.delayedChange, 300);
+        this.delayedChange = debounce(this.delayedChange, 100);
     }
 
     handleChange = (e) => {

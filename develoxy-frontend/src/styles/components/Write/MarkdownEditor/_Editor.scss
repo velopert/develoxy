@@ -1,14 +1,30 @@
 .editor-wrapper {
+    @import 'FullScreenToggler';
     flex: 1;
     position: relative;
+    background: #272822;
     .editor {
-        position: absolute;
         width: 100%;
         height: 100%;
-        font-family: Hack, monospace;
-        font-size: 1.2rem;
-        textarea.ace_text-input {
-            opacity: 0!important;
+        position: absolute;
+        z-index: 1;
+
+
+        transition: width .7s ease-out;
+
+        .ace {
+            width: 100%;
+            height: 100%;
+            textarea.ace_text-input {
+                opacity: 0!important;
+            }
+            font-family: 'D2 Coding', monospace;
+            font-size: 18px;
+        }
+
+        &.fullscreen {
+            width: 200%;
         }
     }
+    border-right: 1px solid $oc-gray-9;
 }

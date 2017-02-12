@@ -8,7 +8,9 @@ import $ from 'jquery';
 class Preview extends Component {
 
     static propTypes = {
-        markdown: PropTypes.string
+        markdown: PropTypes.string,
+        scrollPercentage: PropTypes.number,
+        isLastLine: PropTypes.bool
     }
 
     state = {
@@ -16,14 +18,18 @@ class Preview extends Component {
     }
 
     converter = null
+    preview = null
 
 
     componentDidMount() {
         const { markdown, title } = this.props;
 
-        this.converter = new showdown.Converter();
-        
-        const html = this.converter.makeHtml(`# ${title}\n` + markdown);
+        const converter = new showdown.Converter({
+            simpleLineBreaks: true
+        });
+        this.converter = converter;
+
+        const html = converter.makeHtml(`# ${title}\n` + markdown);
 
         this.setState({
             html
@@ -48,9 +54,41 @@ class Preview extends Component {
     }    
 
     componentDidUpdate(prevProps, prevState) {
-        $('pre code').each(function(i, block) {
-            hljs.highlightBlock(block);
-        });
+
+        const { preview } = this;
+
+        if(prevProps.markdown !== this.props.markdown) {
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+
+            // 내용이 바뀌었는데 isLastLine 이 참! 이면 맨 아래로 드래그
+            if(this.props.isLastLine) {
+                preview.scrollTop = preview.scrollHeight;
+                return;
+            }
+        }
+
+        if(prevProps.scrollPercentage !== this.props.scrollPercentage) {
+            const { scrollPercentage } = this.props;
+
+            if(!(scrollPercentage >= 0 && scrollPercentage <= 1)) return;
+
+            console.log(scrollPercentage);
+            const offsetHeight = preview.offsetHeight;
+            const scrollTop = preview.scrollTop;
+            const scrollHeight = preview.scrollHeight;
+
+            console.log({
+                offsetHeight,
+                scrollTop,
+                scrollHeight
+            });
+            
+            preview.scrollTop = scrollPercentage * (scrollHeight - offsetHeight);
+            
+            // scrollTop / ( scrollHeight - offsetHeight)
+        }
     }
     
     createMarkup = () => ({
@@ -62,7 +100,8 @@ class Preview extends Component {
 
         return (
             <div className="preview-wrapper">
-                <div className="preview" dangerouslySetInnerHTML={createMarkup()}></div>
+                <div className="preview" dangerouslySetInnerHTML={createMarkup()} 
+                    ref={ref=>{this.preview=ref}}></div>
             </div>
         );
     }

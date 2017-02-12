@@ -1,0 +1,38 @@
+.full-screen-toggler-wrapper {
+    z-index: 2;
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.full-screen-toggler {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: white;
+    border-radius: 1.25rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    cursor: pointer;
+    transition: all .3s;
+
+    &:hover {
+        background: $oc-pink-5;
+        color: white;
+    }
+    &:active {
+        background: $oc-pink-6;
+        color: white;
+        transform: rotate(180deg);
+    }
+
+    &.left {
+        transform: rotate(180deg);
+    }
+
+    .icon {
+        top: 0.66rem;
+        left: 0.8rem;
+        position: relative;
+        font-size: 1.75rem;
+    }
+}
