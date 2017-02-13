@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import FullScreenToggler from './FullScreenToggler';
 
-
 import * as ace from 'brace';
 import 'brace/mode/markdown';
 import 'brace/theme/monokai';

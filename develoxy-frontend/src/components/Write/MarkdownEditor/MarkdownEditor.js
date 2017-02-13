@@ -17,7 +17,6 @@ class MarkdownEditor extends Component {
         fullscreen: PropTypes.bool,
         scrollPercentage: PropTypes.number,
         isLastLine: PropTypes.bool
-        // ...
     }
 
     render() {

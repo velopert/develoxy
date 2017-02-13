@@ -2,7 +2,7 @@
     @import 'FullScreenToggler';
     flex: 1;
     position: relative;
-    background: #272822;
+    /*background: #272822;*/
     .editor {
         width: 100%;
         height: 100%;
@@ -26,5 +26,5 @@
             width: 200%;
         }
     }
-    border-right: 1px solid $oc-gray-9;
+    border-right: 1px solid $oc-gray-4;
 }

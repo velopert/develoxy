@@ -5,7 +5,10 @@ import { bindActionCreators } from 'redux';
 import * as header from 'redux/modules/base/header';
 import * as write from 'redux/modules/write';
 
-import Write, { Sidebar, Content, MarkdownEditor } from 'components/Write/Write';
+import Write, { Content, MarkdownEditor } from 'components/Write/Write';
+import Sidebar, { 
+    SwitchButton 
+} from 'components/Write/Sidebar/Sidebar';
 
 class WriteRoute extends Component {
 
@@ -52,7 +55,9 @@ class WriteRoute extends Component {
 
         return (
             <Write>
-                <Sidebar/>
+                <Sidebar>
+                    <SwitchButton/>
+                </Sidebar>
                 <Content>
                     <MarkdownEditor
                         onChangeTitle={handleEditor.changeTitle}
