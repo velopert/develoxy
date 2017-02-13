@@ -11,7 +11,8 @@ import Sidebar, {
     ImageUploadButton,
     Box,
     TagInput,
-    TagContainer
+    TagContainer,
+    VisibilityOption
 } from 'components/Write/Sidebar/Sidebar';
 
 class WriteRoute extends Component {
@@ -66,8 +67,7 @@ class WriteRoute extends Component {
                         <TagContainer/>
                     </Box>
                     <Box title="공개 설정">
-
-
+                        <VisibilityOption/>
                     </Box>
                 </Sidebar>
                 <Content>
