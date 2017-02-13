@@ -1,0 +1,22 @@
+.tag-container > .tag {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    background: $oc-pink-6;
+    margin-right: 0.4rem;
+    margin-bottom: 0.4rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all .3s;
+    user-select: none;
+    
+    &:hover {
+        background: $oc-pink-2;
+    }
+    
+}

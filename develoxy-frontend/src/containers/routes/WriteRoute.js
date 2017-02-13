@@ -8,7 +8,10 @@ import * as write from 'redux/modules/write';
 import Write, { Content, MarkdownEditor } from 'components/Write/Write';
 import Sidebar, { 
     SwitchButton,
-    ImageUploadButton
+    ImageUploadButton,
+    Box,
+    TagInput,
+    TagContainer
 } from 'components/Write/Sidebar/Sidebar';
 
 class WriteRoute extends Component {
@@ -18,7 +21,6 @@ class WriteRoute extends Component {
 
         return {
             changeTitle: (title) => {
-                
                 WriteActions.changeTitle(title);
             },
             changeMarkdown: (markdown) => {
@@ -59,6 +61,14 @@ class WriteRoute extends Component {
                 <Sidebar>
                     <SwitchButton/>
                     <ImageUploadButton/>
+                    <Box title="태그">
+                        <TagInput/>
+                        <TagContainer/>
+                    </Box>
+                    <Box title="공개 설정">
+
+
+                    </Box>
                 </Sidebar>
                 <Content>
                     <MarkdownEditor

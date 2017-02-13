@@ -1,0 +1,15 @@
+.box {
+    margin-top: 1rem;
+    .title {
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        border-left: 5px solid $oc-pink-6;
+        padding-left: 0.5rem;
+        color: $oc-pink-6;
+        font-weight: 500;
+    }
+    .content {
+        margin-top: 1rem;
+        display: block;
+    }
+}

@@ -1,6 +1,11 @@
 .sidebar {
     @import 'SwitchButton';
     @import 'ImageUploadButton';
+    @import 'Box';
+    @import 'TagInput';
+    @import 'TagContainer';
+    @import 'Tag';
+
     padding: 1rem;
     width: 14rem;
     background: $oc-gray-0;
