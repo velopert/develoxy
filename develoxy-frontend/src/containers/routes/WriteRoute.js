@@ -7,7 +7,8 @@ import * as write from 'redux/modules/write';
 
 import Write, { Content, MarkdownEditor } from 'components/Write/Write';
 import Sidebar, { 
-    SwitchButton 
+    SwitchButton,
+    ImageUploadButton
 } from 'components/Write/Sidebar/Sidebar';
 
 class WriteRoute extends Component {
@@ -57,6 +58,7 @@ class WriteRoute extends Component {
             <Write>
                 <Sidebar>
                     <SwitchButton/>
+                    <ImageUploadButton/>
                 </Sidebar>
                 <Content>
                     <MarkdownEditor

@@ -9,5 +9,5 @@ const Sidebar = ({children}) => {
 };
 
 export { default as SwitchButton } from './SwitchButton';
-
+export { default as ImageUploadButton } from './ImageUploadButton';
 export default Sidebar;
