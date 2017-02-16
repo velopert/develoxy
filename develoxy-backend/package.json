@@ -5,16 +5,23 @@
   "dependencies": {
     "eslint": "^3.15.0",
     "koa": "^2.0.0-alpha.8",
+    "koa-bodyparser": "^3.2.0",
     "koa-router": "^7.0.1"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "eslint": "^3.15.0",
     "eslint-plugin-async-await": "0.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --harmony-async-await app",
+    "dev": "nodemon --harmony-async-await app"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "eslintConfig": {
+    "extends": "./config/eslint.js"
+  }
 }
