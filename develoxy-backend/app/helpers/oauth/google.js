@@ -27,17 +27,16 @@ module.exports = (()=>{
 
     return {
         url: url,
-        getToken: async (code) => {
+        getToken: (code) => {
             const p = new Promise(resolve => {
                 client.getToken(code, (err, tokens) => {
-                    console.log(tokens);
                     resolve(tokens);
                 })
             });
 
             return p;
         },
-        getProfile: async (token) => {
+        getProfile: (token) => {
             const tc = tempClient();
 
             tc.setCredentials({
@@ -49,7 +48,7 @@ module.exports = (()=>{
                     userId: 'me',
                     auth: tc
                 }, (err, response) => {
-                    if(err) reject(err);
+                    if(err) return reject(err);
                     resolve(response);
                 });
             });

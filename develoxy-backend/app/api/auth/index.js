@@ -5,8 +5,9 @@ const router = new Router();
 const controller = require('./auth.controller');
 
 
-router.get('/login/google', controller.googleLogin);
+router.get('/login/:provider', controller.login);
 router.get('/google/callback', controller.googleCallback);
+router.get('/facebook/callback', controller.facebookCallback);
 
 // router.post('/login/:provider', (ctx, next) => {
 //     console.log(ctx.request);
