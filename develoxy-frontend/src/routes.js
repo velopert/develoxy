@@ -8,6 +8,6 @@ export default (
     <Route path="/" component={App}>
         <IndexRoute component={MainRoute}/>
         <Route path="register" component={RegisterRoute}/>
-        <WriteRoute path="write" component={WriteRoute}/>
+        <Route path="write" component={WriteRoute}/>
     </Route>
 );
