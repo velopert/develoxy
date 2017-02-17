@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "dotenv": "^4.0.0",
     "eslint": "^3.15.0",
+    "fb": "^1.1.1",
+    "googleapis": "^16.1.0",
     "koa": "^2.0.0-alpha.8",
     "koa-bodyparser": "^3.2.0",
     "koa-router": "^7.0.1",
