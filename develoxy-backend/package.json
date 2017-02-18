@@ -22,8 +22,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --harmony-async-await app",
-    "dev": "nodemon --harmony-async-await app"
+    "start": "NODE_ENV=production node --harmony-async-await app",
+    "dev": "NODE_ENV=development nodemon --harmony-async-await app"
   },
   "author": "",
   "license": "ISC",

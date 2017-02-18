@@ -15,7 +15,6 @@ const providers = {
 module.exports = {
     login: (ctx, next) => {
         const { provider } = ctx.params;
-        console.log(oauthURL.github);
         ctx.redirect(oauthURL[provider]);
     },
     callback: async (ctx, next) => {
