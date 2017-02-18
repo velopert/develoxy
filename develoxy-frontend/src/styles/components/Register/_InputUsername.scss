@@ -5,6 +5,7 @@
     }
 
     margin-top: 2rem;
+    
     .input {
         width: 100%;
 
@@ -17,6 +18,12 @@
     @include media(">=desktop") {
         input {
             font-size: 1.5rem;
+        }
+    }
+
+    @include media("<desktop") {
+        input {
+            padding-left: 4rem!important;
         }
     }
 

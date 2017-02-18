@@ -11,7 +11,8 @@ const sequelize = new Sequelize(
     config.password,
     {
         host: config.host,
-        dialect: config.dialect
+        dialect: config.dialect,
+        logging: false
     }
 );
 
@@ -35,7 +36,7 @@ Object.keys(db).forEach((modelName)=> {
 });
 
 // 스키마 동기화
-sequelize.sync({force: true}).then(
+sequelize.sync({force: false}).then(
     () => {
         console.log('Schema is synchronized');
     }).catch(err => {

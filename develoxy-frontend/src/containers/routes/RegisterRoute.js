@@ -13,6 +13,7 @@ import { bindActionCreators } from 'redux';
 import debounce from 'lodash/debounce';
 import { Message } from 'semantic-ui-react';
 import storage from 'helpers/storage';
+import jwtDecode from 'jwt-decode';
 
 
 
@@ -27,6 +28,18 @@ class RegisterRoute extends Component {
         // 500 ms 에 한번만 요청하도록 제한한다
         this.handleCheckUsername = debounce(this.handleCheckUsername, 500);
     }
+
+    
+    componentWillMount() {
+        // tempToken 이 존재하는지 확인
+        const tempToken = storage.get('tempToken');
+
+        // 없으면 메인 페이지로 이동
+        if(!tempToken) {
+            this.context.router.push('/');
+        }
+    }
+    
 
     handleChange = (e) => {
         const { FormActions } = this.props;
@@ -45,6 +58,20 @@ class RegisterRoute extends Component {
     componentDidMount() {
         const { FormActions, status: { auth } } = this.props;
         FormActions.initialize('register');
+
+        const tempToken = storage.get('tempToken');
+
+        const decoded = jwtDecode(tempToken);
+        const username = decoded.data.oauth.profile.email.split('@')[0];
+        
+        if(username.indexOf('.')) return;
+        
+        FormActions.change({
+            formName: 'register',
+            name: 'username',
+            value: username
+        });
+
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -113,7 +140,7 @@ class RegisterRoute extends Component {
         const { RegisterActions } = this.props;
 
         // username 정규식 체크
-        const regex = /^[0-9a-z_]{4,20}$/;
+        const regex = /^[0-9a-z_]{4,20}$/i;
         if(!regex.test(username)) {
             RegisterActions.setValidity({
                 valid: false,
@@ -133,20 +160,20 @@ class RegisterRoute extends Component {
     handleCheckUsername = async (username) => {
         const { RegisterActions } = this.props;
 
-        // username 중복체크
-        const result = await RegisterActions.checkUsername(username);
+        // // username 중복체크
+        // const result = await RegisterActions.checkUsername(username);
 
-        if(!result.value.available) {
-            RegisterActions.setValidity({
-                valid: false,
-                message: '사용중인 아이디입니다.'
-            });
-        } else {
-            RegisterActions.setValidity({
-                valid: true,
-                message: ''
-            });
-        }
+        // if(!result.value.available) {
+        //     RegisterActions.setValidity({
+        //         valid: false,
+        //         message: '사용중인 아이디입니다.'
+        //     });
+        // } else {
+        //     RegisterActions.setValidity({
+        //         valid: true,
+        //         message: ''
+        //     });
+        // }
     }
 
     

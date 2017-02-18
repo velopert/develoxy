@@ -37,7 +37,7 @@ module.exports = (() => {
                         const { id, name, email } = body;
                         const profile = {
                             id: id.toString(),
-                            name,
+                            displayName: name,
                             email
                         };
 

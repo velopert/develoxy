@@ -40,7 +40,14 @@ module.exports = (() => {
                     if(!res || res.error) {
                         reject(!res ? 'error occurred' : res.error);
                     } else {
-                        resolve(res);
+                        const {
+                            id, name, email
+                        } = res;
+                        resolve({
+                            id,
+                            displayName: name,
+                            email
+                        });
                     }
                 });
             });

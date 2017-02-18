@@ -7,6 +7,7 @@ require('dotenv').config();
 const Koa = require('koa');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
+const jwtMiddleware =require('./middlewares/jwt');
 
 // 라우터
 const api = require('./api');
@@ -19,9 +20,11 @@ const models = require('./models');
 
 // body-parser 적용
 app.use(bodyParser());
+app.use(jwtMiddleware);
 
 // 라우터 설정
 const router = new Router();
+
 router.use('/api', api.routes());
 app.use(router.routes());
 

@@ -41,7 +41,6 @@ module.exports = (()=>{
             return p;
         },
         getProfile: (token) => {
-            console.log(token);
             const tc = tempClient();
 
             tc.setCredentials({

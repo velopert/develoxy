@@ -4,8 +4,6 @@ import Root from 'containers/Root';
 import { browserHistory } from 'react-router';
 
 
-console.log(process.env.NODE_ENV);
-
 // redux
 import configureStore from 'redux/configureStore';
 

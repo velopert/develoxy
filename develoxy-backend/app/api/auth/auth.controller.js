@@ -9,6 +9,7 @@ const environment = require('./../../../config/environment');
 
 const url = environment[process.env.NODE_ENV].proxied_url;
 
+const models = require('./../../models/index');
 
 const oauthURL = {
     google: google.url,
@@ -56,8 +57,7 @@ module.exports = {
                 type: 'unregistered',
                 provider: provider,
                 oauth: {
-                    profile,
-                    token: oauthToken
+                    profile
                 }
             });
 
@@ -72,5 +72,96 @@ module.exports = {
             }
             return;
         }
+    },
+    register: async (ctx, next) => {
+        const { username } = ctx.request.body;
+
+        // TODO: username 검증
+
+        const tokenPayload = ctx.tokenPayload;
+
+        // 토큰이 존재하지 않음
+        if(!tokenPayload) {
+            ctx.status = 401;
+            ctx.body = {
+                message: 'token is invalid'
+            };
+            return;
+        }
+
+        // 이미 가입함
+        if(tokenPayload.data.type !== 'unregistered') {
+            ctx.status = 403;
+            ctx.body = {
+                message: 'already registered'
+            };
+            return;
+        }
+
+        // 필요한 값들 추출
+        const {
+            data: {
+                provider,
+                oauth: {
+                    profile: {
+                        id, displayName, email
+                    }
+                }
+            }
+        } = tokenPayload;
+
+        // social_id 존재 유무 확인
+        const socialIdExists = await models.User.findByOAuth(provider, id);
+
+        if(socialIdExists) {
+            ctx.status = 409;
+            ctx.body = {
+                message: 'already registered'
+            };
+            return;
+        }
+
+        // username 존재 유무 확인
+        const usernameExists = await models.User.findByUsername(username);
+
+
+        if(usernameExists) {
+            ctx.status = 409;
+            ctx.body = {
+                message: 'already registered'
+            };
+            return;
+        }
+
+        let result = null;
+
+        try {
+            result = await models.User.create({
+                username,
+                displayName,
+                provider,
+                socialId: id,
+                email,
+            });
+        } catch (e) {
+            console.log(e);
+            ctx.status = 400;
+            ctx.body = {
+                message: 'error occurred'
+            };
+            return;
+        }
+
+        const token = await createToken({
+            type: 'user',
+            userId: result.dataValues.id,
+            username: username,
+            displayName: displayName
+        });
+        
+        ctx.body = {
+            success: true,
+            token: token
+        };
     }
 }
