@@ -8,6 +8,7 @@ const controller = require('./auth.controller');
 router.get('/login/:provider', controller.login);
 router.get('/google/callback', controller.googleCallback);
 router.get('/facebook/callback', controller.facebookCallback);
+router.get('/github/callback', controller.githubCallback);
 
 // router.post('/login/:provider', (ctx, next) => {
 //     console.log(ctx.request);

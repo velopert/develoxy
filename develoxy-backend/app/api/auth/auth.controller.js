@@ -1,15 +1,17 @@
 const google = require('../../helpers/oauth/google');
 const facebook = require('../../helpers/oauth/facebook');
+const github = require('./../../helpers/oauth/github');
 
 const oauthURL = {
     google: google.url,
-    facebook: facebook.url
+    facebook: facebook.url,
+    github: github.url
 }
-
 
 module.exports = {
     login: (ctx, next) => {
         const { provider } = ctx.params;
+        console.log(oauthURL.github);
         ctx.redirect(oauthURL[provider]);
     },
     googleCallback: async (ctx, next) => {
@@ -28,5 +30,12 @@ module.exports = {
         const info = await facebook.getInfo(accessToken);
 
         ctx.body = {info, accessToken};
+    },
+    githubCallback: async (ctx, next) => {
+        const { code } = ctx.request.query;
+        const token = await github.getToken(code);
+        const profile = await github.getProfile(token);
+
+        ctx.body = profile;
     }
 }

@@ -8,5 +8,10 @@ module.exports = {
         appId: '295985334149305',
         appSecret: process.env.FACEBOOK_SECRET,
         callbackURL: 'http://localhost:4000/api/auth/facebook/callback'
+    },
+    github: {
+        appId: 'e3c105814fde9cbccc88',
+        appSecret: process.env.GITHUB_SECRET,
+        callbackURL: 'http://localhost:4000/api/auth/github/callback'
     }
 }
