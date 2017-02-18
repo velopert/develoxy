@@ -23,7 +23,7 @@ const providers = {
 function createToken(payload) {
     return new Promise((resolve, reject) => {
         jwt.sign(
-            payload,
+            { data: payload },
             jwtSecret,
             {
                 expiresIn: '7d',

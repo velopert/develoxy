@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import Root from 'containers/Root';
 import { browserHistory } from 'react-router';
 
-import firebaseHelper from 'helpers/firebase';
 
+console.log(process.env.NODE_ENV);
 
 // redux
 import configureStore from 'redux/configureStore';
 
-firebaseHelper.initialize();
 
 const store = configureStore();
 

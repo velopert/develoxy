@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { Map } from 'immutable';
 import Request, { requize, pend, fulfill, reject } from 'helpers/request';
-import users from 'helpers/firebase/database/users';
+// import users from 'helpers/firebase/database/users';
 // import * as profiles from 'helpers/firebase/database/profiles';
 
 /* actions */
@@ -13,29 +13,29 @@ const SET_VALIDITY = 'register/SET_VALIDITY';
 /* action creators */
 
 // 유저네임 체킹
-export const checkUsername = (username) => ({
-    type: USERNAME_CHECK.DEFAULT,
-    payload: {
-        promise: users.checkUsername(username)
-    }
-});
+// export const checkUsername = (username) => ({
+//     type: USERNAME_CHECK.DEFAULT,
+//     payload: {
+//         promise: users.checkUsername(username)
+//     }
+// });
 
 
 // 유저네임 정하기
-export const claimUsername = ({uid, username}) => ({
-    type: USERNAME_CLAIM.DEFAULT,
-    payload: {
-        promise: users.claimUsername({uid, username})
-    }
-});
+// export const claimUsername = ({uid, username}) => ({
+//     type: USERNAME_CLAIM.DEFAULT,
+//     payload: {
+//         promise: users.claimUsername({uid, username})
+//     }
+// });
 
 // 계정 생성 
-export const register = ({uid, username, displayName, email, thumbnail}) => ({
-    type: REGISTER.DEFAULT,
-    payload: {
-        promise: users.create({uid, username, displayName, email, thumbnail})
-    }
-});
+// export const register = ({uid, username, displayName, email, thumbnail}) => ({
+//     type: REGISTER.DEFAULT,
+//     payload: {
+//         promise: users.create({uid, username, displayName, email, thumbnail})
+//     }
+// });
 
 export const setValidity = createAction(SET_VALIDITY);
 

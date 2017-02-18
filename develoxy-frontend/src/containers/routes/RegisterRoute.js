@@ -12,6 +12,8 @@ import * as register from 'redux/modules/register';
 import { bindActionCreators } from 'redux';
 import debounce from 'lodash/debounce';
 import { Message } from 'semantic-ui-react';
+import storage from 'helpers/storage';
+
 
 
 class RegisterRoute extends Component {
@@ -174,7 +176,7 @@ class RegisterRoute extends Component {
                             </Message>
                         )
                     }
-                    <Loader visible={!auth.get('profileSynced')}/>
+                    <Loader/>
                 </Content>
             </Register>
         );
