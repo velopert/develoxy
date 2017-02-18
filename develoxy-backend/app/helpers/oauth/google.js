@@ -30,13 +30,14 @@ module.exports = (()=>{
         getToken: (code) => {
             const p = new Promise(resolve => {
                 client.getToken(code, (err, tokens) => {
-                    resolve(tokens);
+                    resolve(tokens.access_token);
                 })
             });
 
             return p;
         },
         getProfile: (token) => {
+            console.log(token);
             const tc = tempClient();
 
             tc.setCredentials({

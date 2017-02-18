@@ -8,34 +8,42 @@ const oauthURL = {
     github: github.url
 }
 
+const providers = {
+    google, facebook, github
+}
+
 module.exports = {
     login: (ctx, next) => {
         const { provider } = ctx.params;
         console.log(oauthURL.github);
         ctx.redirect(oauthURL[provider]);
     },
+    callback: async (ctx, next) => {
+        const { provider } = ctx.params;
+        
+        const { code } = ctx.request.query;
+
+        const token = await providers[provider].getToken(code);
+        const profile = await providers[provider].getProfile(token);
+
+        ctx.body = profile;
+    },
     googleCallback: async (ctx, next) => {
         const { code } = ctx.request.query;
-        const tokens = await google.getToken(code);
-        const profile = await google.getProfile(tokens.access_token);
-        
-        // 계정 존재 유무 확인 
-
-        // 없으면 데이터베이스에 저장
-        ctx.body = profile // 임시
+        const token = await google.getToken(code);
+        const profile = await google.getProfile(token);
+        ctx.body = profile;
     },
     facebookCallback: async (ctx, next) => {
         const { code } = ctx.request.query;
-        const accessToken = await facebook.getToken(code);
-        const info = await facebook.getInfo(accessToken);
-
-        ctx.body = {info, accessToken};
+        const token = await facebook.getToken(code);
+        const profile = await facebook.getProfile(token);
+        ctx.body = profile;
     },
     githubCallback: async (ctx, next) => {
         const { code } = ctx.request.query;
         const token = await github.getToken(code);
         const profile = await github.getProfile(token);
-
         ctx.body = profile;
     }
 }

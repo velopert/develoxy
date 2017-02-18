@@ -31,9 +31,9 @@ module.exports = (() => {
                })
             });
         },
-        getInfo: (token) => {
+        getProfile: (token) => {
             return new Promise((resolve, reject) => {
-                FB.api("994521887315984", {
+                FB.api("me", {
                     fields: ['id', 'name', 'email'],
                     access_token: token
                 }, res => {
