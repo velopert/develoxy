@@ -78,7 +78,7 @@ module.exports = {
 
         // TODO: username 검증
 
-        const tokenPayload = ctx.tokenPayload;
+        const tokenPayload = ctx.request.tokenPayload;
 
         // 토큰이 존재하지 않음
         if(!tokenPayload) {
@@ -128,7 +128,7 @@ module.exports = {
         if(usernameExists) {
             ctx.status = 409;
             ctx.body = {
-                message: 'already registered'
+                message: 'username exists'
             };
             return;
         }
@@ -162,6 +162,13 @@ module.exports = {
         ctx.body = {
             success: true,
             token: token
+        };
+    },
+    checkUsername: async (ctx, next) => {
+        const { username } = ctx.params;
+        const user = await models.User.findByUsername(username);
+        ctx.body = {
+            exists: !!user
         };
     }
 }

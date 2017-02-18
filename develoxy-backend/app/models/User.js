@@ -42,7 +42,6 @@ module.exports = function(sequelize, DataTypes) {
         underscored: true,
         classMethods: {
             findByOAuth: function(provider, socialId) {
-                console.log(provider, socialId);
                 return User.findOne({
                     where: { provider, socialId }
                 })

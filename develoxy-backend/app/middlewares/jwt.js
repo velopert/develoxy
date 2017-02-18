@@ -19,7 +19,7 @@ module.exports = async (ctx, next) => {
         return await next();
     } else {
         const tokenPayload = await verify(token);
-        ctx.tokenPayload = tokenPayload;
+        ctx.request.tokenPayload = tokenPayload;
         await next();
     }
     

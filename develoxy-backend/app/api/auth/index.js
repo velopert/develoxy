@@ -8,5 +8,6 @@ const controller = require('./auth.controller');
 router.get('/login/:provider', controller.login);
 router.get('/:provider/callback', controller.callback);
 router.post('/register', controller.register);
+router.get('/check-username/:username', controller.checkUsername);
 
 module.exports = router;
