@@ -27,7 +27,6 @@ module.exports = (() => {
             );
         },
         getProfile: (token) => {
-            console.log(token);
             const client = github.client(token);
 
             return new Promise((resolve, reject) => {
@@ -35,8 +34,14 @@ module.exports = (() => {
                     if(err) {
                         reject(err);
                     } else {
-                        console.log(body);
-                        resolve(body);
+                        const { id, name, email } = body;
+                        const profile = {
+                            id: id.toString(),
+                            name,
+                            email
+                        };
+
+                        resolve(profile);
                     }
                 });
             });

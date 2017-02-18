@@ -28,8 +28,12 @@ module.exports = (()=>{
     return {
         url: url,
         getToken: (code) => {
-            const p = new Promise(resolve => {
+            const p = new Promise((resolve, reject) => {
                 client.getToken(code, (err, tokens) => {
+                    if(err) {
+                        reject(err);
+                        return;
+                    }
                     resolve(tokens.access_token);
                 })
             });
@@ -50,7 +54,12 @@ module.exports = (()=>{
                     auth: tc
                 }, (err, response) => {
                     if(err) return reject(err);
-                    resolve(response);
+                    const profile = {
+                        id: response.id,
+                        email: response.emails[0].value,
+                        displayName: response.displayName.indexOf(" (") ? response.displayName.split(" (")[0] : response.displayName
+                    }
+                    resolve(profile);
                 });
             });
             

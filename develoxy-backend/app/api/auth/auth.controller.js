@@ -23,27 +23,16 @@ module.exports = {
         
         const { code } = ctx.request.query;
 
-        const token = await providers[provider].getToken(code);
-        const profile = await providers[provider].getProfile(token);
-
-        ctx.body = profile;
-    },
-    googleCallback: async (ctx, next) => {
-        const { code } = ctx.request.query;
-        const token = await google.getToken(code);
-        const profile = await google.getProfile(token);
-        ctx.body = profile;
-    },
-    facebookCallback: async (ctx, next) => {
-        const { code } = ctx.request.query;
-        const token = await facebook.getToken(code);
-        const profile = await facebook.getProfile(token);
-        ctx.body = profile;
-    },
-    githubCallback: async (ctx, next) => {
-        const { code } = ctx.request.query;
-        const token = await github.getToken(code);
-        const profile = await github.getProfile(token);
-        ctx.body = profile;
+        try {
+            const token = await providers[provider].getToken(code);
+            const profile = await providers[provider].getProfile(token);
+            ctx.body = profile;
+        } catch (e) {
+            ctx.status = 400;
+            ctx.body = { 
+                message: 'oauth failure'
+            }
+            return;
+        }
     }
 }
