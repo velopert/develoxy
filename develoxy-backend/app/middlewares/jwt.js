@@ -13,13 +13,22 @@ function verify(token) {
     )
 }
 
+exports.say = function() {
+    console.log('hello');
+}
+
 module.exports = async (ctx, next) => {
     const token = ctx.header['x-access-token'];
     if(!token) {
+        ctx.request.logged = false;
         return await next();
     } else {
         const tokenPayload = await verify(token);
         ctx.request.tokenPayload = tokenPayload;
+        if(tokenPayload.data.type === 'user') {
+            ctx.request.logged = true;
+            ctx.request.userId = tokenPayload.data.userId
+        }
         await next();
     }
     

@@ -16,7 +16,10 @@ const initialState = Map({
         open: false,
     }),
     linkAccount: Map({
-        open: false
+        open: false,
+        token: null,
+        provider: null,
+        existingProvider: null,
     })
 })
 

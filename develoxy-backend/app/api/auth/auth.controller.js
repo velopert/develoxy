@@ -39,6 +39,17 @@ function createToken(payload) {
     });
 }
 
+function verify(token) {
+    return new Promise(
+        (resolve, reject) => {
+            jwt.verify(token, jwtSecret, (err, decoded) => {
+                if(err) resolve(null);
+                resolve(decoded);
+            })
+        }
+    )
+}
+
 module.exports = {
     login: (ctx, next) => {
         const { provider } = ctx.params;
@@ -64,11 +75,11 @@ module.exports = {
                     displayName: user.displayName
                 });
 
-                console.log(user.thumbnail);
-                
                 ctx.redirect(`${url}/callback?token=${token}&valid=true&thumbnail=${user.thumbnail}`);
             } else {
                 // 만약에 회원가입 안했을 때
+
+                // 토큰 미리 만들구
                 const token = await createToken({
                     type: 'unregistered',
                     provider: provider,
@@ -76,6 +87,22 @@ module.exports = {
                         profile
                     }
                 });
+
+                // 이메일이 존재하는지 확인한다.
+                const sameEmailUser = await models.User.findByEmail(profile.email);
+
+                // 같은 이메일로 가입한 아이디가 있다면
+                if(sameEmailUser) {
+                    const existingProvider = Object.keys(sameEmailUser.socialId)
+                                                   .filter(key=>sameEmailUser.socialId[key]!=='')[0];
+
+                    ctx.redirect(`${url}/callback?token=${token}&integrate=true&provider=${provider}&existingProvider=${existingProvider}`);
+
+                    return;
+                }
+
+
+                
                 ctx.redirect(`${url}/callback?token=${token}&register=true`);
             }
 
@@ -83,7 +110,6 @@ module.exports = {
             
 
         } catch (e) {
-            console.log(e);
             ctx.status = 400;
             ctx.body = { 
                 message: 'oauth failure'
@@ -197,5 +223,61 @@ module.exports = {
         ctx.body = {
             exists: !!user
         };
+    },
+    linkAccount: async (ctx, next) => {
+        
+        const { token } = ctx.request.body;
+
+        // 현재 로그인 되어있는지 확인
+        if(!ctx.request.logged) {
+            ctx.status = 401;
+            ctx.body = {
+                message: 'not logged in'
+            };
+            return;
+        }
+        
+        // 현재 유저아이디 검색
+        const user = await models.User.findById(ctx.request.userId);
+        console.log(user);
+        const decoded = await verify(token);
+
+        // 토큰이 유효하지 않음
+        if(!decoded) {
+            ctx.status = 401;
+            ctx.body = {
+                message: 'token is invalid'
+            }
+            return;
+        }
+
+        // 연동용 토큰이 아님
+        if(decoded.data.type !== 'unregistered') {
+            ctx.status = 400;
+            ctx.body = {
+                message: 'wrong token'
+            };
+            return;
+        }
+
+        // 이메일이 다름
+        if(decoded.data.oauth.profile.email !== user.email) {
+            ctx.status = 401;
+            ctx.body = {
+                message: 'different email'
+            }
+            return;
+        }
+
+        const provider = decoded.data.provider;
+
+        // 업데이트
+        const a = await user.updateSocialId(provider, decoded.data.oauth.profile.id);
+
+
+
+        ctx.body = {
+            success: true
+        }
     }
 }

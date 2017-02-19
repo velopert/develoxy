@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import * as modal from 'redux/modules/base/modal';
 import * as header from 'redux/modules/base/header';
 import * as user from 'redux/modules/base/user';
@@ -73,6 +74,18 @@ class App extends Component {
             }
         }
     })()
+
+    handleLinkAccount = () => {
+        const { status: { modal } } = this.props;
+        const token = modal.getIn(['linkAccount', 'token']);
+
+        // 스토리지에 연동용 토큰 저장
+        storage.set('integrateToken', token);
+
+        // 연동 할 계정으로 로그인 시도
+        const provider = modal.getIn(['linkAccount', 'existingProvider']);
+        this.handleAuth(provider);
+    }
 
     render() {        
         const { children, status: { modal, user, header } } = this.props;

@@ -18,10 +18,6 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             field: 'display_name'
         },
-        provider: {
-            type: DataTypes.STRING(8),
-            allowNull: false
-        },
         socialId: {
             type: DataTypes.JSON,
             allowNull: false,
@@ -46,8 +42,7 @@ module.exports = function(sequelize, DataTypes) {
                 const idString = `socialId.${provider}`;
 
                 return User.findOne({
-                    where: { 
-                        provider, 
+                    where: {
                         [idString]: socialId
                     }
                 })
@@ -61,6 +56,14 @@ module.exports = function(sequelize, DataTypes) {
                 return User.findOne({
                     where: { email }
                 })
+            }
+        },
+        instanceMethods: {
+            updateSocialId: function(provider, socialId) {
+                const _socialId = this.socialId;
+                _socialId[provider] = socialId;
+                this.socialId = _socialId;
+                return this.save();
             }
         }
     });

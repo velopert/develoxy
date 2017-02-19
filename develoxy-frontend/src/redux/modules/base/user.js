@@ -14,7 +14,8 @@ const initialState = Map({
         username: null,
         displayName: null,
         thumbnail: null
-    })
+    }),
+    tokenToIntegrate: null
 })
 
 /* reducer */
