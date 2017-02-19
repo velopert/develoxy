@@ -5,20 +5,21 @@ import { Map } from 'immutable';
 const USER_INFO_SET = "user/USER_INFO_SET";
 
 /* action creators */
-export const something = createAction(USER_INFO_SET);
+export const setUserInfo = createAction(USER_INFO_SET);
 
 /* initialState */
 const initialState = Map({
-    userInfo: Map({
+    profile: Map({
         userId: null,
         username: null,
-        displayName: null
+        displayName: null,
+        thumbnail: null
     })
 })
 
 /* reducer */
 export default handleActions({
     [USER_INFO_SET]: (state, action) => (
-        state.set('userInfo', Map(action.payload))
+        state.mergeIn(['profile'], action.payload)
     )
 }, initialState);

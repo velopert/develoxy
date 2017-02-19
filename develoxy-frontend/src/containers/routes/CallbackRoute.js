@@ -25,10 +25,12 @@ class CallbackRoute extends Component {
         axios.defaults.headers.common['x-access-token'] = query.token;
 
         if(query.register) {
-            this.context.router.push('/register');
+            storage.set('tempToken', query.token);
+            this.context.router.push('/register');  
+        } else {
+            storage.set('token', query.token);  
+            // TODO: 토큰 디코딩 후 스토어에 넣기
         }
-
-        storage.set('tempToken', query.token);      
 
     }
     

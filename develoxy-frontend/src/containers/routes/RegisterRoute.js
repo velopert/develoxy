@@ -7,14 +7,18 @@ import Register, {
     Loader
 } from 'components/Register/Register';
 import { connect } from 'react-redux';
+
 import * as form from 'redux/modules/form';
 import * as register from 'redux/modules/register';
+import * as user from 'redux/modules/base/user';
+
 import { bindActionCreators } from 'redux';
 import debounce from 'lodash/debounce';
 import { Message } from 'semantic-ui-react';
 import storage from 'helpers/storage';
 import jwtDecode from 'jwt-decode';
 
+import axios from 'axios';
 
 const messages = {
     'UNKNOWN_ERROR': '알 수 없는 에러 발생!',
@@ -36,6 +40,8 @@ class RegisterRoute extends Component {
         if(!tempToken) {
             this.context.router.push('/');
         }
+
+        axios.defaults.headers.common['x-access-token'] = tempToken;
     }
     
 
@@ -54,7 +60,7 @@ class RegisterRoute extends Component {
     }
 
     componentDidMount() {
-        const { FormActions, status: { auth } } = this.props;
+        const { FormActions } = this.props;
         FormActions.initialize('register');
 
         const tempToken = storage.get('tempToken');
@@ -71,33 +77,42 @@ class RegisterRoute extends Component {
         });
 
     }
-
-    componentDidUpdate(prevProps, prevState) {
-        const { status: { auth } } = this.props;
-        
-        // 프로필이 생성 되었으면 메인페이지로 이동한다
-        if(auth.getIn(['profile', 'username'])) {
-            this.context.router.push('/');
-        }
-        
-    }
-    
     
 
     handleRegister = async () => {
-        const { status: { auth }, form } = this.props;
+        const { form } = this.props;
 
         const username = form.value;
 
-        const { RegisterActions } = this.props;
+        const { RegisterActions, UserActions } = this.props;
 
         try {
             await RegisterActions.register(username);
+            
             // 가입 성공
 
-            // TODO: 토큰 읽어와서 스토어에 넣기
 
+            const token = this.props.status.token;
+            const decoded = jwtDecode(token);
+            
+            const { displayName, userId } = decoded.data;
+            
+            // 스토어에 저장
+            UserActions.setUserInfo({
+                displayName,
+                username,
+                userId
+            });
+
+            // 토큰 설정
+            storage.set('token', token);
+
+            // 임시 토큰 제거
+            storage.remove('tempToken');
+
+            // 메인 페이지로 라우트
             this.context.router.push('/');
+
         } catch (e) {
             // 에러 발생!
             const { FormActions } = this.props;
@@ -161,7 +176,7 @@ class RegisterRoute extends Component {
     
     render() {
         const { handleRegister, handleValidate, handleChange } = this;
-        const { status: { auth, validation, pending }, form: { value } } = this.props;
+        const { status: { validation, pending }, form: { value } } = this.props;
 
 
         return (
@@ -200,9 +215,9 @@ class RegisterRoute extends Component {
 RegisterRoute = connect(
     state => ({
         status: {
-            auth: state.base.auth,
             validation: state.register.get('validation'),
-            pending: state.register.get('pending')
+            pending: state.register.get('pending'),
+            token: state.register.get('token')
         },
         form: {
             value: state.form.getIn(['register', 'username'])
@@ -210,7 +225,8 @@ RegisterRoute = connect(
     }),
     dispatch => ({
         FormActions: bindActionCreators(form, dispatch),
-        RegisterActions: bindActionCreators(register, dispatch)
+        RegisterActions: bindActionCreators(register, dispatch),
+        UserActions: bindActionCreators(user, dispatch)
     })
 )(RegisterRoute);
 

@@ -7,8 +7,6 @@ import form from './modules/form';
 import register from './modules/register';
 import main from './modules/main';
 import write from './modules/write';
-import user from './modules/user';
-
 
 /* configure middleware */
 const middlewares = [promiseMiddleware()];
@@ -22,7 +20,6 @@ const reducer = combineReducers({
     register,
     main,
     write,
-    user
 });
 
 const configureStore = (initialState) => createStoreWithMiddleware(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as modal from 'redux/modules/base/modal';
-import * as authAction from 'redux/modules/base/auth';
 import * as header from 'redux/modules/base/header';
 import environment from 'environment';
 
@@ -13,9 +12,6 @@ import * as Modals from 'components/Base/Modals';
 const { LoginModal, LinkAccountModal } = Modals;
 const { SocialLoginButton } = LoginModal;
 
-// import auth from 'helpers/firebase/auth';
-// import users from 'helpers/firebase/database/users';
-
 import storage from 'helpers/storage';
 
 class App extends Component {
@@ -24,57 +20,8 @@ class App extends Component {
         router: React.PropTypes.object
     }
 
-    profileRef = null
-
-
-    
-    componentWillMount() {
-        // 프로필을 임시로 불러온다
-        const { AuthActions } = this.props;
-        const profile = storage.get('profile');
-
-        if(profile) {
-            AuthActions.syncProfile(profile);
-        }
-    }
-    
 
     componentDidMount() {
-        // storage.remove('profile');
-        // auth.logout();
-        // 계정 인증 리스너
-        // auth.authStateChanged(
-        //     async (firebaseUser) => {
-
-        //         // 기존 프로필 동기화 중지
-        //         if(this.profileRef) {
-        //             this.profileRef.off();
-        //             this.profileRef = null;
-        //         }
-        //         const { AuthActions } = this.props;
-                
-        //         if(firebaseUser) {
-        //             AuthActions.authenticate(firebaseUser);
-        //             this.profileRef = users.findProfileByIdSync(firebaseUser.uid, (snapshot) => {
-                        
-        //                 const profile = snapshot.val();
-
-        //                 // 내 프로필 동기화
-        //                 AuthActions.syncProfile(profile);
-                        
-        //                 // 만약에, profile 이 valid 하면, 그 정보를 localStorage 에 넣는다.
-        //                 storage.set('profile', profile);
-                        
-        //             })
-        //         } else {
-
-        //         }
-        //     }
-        // );
-
-        // const exists = await users.checkUsernameExists('validatedfailure');
-        // console.log(exists);
-
         
     }
 
@@ -108,22 +55,11 @@ class App extends Component {
         }
     })()
 
-    handleLinkAccount = async () => {
-        // const { status: { modal } } = this.props; 
-        // const credential = modal.getIn(['linkAccount', 'credential']);
-        // const provider = modal.getIn(['linkAccount', 'existingProvider']);
-        // const { handleModal } = this;
-
-
-        // console.log(credential, provider);
-        // await auth.linkAccoopenUserMenuunt({credential, provider});
-        // handleModal.close('linkAccount')
-        
-    }
-
     render() {        
-        const { children, status: { modal,profile, header } } = this.props;
+        const { children, status: { modal, user, header } } = this.props;
         const { handleAuth, handleModal, handleLinkAccount, handleUserMenu } = this;
+
+        const profile = user.get('profile');
 
         return (
             <div>
@@ -166,13 +102,11 @@ App = connect(
         status: {
             header: state.base.header,
             modal: state.base.modal,
-            profile: state.base.auth.get('profile')
-            // something: state.something.get('something')
+            user: state.base.user
         }
     }),
     dispatch => ({
         ModalActions: bindActionCreators(modal, dispatch),
-        AuthActions: bindActionCreators(authAction, dispatch),
         HeaderActions: bindActionCreators(header, dispatch)
     })
 )(App);
