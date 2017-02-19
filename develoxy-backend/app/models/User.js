@@ -56,6 +56,11 @@ module.exports = function(sequelize, DataTypes) {
                 return User.findOne({
                     where: { username }
                 });
+            },
+            findByEmail: function(email) {
+                return User.findOne({
+                    where: { email }
+                })
             }
         }
     });
