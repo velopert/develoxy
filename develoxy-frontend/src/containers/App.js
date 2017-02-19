@@ -92,7 +92,7 @@ class App extends Component {
                         :  <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                     }
 
-                    <UserMenu visible={header.getIn(['userMenu', 'open'])} onHide={handleUserMenu.close}/>
+                    <UserMenu username={profile.get('username')} visible={header.getIn(['userMenu', 'open'])} onHide={handleUserMenu.close}/>
                 </Header>
                 
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={ () => handleModal.close('login')}>

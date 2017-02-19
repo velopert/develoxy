@@ -3,7 +3,7 @@ import { Icon } from 'semantic-ui-react';
 import EyeCatchy from 'components/Common/EyeCatchy';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-const UserMenu = ({displayName, visible, onHide}) => {
+const UserMenu = ({username, visible, onHide}) => {
     return (
         <div>
         <ReactCSSTransitionGroup
@@ -21,7 +21,7 @@ const UserMenu = ({displayName, visible, onHide}) => {
                             <div className="user-menu">
                                 <div className="menu-item">
                                     <div className="menu-name">
-                                        <Icon name="user"/><span><b>@velopert</b></span>
+                                        <Icon name="user"/><span><b>@{username}</b></span>
                                     </div>
                                     <div className="description">내 <b>록시</b>로 이동</div>
                                 </div>
