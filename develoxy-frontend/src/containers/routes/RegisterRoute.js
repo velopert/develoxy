@@ -6,13 +6,15 @@ import Register, {
     InputUsername,
     Loader
 } from 'components/Register/Register';
-import { connect } from 'react-redux';
+
 
 import * as form from 'redux/modules/form';
 import * as register from 'redux/modules/register';
 import * as user from 'redux/modules/base/user';
 
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import debounce from 'lodash/debounce';
 import { Message } from 'semantic-ui-react';
 import storage from 'helpers/storage';

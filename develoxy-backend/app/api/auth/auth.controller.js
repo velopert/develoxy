@@ -50,19 +50,37 @@ module.exports = {
         const { code } = ctx.request.query;
 
         try {
-
             const oauthToken = await providers[provider].getToken(code);
             const profile = await providers[provider].getProfile(oauthToken);
-            const token = await createToken({
-                type: 'unregistered',
-                provider: provider,
-                oauth: {
-                    profile
-                }
-            });
 
-            // 만약에 회원가입 안했을 때
-            ctx.redirect(`${url}/callback?token=${token}&register=true`);
+            // 회원가입 상태 체크
+            const user = await models.User.findByOAuth(provider, profile.id);
+
+            if(user) {
+                const token = await createToken({
+                    type: 'user',
+                    userId: user.id,
+                    username: user.username,
+                    displayName: user.displayName
+                });
+
+                console.log(user.thumbnail);
+                
+                ctx.redirect(`${url}/callback?token=${token}&valid=true&thumbnail=${user.thumbnail}`);
+            } else {
+                // 만약에 회원가입 안했을 때
+                const token = await createToken({
+                    type: 'unregistered',
+                    provider: provider,
+                    oauth: {
+                        profile
+                    }
+                });
+                ctx.redirect(`${url}/callback?token=${token}&register=true`);
+            }
+
+
+            
 
         } catch (e) {
             console.log(e);

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import storage from 'helpers/storage';
+import * as user from 'redux/modules/base/user';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import jwtDecode from 'jwt-decode';
 
 class CallbackRoute extends Component {
 
@@ -22,14 +26,40 @@ class CallbackRoute extends Component {
             this.context.router.push('/');
         }
 
-        axios.defaults.headers.common['x-access-token'] = query.token;
+        const token = query.token;
+
+
+        axios.defaults.headers.common['x-access-token'] = token;
 
         if(query.register) {
-            storage.set('tempToken', query.token);
+            storage.set('tempToken', token);
             this.context.router.push('/register');  
-        } else {
-            storage.set('token', query.token);  
-            // TODO: 토큰 디코딩 후 스토어에 넣기
+        } 
+
+        if(query.valid) {
+            storage.set('token', token); 
+            const thumbnail = query.thumbnail === "null" ? null : query.thumbnail;
+            const decoded = jwtDecode(token);
+            
+            const { displayName, username, userId } = decoded.data;
+
+            const profile = {
+                userId,
+                displayName,
+                username,
+                thumbnail
+            };
+
+            const { UserActions } = this.props;
+
+            // 스토어에 저장
+            UserActions.setUserInfo(profile);
+
+            // 로컬스토리지에 저장
+            storage.set('profile', profile);
+
+            this.context.router.push('/');
+            // TODO: 마지막으로 보던 페이지로 이동
         }
 
     }
@@ -42,4 +72,13 @@ class CallbackRoute extends Component {
     }
 }
 
+CallbackRoute = connect(
+    state => ({
+    }),
+    dispatch => ({
+        UserActions: bindActionCreators(user, dispatch)
+    })
+)(CallbackRoute);
+
 export default CallbackRoute;
+
