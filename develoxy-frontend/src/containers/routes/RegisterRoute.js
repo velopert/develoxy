@@ -89,35 +89,17 @@ class RegisterRoute extends Component {
 
         const username = form.value;
 
-        const user = auth.get('user');
-
         const { RegisterActions } = this.props;
 
-        const { uid, photoURL, displayName, email } = user;
-
         try {
-            await RegisterActions.claimUsername({uid, username});
-
-            await RegisterActions.register({
-                uid,
-                username,
-                displayName,
-                email,
-                thumbnail: photoURL 
-            });
-
+            await RegisterActions.register(username);
             // 가입 성공
-            this.context.router.push('/');
 
+            // TODO: 토큰 읽어와서 스토어에 넣기
+
+            this.context.router.push('/');
         } catch (e) {
             // 에러 발생!
-
-            // 현재 나의 프로필을 확인하고, 존재한다면 메인페이지로 5초후 리디렉팅한다.
-            // 실시간으로 전달받은 그 profileData 확인하고 그거 null 아니면 리디렉팅 하는거죠.
-            
-
-            // input 을 초기화시키고 다시 시도해보게 한다
-            // (가입 도중에 그게 갑자기 중복이 될 가능성 매우 희박하지만..)
             const { FormActions } = this.props;
 
             FormActions.change({
@@ -179,7 +161,7 @@ class RegisterRoute extends Component {
     
     render() {
         const { handleRegister, handleValidate, handleChange } = this;
-        const { status: { auth, validation, loading }, form: { value } } = this.props;
+        const { status: { auth, validation, pending }, form: { value } } = this.props;
 
 
         return (
@@ -192,7 +174,10 @@ class RegisterRoute extends Component {
                         onClick={handleRegister} 
                         onValidate={handleValidate} 
                         error={validation.get('valid') === false}
-                        loading={loading}
+                        loading={{
+                            check: pending.get('checkUsername'),
+                            register: pending.get('register')
+                        }}
                         onChange={handleChange}
                         value={value}
                     />
@@ -217,11 +202,7 @@ RegisterRoute = connect(
         status: {
             auth: state.base.auth,
             validation: state.register.get('validation'),
-            loading: {
-                checkUsername: state.register.getIn(['requests', 'checkUsername', 'fetching']),
-                claimUsername: state.register.getIn(['requests', 'claimUsername', 'fetching']),
-                register: state.register.getIn(['requests', 'register', 'fetching'])
-            }
+            pending: state.register.get('pending')
         },
         form: {
             value: state.form.getIn(['register', 'username'])

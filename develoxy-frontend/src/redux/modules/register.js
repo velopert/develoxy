@@ -55,8 +55,10 @@ export const setValidity = createAction(SET_VALIDITY);
 /* initialState */
 const initialState = Map({
     pending: Map({
-        checkUsername: false
+        checkUsername: false,
+        register: false
     }),
+    token: null,
     validation: Map({
         valid: true,
         message: ''
@@ -68,6 +70,7 @@ export default handleActions({
 
     ...pender({
         type: USERNAME_CHECK,
+        name: 'checkUsername',
         onFulfill: (state, action) => {
             const { data } = action.payload;
             if(data.exists) {
@@ -81,6 +84,15 @@ export default handleActions({
                     message: ''
                 });
             }
+        }
+    }),
+
+    ...pender({
+        type: REGISTER,
+        name: 'register',
+        onFulfill: (state, action) => {
+            const { data: { token } } = action.payload;
+            return state.set('token', token);
         }
     }),
     // // USERNAME_CHECK 

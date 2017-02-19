@@ -15,14 +15,14 @@ class InputUsername extends Component {
                             content: '계속하기', 
                             onClick,
                             disabled: error || value === '',
-                            loading: loading.claimUsername || loading.register
+                            loading: loading.register
                         }
                     }
                     placeholder="아이디"
                     onChange={onChange}
                     value={value}
                     error={error}
-                    loading={loading.checkUsername} icon='user' iconPosition='left'
+                    loading={loading.check} icon='user' iconPosition='left'
                 />
             </div>
         ); 
