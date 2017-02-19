@@ -110,7 +110,7 @@ module.exports = {
             }
         } = tokenPayload;
 
-        // social_id 존재 유무 확인
+        // // social_id 존재 유무 확인
         const socialIdExists = await models.User.findByOAuth(provider, id);
 
         if(socialIdExists) {
@@ -135,12 +135,21 @@ module.exports = {
 
         let result = null;
 
+        const socialId = {
+            facebook: '',
+            google: '',
+            github: ''
+        };
+
+        socialId[provider] = id;
+
+
         try {
             result = await models.User.create({
                 username,
                 displayName,
                 provider,
-                socialId: id,
+                socialId,
                 email,
             });
         } catch (e) {

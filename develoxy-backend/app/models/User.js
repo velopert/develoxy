@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         socialId: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             allowNull: false,
             field: 'social_id'
         },
@@ -42,8 +42,14 @@ module.exports = function(sequelize, DataTypes) {
         underscored: true,
         classMethods: {
             findByOAuth: function(provider, socialId) {
+
+                const idString = `socialId.${provider}`;
+
                 return User.findOne({
-                    where: { provider, socialId }
+                    where: { 
+                        provider, 
+                        [idString]: socialId
+                    }
                 })
             },
             findByUsername: function(username) {
