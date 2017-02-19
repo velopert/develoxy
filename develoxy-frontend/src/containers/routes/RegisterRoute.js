@@ -104,8 +104,16 @@ class RegisterRoute extends Component {
                 userId
             });
 
-            // 토큰 설정
+            // 토큰 저장
             storage.set('token', token);
+
+            // 유저 정보 저장
+            storage.set('profile', {
+                displayName,
+                username,
+                userId,
+                thumbnail: null
+            });
 
             // 임시 토큰 제거
             storage.remove('tempToken');

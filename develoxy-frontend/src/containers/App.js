@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as modal from 'redux/modules/base/modal';
 import * as header from 'redux/modules/base/header';
+import * as user from 'redux/modules/base/user';
+
 import environment from 'environment';
 
 // load components
@@ -14,6 +16,10 @@ const { SocialLoginButton } = LoginModal;
 
 import storage from 'helpers/storage';
 
+import axios from 'axios';
+
+
+
 class App extends Component {
 
     static contextTypes = {
@@ -22,7 +28,20 @@ class App extends Component {
 
 
     componentDidMount() {
-        
+        const token = storage.get('token');
+        const profile = storage.get('profile');
+
+        const { UserActions } = this.props;
+
+        if(token) {
+            // axios 글로벌 설정
+            axios.defaults.headers.common['x-access-token'] = token;
+            // 스토어에 프로필 설정
+            UserActions.setUserInfo(profile);
+        }
+
+
+
     }
 
     handleAuth = (provider) => {
@@ -107,7 +126,8 @@ App = connect(
     }),
     dispatch => ({
         ModalActions: bindActionCreators(modal, dispatch),
-        HeaderActions: bindActionCreators(header, dispatch)
+        HeaderActions: bindActionCreators(header, dispatch),
+        UserActions: bindActionCreators(user, dispatch)
     })
 )(App);
 
