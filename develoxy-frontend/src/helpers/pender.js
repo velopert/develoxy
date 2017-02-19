@@ -25,7 +25,8 @@ const actionize = (type) => {
 
 
 const pender = ({
-    type, 
+    type,
+    name,
     onFulfill = (state) => state, // in case function not given 
     onReject = (state) => state
 }) => {
@@ -33,13 +34,13 @@ const pender = ({
 
     return {
         [actionized.PENDING]: (state, action) => {
-            return state.setIn(['pending', type], true);
+            return state.setIn(['pending', name], true);
         },
         [actionized.FULFILLED]: (state, action) => {
-            return onFulfill(state, action).setIn(['pending', type], false);
+            return onFulfill(state, action).setIn(['pending', name], false);
         },
         [actionized.REJECTED]: (state, action) => {
-            return onReject(state,action).setIn(['pending', type], false);
+            return onReject(state,action).setIn(['pending', name], false);
         }
     }
 }
