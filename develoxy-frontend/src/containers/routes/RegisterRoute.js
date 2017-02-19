@@ -16,19 +16,17 @@ import storage from 'helpers/storage';
 import jwtDecode from 'jwt-decode';
 
 
+const messages = {
+    'UNKNOWN_ERROR': '알 수 없는 에러 발생!',
+    'INVALID_FORMAT': '4~20자의 영문 소문자, 숫자와 밑줄(_)만 사용 가능합니다.',
+    'USERNAME_EXISTS': '이미 존재하는 아이디입니다.'
+}
 
 class RegisterRoute extends Component {
 
     static contextTypes = {
         router: React.PropTypes.object
     }
-
-    constructor(props) {
-        super(props);
-        // 500 ms 에 한번만 요청하도록 제한한다
-        this.handleCheckUsername = debounce(this.handleCheckUsername, 500);
-    }
-
     
     componentWillMount() {
         // tempToken 이 존재하는지 확인
@@ -130,7 +128,7 @@ class RegisterRoute extends Component {
 
             RegisterActions.setValidity({
                 valid: false,
-                message: '알 수 없는 에러 발생! 다시 시도 해주세요.'
+                message: 'UNKNOWN_ERROR'//'알 수 없는 에러 발생! 다시 시도 해주세요.'
             });
 
         }
@@ -144,7 +142,7 @@ class RegisterRoute extends Component {
         if(!regex.test(username)) {
             RegisterActions.setValidity({
                 valid: false,
-                message: '4~20자의 영문 소문자, 숫자와 밑줄(_)만 사용 가능합니다.'
+                message: 'INVALID_FORMAT'//'4~20자의 영문 소문자, 숫자와 밑줄(_)만 사용 가능합니다.'
             });
             return;
         } else {
@@ -157,8 +155,10 @@ class RegisterRoute extends Component {
         this.handleCheckUsername(username);
     }
 
-    handleCheckUsername = async (username) => {
+    handleCheckUsername = debounce(async (username) => {
         const { RegisterActions } = this.props;
+
+        RegisterActions.checkUsername(username);
 
         // // username 중복체크
         // const result = await RegisterActions.checkUsername(username);
@@ -174,7 +174,7 @@ class RegisterRoute extends Component {
         //         message: ''
         //     });
         // }
-    }
+    })
 
     
     render() {
@@ -199,7 +199,7 @@ class RegisterRoute extends Component {
                     {
                         !validation.get('valid') && (
                             <Message color="red">
-                                { validation.get('message') }
+                                { messages[validation.get('message')] }
                             </Message>
                         )
                     }

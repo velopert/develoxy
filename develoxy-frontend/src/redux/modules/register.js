@@ -1,24 +1,37 @@
 import { createAction, handleActions } from 'redux-actions';
 import { Map } from 'immutable';
-import Request, { requize, pend, fulfill, reject } from 'helpers/request';
+import * as auth from 'helpers/WebApi/auth';
+import pender from 'helpers/pender';
+
+// import Request, { requize, pend, fulfill, reject } from 'helpers/request';
 // import users from 'helpers/firebase/database/users';
 // import * as profiles from 'helpers/firebase/database/profiles';
 
 /* actions */
-const USERNAME_CHECK = requize('register/USERNAME_CHECK');
-const USERNAME_CLAIM = requize("register/USERNAME_CLAIM");
-const REGISTER = requize("register/REGISTER");
+// const USERNAME_CHECK = requize('register/USERNAME_CHECK');
+// const USERNAME_CLAIM = requize("register/USERNAME_CLAIM");
+// const REGISTER = requize("register/REGISTER");
+
+const USERNAME_CHECK = "register/USERNAME_CHECK";
+const REGISTER = "register/REGISTER";
+
 const SET_VALIDITY = 'register/SET_VALIDITY';
 
 /* action creators */
 
-// 유저네임 체킹
-// export const checkUsername = (username) => ({
-//     type: USERNAME_CHECK.DEFAULT,
-//     payload: {
-//         promise: users.checkUsername(username)
-//     }
-// });
+export const checkUsername = (username) => ({
+    type: USERNAME_CHECK,
+    payload: {
+        promise: auth.checkUsername(username)
+    }
+});
+
+export const register = (username) => ({
+    type: REGISTER,
+    payload: {
+        promise: auth.register(username)
+    }
+});
 
 
 // 유저네임 정하기
@@ -41,10 +54,8 @@ export const setValidity = createAction(SET_VALIDITY);
 
 /* initialState */
 const initialState = Map({
-    request: Map({
-        checkUsername: Request(),
-        claimUsername: Request(),
-        register: Request()
+    pending: Map({
+        checkUsername: false
     }),
     validation: Map({
         valid: true,
@@ -55,41 +66,59 @@ const initialState = Map({
 /* reducer */
 export default handleActions({
 
-    // USERNAME_CHECK 
-    [USERNAME_CHECK.PENDING]: (state,action) => {
-        return pend(state, 'checkUsername');
-    },
-    [USERNAME_CHECK.FULFILLED]: (state, action) => {
-        return fulfill(state, 'checkUsername')
-    },
-    [USERNAME_CHECK.REJECTED]: (state, action) => {
-        const error = action.payload;
-        return reject(state, 'checkUsername', error);
-    },
+    ...pender({
+        type: USERNAME_CHECK,
+        onFulfill: (state, action) => {
+            const { data } = action.payload;
+            if(data.exists) {
+                return state.mergeIn(['validation'], {
+                    valid: false,
+                    message: 'USERNAME_EXISTS'
+                });
+            } else {
+                return state.mergeIn(['validation'], {
+                    valid: true,
+                    message: ''
+                });
+            }
+        }
+    }),
+    // // USERNAME_CHECK 
+    // [USERNAME_CHECK.PENDING]: (state,action) => {
+    //     return pend(state, 'checkUsername');
+    // },
+    // [USERNAME_CHECK.FULFILLED]: (state, action) => {
+        
+    //     return fulfill(state, 'checkUsername')
+    // },
+    // [USERNAME_CHECK.REJECTED]: (state, action) => {
+    //     const error = action.payload;
+    //     return reject(state, 'checkUsername', error);
+    // },
 
-    // USERNAME_CLAIM 
-    [USERNAME_CLAIM.PENDING]: (state,action) => {
-        return pend(state, 'claimUsername');
-    },
-    [USERNAME_CLAIM.FULFILLED]: (state, action) => {
-        return fulfill(state, 'claimUsername')
-    },
-    [USERNAME_CLAIM.REJECTED]: (state, action) => {
-        const error = action.payload;
-        return reject(state, 'claimUsername', error);
-    },
+    // // USERNAME_CLAIM 
+    // [USERNAME_CLAIM.PENDING]: (state,action) => {
+    //     return pend(state, 'claimUsername');
+    // },
+    // [USERNAME_CLAIM.FULFILLED]: (state, action) => {
+    //     return fulfill(state, 'claimUsername')
+    // },
+    // [USERNAME_CLAIM.REJECTED]: (state, action) => {
+    //     const error = action.payload;
+    //     return reject(state, 'claimUsername', error);
+    // },
 
-    // REGISTER 
-    [REGISTER.PENDING]: (state,action) => {
-        return pend(state, 'register');
-    },
-    [REGISTER.FULFILLED]: (state, action) => {    
-        return fulfill(state, 'register');
-    },
-    [REGISTER.REJECTED]: (state, action) => {
-        const error = action.payload;
-        return reject(state, 'register', error);
-    },
+    // // REGISTER 
+    // [REGISTER.PENDING]: (state,action) => {
+    //     return pend(state, 'register');
+    // },
+    // [REGISTER.FULFILLED]: (state, action) => {    
+    //     return fulfill(state, 'register');
+    // },
+    // [REGISTER.REJECTED]: (state, action) => {
+    //     const error = action.payload;
+    //     return reject(state, 'register', error);
+    // },
 
     [SET_VALIDITY]: (state, action) => {
         const { valid, message } = action.payload;

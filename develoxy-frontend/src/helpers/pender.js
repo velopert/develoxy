@@ -1,9 +1,6 @@
 // redux action helper for redux-promise-middleware
 
-import { Map } from 'immutable';
-
 // transforms action type to ACTION_TYPE_[PENDING, FULFILLED, REJECTED]
-
 const actionize = (type) => {
     return {
         PENDING: `${type}_PENDING`,
@@ -26,7 +23,12 @@ const actionize = (type) => {
 */
 
 
-const pender = ({type, onFulfill, onReject}) => {
+
+const pender = ({
+    type, 
+    onFulfill = (state) => state, // in case function not given 
+    onReject = (state) => state
+}) => {
     const actionized = actionize(type);
 
     return {
