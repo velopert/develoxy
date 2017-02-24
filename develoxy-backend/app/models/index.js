@@ -36,12 +36,19 @@ Object.keys(db).forEach((modelName)=> {
 });
 
 // 스키마 동기화
-sequelize.sync({force: false}).then(
+sequelize.sync({force: true}).then(
     () => {
         console.log('Schema is synchronized');
     }).catch(err => {
         console.log('An error has occurred: ', err);
     });
+
+
+db.Category.hasOne(db.User, {foreignKey: 'user_id'});
+
+db.User.hasMany(db.Category, {foreignKey: 'category_id'});
+
+
 
 
 db.sequelize = sequelize;
