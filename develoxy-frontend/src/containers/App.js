@@ -120,6 +120,7 @@ class App extends Component {
                     existingProvider={modal.getIn(['linkAccount', 'existingProvider'])}
                     provider={modal.getIn(['linkAccount', 'provider'])}
                     onLinkAccount={handleLinkAccount}
+                    email={modal.getIn(['linkAccount', 'email'])}
                 />
 
 

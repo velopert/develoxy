@@ -96,7 +96,7 @@ module.exports = {
                     const existingProvider = Object.keys(sameEmailUser.socialId)
                                                    .filter(key=>sameEmailUser.socialId[key]!=='')[0];
 
-                    ctx.redirect(`${url}/callback?token=${token}&integrate=true&provider=${provider}&existingProvider=${existingProvider}`);
+                    ctx.redirect(`${url}/callback?token=${token}&integrate=true&provider=${provider}&existingProvider=${existingProvider}&email=${profile.email}`);
 
                     return;
                 }

@@ -3,19 +3,13 @@ import { Map } from 'immutable';
 import * as auth from 'helpers/WebApi/auth';
 import pender from 'helpers/pender';
 
-// import Request, { requize, pend, fulfill, reject } from 'helpers/request';
-// import users from 'helpers/firebase/database/users';
-// import * as profiles from 'helpers/firebase/database/profiles';
-
-/* actions */
-// const USERNAME_CHECK = requize('register/USERNAME_CHECK');
-// const USERNAME_CLAIM = requize("register/USERNAME_CLAIM");
-// const REGISTER = requize("register/REGISTER");
 
 const USERNAME_CHECK = "register/USERNAME_CHECK";
 const REGISTER = "register/REGISTER";
 
 const SET_VALIDITY = 'register/SET_VALIDITY';
+const ACCOUNT_LINK = 'register/ACCOUNT_LINK';
+
 
 /* action creators */
 
@@ -33,30 +27,20 @@ export const register = (username) => ({
     }
 });
 
-
-// 유저네임 정하기
-// export const claimUsername = ({uid, username}) => ({
-//     type: USERNAME_CLAIM.DEFAULT,
-//     payload: {
-//         promise: users.claimUsername({uid, username})
-//     }
-// });
-
-// 계정 생성 
-// export const register = ({uid, username, displayName, email, thumbnail}) => ({
-//     type: REGISTER.DEFAULT,
-//     payload: {
-//         promise: users.create({uid, username, displayName, email, thumbnail})
-//     }
-// });
-
 export const setValidity = createAction(SET_VALIDITY);
+export const linkAccount = (token) => ({
+    type: ACCOUNT_LINK,
+    payload: {
+        promise: auth.linkAccount(token)
+    }
+});
 
 /* initialState */
 const initialState = Map({
     pending: Map({
         checkUsername: false,
-        register: false
+        register: false,
+        linkAccount: false
     }),
     token: null,
     validation: Map({
@@ -95,42 +79,11 @@ export default handleActions({
             return state.set('token', token);
         }
     }),
-    // // USERNAME_CHECK 
-    // [USERNAME_CHECK.PENDING]: (state,action) => {
-    //     return pend(state, 'checkUsername');
-    // },
-    // [USERNAME_CHECK.FULFILLED]: (state, action) => {
-        
-    //     return fulfill(state, 'checkUsername')
-    // },
-    // [USERNAME_CHECK.REJECTED]: (state, action) => {
-    //     const error = action.payload;
-    //     return reject(state, 'checkUsername', error);
-    // },
 
-    // // USERNAME_CLAIM 
-    // [USERNAME_CLAIM.PENDING]: (state,action) => {
-    //     return pend(state, 'claimUsername');
-    // },
-    // [USERNAME_CLAIM.FULFILLED]: (state, action) => {
-    //     return fulfill(state, 'claimUsername')
-    // },
-    // [USERNAME_CLAIM.REJECTED]: (state, action) => {
-    //     const error = action.payload;
-    //     return reject(state, 'claimUsername', error);
-    // },
-
-    // // REGISTER 
-    // [REGISTER.PENDING]: (state,action) => {
-    //     return pend(state, 'register');
-    // },
-    // [REGISTER.FULFILLED]: (state, action) => {    
-    //     return fulfill(state, 'register');
-    // },
-    // [REGISTER.REJECTED]: (state, action) => {
-    //     const error = action.payload;
-    //     return reject(state, 'register', error);
-    // },
+    ...pender({
+        type: ACCOUNT_LINK,
+        name: 'linkAccount'
+    }),
 
     [SET_VALIDITY]: (state, action) => {
         const { valid, message } = action.payload;

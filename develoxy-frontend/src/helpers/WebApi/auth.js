@@ -9,3 +9,9 @@ export const register = (username) => {
         username
     });
 }
+
+export const linkAccount = (token) => {
+    return axios.post('/api/auth/link-account', {
+        token
+    });
+}
