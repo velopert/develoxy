@@ -11,18 +11,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(40),
             allowNull: false
         },
-        userId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            field: 'user_id',
-            references: {
-                model: 'user',
-                key: 'id'
-            }
-        },
+        // userId,
         parentId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             field: 'parent_id'
         },
         index: {
@@ -31,7 +23,30 @@ module.exports = function(sequelize, DataTypes) {
         }
     }, {
         tableName: 'category',
-        underscored: true
+        underscored: true,
+        classMethods: {
+            countBaseLeaves: function(userId) {
+                return Category.count({where: {
+                    userId,
+                    parentId: null
+                }});
+            }
+        },
+        instanceMethods: {
+            update: function(parent, index) {
+                this.parent = parent;
+                this.index = index;
+                return this.save();
+            },
+            moveUp: function() {
+                this.index = this.index - 1;
+                return this.save();
+            },
+            moveDown: function() {
+                this.index = this.index + 1;
+                return this.save();
+            }
+        }
     });
 
     return Category
