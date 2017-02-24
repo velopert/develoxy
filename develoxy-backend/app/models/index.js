@@ -44,8 +44,6 @@ sequelize.sync({force: true}).then(
     });
 
 
-db.Category.hasOne(db.User, {foreignKey: 'user_id'});
-
 db.User.hasMany(db.Category, {foreignKey: 'category_id'});
 
 
