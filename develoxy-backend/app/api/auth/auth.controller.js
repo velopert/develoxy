@@ -239,7 +239,6 @@ module.exports = {
         
         // 현재 유저아이디 검색
         const user = await models.User.findById(ctx.request.userId);
-        console.log(user);
         const decoded = await verify(token);
 
         // 토큰이 유효하지 않음

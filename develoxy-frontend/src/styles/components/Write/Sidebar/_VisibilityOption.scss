@@ -4,25 +4,26 @@
         width: 50%;
         display: inline-block;
         text-align: center;
-        background: $oc-gray-0;
+        background: $oc-gray-2;
         color: $oc-gray-6;
 
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
 
-        font-weight: 500;
-
         border: 1px solid $oc-gray-4;
         cursor: pointer;
 
+        user-select: none;
+
         &:hover {
-            background: white;
-            color: $oc-pink-6;
+            background: $oc-gray-1;
+            color: $oc-gray-6;
         }
 
         &.active, &:active {
-            background: $oc-pink-6;
-            color: white;
+            background: white;
+            color: $oc-gray-9;
+            font-weight: 500;
         }
         
         &.public {
@@ -35,7 +36,7 @@
         &.private {
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
-            border-left: none;
+            
         }
     }
 }

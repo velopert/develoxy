@@ -3,7 +3,7 @@ import { Icon } from 'semantic-ui-react';
 import EyeCatchy from 'components/Common/EyeCatchy';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-const UserMenu = ({username, visible, onHide}) => {
+const UserMenu = ({username, visible, onHide, onLogout}) => {
     return (
         <div>
         <ReactCSSTransitionGroup
@@ -40,7 +40,7 @@ const UserMenu = ({username, visible, onHide}) => {
                                         <Icon name="help circle outline"/><span>고객센터</span>
                                     </div>
                                 </div>
-                                <div className="menu-item">
+                                <div className="menu-item" onClick={onLogout}>
                                     <div className="menu-name">
                                         <Icon name="power"/><span>로그아웃</span>
                                     </div>

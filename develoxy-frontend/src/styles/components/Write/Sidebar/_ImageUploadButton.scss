@@ -1,7 +1,7 @@
 .image-upload-button {
     margin-top: 1rem;
     padding: 1rem;
-    border: 1px solid $oc-pink-6;
+    border: 1px solid $oc-gray-6;
     background: white;
     text-align: center;
     position: relative;
@@ -14,7 +14,7 @@
         transition: all .3s;
         font-size: 3rem;
         line-height: 3rem;
-        color: $oc-pink-6;
+        color: $oc-gray-6;
     }
 
     .circle {
@@ -22,7 +22,7 @@
         display: inline-block;
         font-size: 1.2rem;
         line-height: 1.2rem;
-        background: $oc-pink-5;
+        background: $oc-gray-5;
         border-radius: 0.8rem;
         position: absolute;
         width: 1.6rem;
@@ -42,17 +42,17 @@
             color: white;
         }
         .circle {
-            background: $oc-pink-2;
+            background: $oc-gray-2;
             .add {
-                color: $oc-pink-6;
+                color: $oc-gray-6;
             }
         }
-        background: $oc-pink-6;
+        background: $oc-gray-6;
         color: white;
     }
 
     &:active {
-        background: $oc-pink-8;
+        background: $oc-gray-8;
     }
 
 }

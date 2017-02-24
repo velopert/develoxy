@@ -64,10 +64,17 @@ class App extends Component {
     })()
 
     handleUserMenu = (() => {
-        const { HeaderActions } = this.props;
+        const { HeaderActions, UserActions } = this.props;
         return {
             open: () => {
                 HeaderActions.openUserMenu();
+            },
+            logout: () => {
+                storage.remove('profile');
+                storage.remove('token');
+                UserActions.logout();
+                this.context.router.push('/');
+                HeaderActions.closeUserMenu();
             },
             close: () => {
                 HeaderActions.closeUserMenu();
@@ -86,6 +93,7 @@ class App extends Component {
         const provider = modal.getIn(['linkAccount', 'existingProvider']);
         this.handleAuth(provider);
     }
+    
 
     render() {        
         const { children, status: { modal, user, header } } = this.props;
@@ -105,7 +113,12 @@ class App extends Component {
                         :  <AuthButton onClick={() => handleModal.open({modalName: 'login'})}/>
                     }
 
-                    <UserMenu username={profile.get('username')} visible={header.getIn(['userMenu', 'open'])} onHide={handleUserMenu.close}/>
+                    <UserMenu 
+                        username={profile.get('username')} 
+                        visible={header.getIn(['userMenu', 'open'])} 
+                        onHide={handleUserMenu.close}
+                        onLogout={handleUserMenu.logout}
+                    />
                 </Header>
                 
                 <LoginModal visible={modal.getIn(['login', 'open'])} onHide={ () => handleModal.close('login')}>
