@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import App from 'containers/App';
-import { MainRoute, RegisterRoute, WriteRoute, CallbackRoute } from 'containers/routes';
+import { MainRoute, RegisterRoute, WriteRoute, CallbackRoute, Test } from 'containers/routes';
 
 export default (
     <Route path="/" component={App}>
@@ -10,5 +10,6 @@ export default (
         <Route path="register" component={RegisterRoute}/>
         <Route path="write" component={WriteRoute}/>
         <Route path="callback" component={CallbackRoute}/>
+        <Route path="test" component={Test}/>
     </Route>
 );
