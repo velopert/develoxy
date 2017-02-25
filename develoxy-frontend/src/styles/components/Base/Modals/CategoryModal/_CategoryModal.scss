@@ -1,0 +1,31 @@
+.category-modal {
+    
+    .title-bar {
+        background-color: $oc-gray-7;
+        height: 5rem;
+        font-size: 2rem;
+        line-height: 5rem;
+        color: white;
+        text-align: center;
+    }
+    .contents {
+        padding: 1rem;
+        background: white;
+    }
+    
+    .footer {
+        background: $oc-gray-2;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-right: 1rem;
+        
+        text-align: right;
+        .or {
+            height: auto!important;
+        }
+        .button {
+            width: 9rem;
+            font-size: 1.3rem;
+        }
+    }
+}

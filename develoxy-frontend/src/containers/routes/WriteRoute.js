@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as header from 'redux/modules/base/header';
 import * as write from 'redux/modules/write';
+import * as modal from 'redux/modules/base/modal';
+
+import CategoryModal from 'components/Base/Modals/CategoryModal';
+
 
 import { orderify } from 'helpers/category';
 
@@ -22,73 +26,14 @@ import Sidebar, {
 
 import { List, Map } from 'immutable';
 
-const mockData =  List(orderify([
-    {
-      "id": 2,
-      "name": "hello",
-      "parentId": 0,
-      "index": 0
-    },
-    {
-      "id": 3,
-      "name": "hello",
-      "parentId": 0,
-      "index": 1
-    },
-    {
-      "id": 4,
-      "name": "hello",
-      "parentId": 0,
-      "index": 2
-    },
-    {
-      "id": 5,
-      "name": "hello",
-      "parentId": 0,
-      "index": 3
-    },
-    {
-      "id": 6,
-      "name": "저기",
-      "parentId": 0,
-      "index": 4
-    },
-    {
-      "id": 7,
-      "name": "저기",
-      "parentId": 0,
-      "index": 5
-    },
-    {
-      "id": 10,
-      "name": "whatthe",
-      "parentId": 0,
-      "index": 6
-    },
-    {
-      "id": 9,
-      "name": "저기",
-      "parentId": 1,
-      "index": 0
-    },
-    {
-      "id": 8,
-      "name": "저기",
-      "parentId": 1,
-      "index": 1
-    },
-    {
-      "id": 1,
-      "name": "hello",
-      "parentId": 2,
-      "index": 0
-    }
-  ]).map(item=>Map(item)));
-
-console.log(mockData);
-
 class WriteRoute extends Component {
 
+
+    componentDidMount() {
+        const {WriteActions} = this.props;
+        WriteActions.getCategory();
+    }
+    
     handleEditor = (() =>{
         const { WriteActions } = this.props;
 
@@ -111,6 +56,18 @@ class WriteRoute extends Component {
         }
     })()
 
+    handleModal = (() => {
+        const { ModalActions } = this.props;
+        return {
+            open: ({modalName, data}) => {
+                ModalActions.openModal({modalName, data});
+            },
+            close: (modalName) => {
+                ModalActions.closeModal(modalName);
+            }
+        }
+    })()
+
     componentWillMount() {
         // 헤더를 숨긴다
         const { HeaderActions } = this.props;
@@ -126,13 +83,13 @@ class WriteRoute extends Component {
     
     render() {
 
-        const { handleEditor } = this;
-        const { status: { write } } = this.props;
+        const { handleEditor, handleModal } = this;
+        const { status: { write, modal } } = this.props;
 
         return (
             <Write>
                 <Sidebar>
-                    <SwitchButton/>
+                    {/*<SwitchButton/>*/}
                     <ImageUploadButton/>
                     <Box title="태그">
                         <TagInput/>
@@ -142,7 +99,7 @@ class WriteRoute extends Component {
                         <VisibilityOption/>
                     </Box>
                     <Box title="카테고리">
-                        <Category category={mockData}/>
+                        <Category category={write.getIn(['category', 'flat'])} onConfigure={()=>handleModal.open({modalName: 'category'})}/>
                     </Box>
                 </Sidebar>
                 <Content>
@@ -159,6 +116,14 @@ class WriteRoute extends Component {
                         isLastLine={write.getIn(['editor', 'isLastLine'])}
                     />
                 </Content>
+
+
+                <CategoryModal 
+                    visible={modal.getIn(['category', 'open'])} 
+                    onHide={()=>handleModal.close('category')}
+                    category={write.getIn(['category', 'flat'])}
+                />
+
             </Write>
         );
     }
@@ -170,12 +135,14 @@ WriteRoute = connect(
     state => ({
         status: {
             header: state.base.header,
+            modal: state.base.modal,
             write: state.write
         }
     }),
     dispatch => ({
         HeaderActions: bindActionCreators(header, dispatch),
-        WriteActions: bindActionCreators(write, dispatch)
+        WriteActions: bindActionCreators(write, dispatch),
+        ModalActions: bindActionCreators(modal, dispatch),
     })
 )(WriteRoute);
 

@@ -2,7 +2,7 @@ import React from 'react';
 import CategoryItem from './CategoryItem';
 
 
-const Category = ({category}) => {
+const Category = ({category, onConfigure}) => {
 
     const categoryList = category.map(
         (item) => {
@@ -18,7 +18,7 @@ const Category = ({category}) => {
     )
     return (
         <div className="category">
-            <div className="edit">[수정]</div>
+            <div className="edit" onClick={onConfigure}>[수정]</div>
             {categoryList}
         </div>
     );

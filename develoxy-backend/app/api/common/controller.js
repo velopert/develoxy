@@ -11,7 +11,6 @@ module.exports = {
                 category
             };
         } catch (e) {
-            ctx.status = 400;
             console.log(e);
             ctx.status = 400;
             ctx.body = {

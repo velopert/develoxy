@@ -1,30 +1,54 @@
 import { createAction, handleActions } from 'redux-actions';
-import { Map } from 'immutable';
+import createPromiseAction from 'helpers/createPromiseAction';
+import pender from 'helpers/pender';
+
+import { Map, List } from 'immutable';
+
+import * as category from 'helpers/WebApi/user/category';
+
 
 /* actions */
-// const SOMETHING = "something/SOMETHING";
 const TITLE_CHANGE = 'write/TITLE_CHANGE';
 const MARKDOWN_CHANGE = 'write/MARKDOWN_CHANGE';
 const FULLSCREEN_SET = 'write/FULLSCREEN_SET';
 const SCROLL_PERCENTAGE_SET = 'write/SCROLL_PERCENTAGE_SET';
 const IS_LASTLINE_SET = 'write/IS_LASTLINE_SET';
 
+// Category
+const CATEGORY_GET = 'write/CATEGORY_GET';
+const CATEGORY_CREATE = 'write/CATEGORY_CREATE';
+const CATEGORY_MOVE = 'write/CATEGORY_MOVE';
+const CATEGORY_DELETE = 'write/CATEGORY_DELETE';
+const CATEGORY_RENAME = 'write/CATEGORY_RENAME';
+
+
 /* action creators */
-// export const something = createAction(SOMETHING);
 export const changeTitle = createAction(TITLE_CHANGE);
 export const changeMarkdown = createAction(MARKDOWN_CHANGE);
 export const setFullscreen = createAction(FULLSCREEN_SET);
 export const setScrollPercentage = createAction(SCROLL_PERCENTAGE_SET);
 export const setIsLastLine = createAction(IS_LASTLINE_SET);
 
+export const getCategory = createPromiseAction(CATEGORY_GET, category.getCategory);
+
+import { orderify } from 'helpers/category';
+
+
 /* initialState */
 const initialState = Map({
+    pending: Map({
+        getCategory: false
+    }),
     editor: Map({
         title: '',
         markdown: '',
         fullscreen: false,
         scrollPercentage: 0,
         isLastLine: false
+    }),
+    category: Map({
+        flat: List(),
+        tree: Map()
     })
 })
 
@@ -49,5 +73,16 @@ export default handleActions({
         } else {
             return state.setIn(['editor', 'isLastLine'], action.payload);
         }
-    }
+    },
+
+
+    ...pender({
+        type: CATEGORY_GET,
+        name: 'getCategory',
+        onFulfill: (state, action) => {
+            const { data } = action.payload;
+            const flat = List(orderify(data.category).map((item)=>Map(item)));
+            return state.setIn(['category', 'flat'], flat);
+        }
+    }),
 }, initialState);

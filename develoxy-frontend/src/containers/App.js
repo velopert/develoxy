@@ -27,8 +27,8 @@ class App extends Component {
         router: React.PropTypes.object
     }
 
-
-    componentDidMount() {
+    
+    componentWillMount() {
         const token = storage.get('token');
         const profile = storage.get('profile');
 
@@ -40,10 +40,8 @@ class App extends Component {
             // 스토어에 프로필 설정
             UserActions.setUserInfo(profile);
         }
-
-
-
     }
+    
 
     handleAuth = (provider) => {
         // 주어진 provider 로그인 페이지로 이동

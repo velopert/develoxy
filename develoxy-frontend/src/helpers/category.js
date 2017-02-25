@@ -86,7 +86,7 @@ export const treeize = (flat) => {
         return a.depth > b.depth;
     });
 
-    const root = { name: '카테고리' };
+    const root = { name: '카테고리', id: 0 };
 
     reference['0'] = root;
 
@@ -112,12 +112,7 @@ export const diff = (flat, nextFlat) => {
         
         // index가 바뀌었는지 확인
         if(nextFlat[key].index !== flat[key].index || nextFlat[key].parent !== flat[key].parent) {
-           return {
-                type: 'UPDATE',
-                id: flat[key].id,
-                index: nextFlat[key].index,
-                parent: nextFlat[key].parent
-           };
+           return key;
         }
     }
 }

@@ -9,6 +9,7 @@ const controller = require('./controller');
 //     ctx.body = 'something'
 // });
 
+router.get('/', controller.get);
 router.post('/', controller.create);
 router.put('/', controller.move);
 

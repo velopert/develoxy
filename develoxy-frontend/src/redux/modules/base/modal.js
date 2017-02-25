@@ -12,6 +12,9 @@ export const closeModal = createAction(MODAL_CLOSE);
 
 /* initialState */
 const initialState = Map({
+    category: Map({
+        open: false
+    }),
     login: Map({
         open: false,
     }),

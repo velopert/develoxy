@@ -2,6 +2,22 @@ const models = require('./../../../models/index');
 const Joi = require('joi');
 
 module.exports = {
+    get: async (ctx, next) => {
+        const userId = ctx.request.userId;
+        try {
+            const category = await models.Category.findByUserId(userId);
+
+            ctx.body = {
+                category
+            };
+        } catch (e) {
+            console.log(e);
+            ctx.status = 400;
+            ctx.body = {
+                message: 'error occurred'
+            };
+        }
+    },
     create: async (ctx, next) => {
 
         // 스키마 검사
