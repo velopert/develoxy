@@ -3,6 +3,7 @@ import showdown from 'showdown';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai-sublime.css';
 import $ from 'jquery';
+import DatePrint from 'components/Common/DatePrint';
 
 
 class Preview extends Component {
@@ -22,14 +23,14 @@ class Preview extends Component {
 
 
     componentDidMount() {
-        const { markdown, title } = this.props;
+        const { markdown } = this.props;
 
         const converter = new showdown.Converter({
             simpleLineBreaks: true
         });
         this.converter = converter;
 
-        const html = converter.makeHtml(`# ${title}\n` + markdown);
+        const html = converter.makeHtml(markdown);
 
         this.setState({
             html
@@ -46,7 +47,7 @@ class Preview extends Component {
         if(nextProps.markdown === this.props.markdown && nextProps.title === this.props.title) return;
 
         const { markdown, title } = nextProps;
-        const html = this.converter.makeHtml(`# ${title}\n` + markdown);
+        const html = this.converter.makeHtml(markdown);
         
         this.setState({
             html
@@ -97,11 +98,18 @@ class Preview extends Component {
 
     render() {
         const { createMarkup } = this;
+        const { title } = this.props;
 
         return (
             <div className="preview-wrapper">
-                <div className="preview" dangerouslySetInnerHTML={createMarkup()} 
-                    ref={ref=>{this.preview=ref}}></div>
+                <div className="preview">
+                    <div className="title">{title}</div>
+                    <div className="date"><DatePrint/></div>
+                    <div 
+                        className="md-preview" 
+                        dangerouslySetInnerHTML={createMarkup()} 
+                        ref={ref=>{this.preview=ref}}></div>
+                </div>
             </div>
         );
     }
