@@ -1,3 +1,21 @@
 .category {
     @import 'CategoryItem';
+
+    .edit {
+        position: absolute;
+        left: 5.5rem;
+        top: 0rem;
+        font-size: 0.85rem;
+        color: $oc-gray-6;
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+            color: $oc-pink-7;
+        }
+
+        &:active {
+            color: $oc-pink-8;
+        }
+    }
 }

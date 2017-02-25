@@ -18,6 +18,7 @@ const Category = ({category}) => {
     )
     return (
         <div className="category">
+            <div className="edit">[수정]</div>
             {categoryList}
         </div>
     );
