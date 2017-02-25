@@ -26,16 +26,7 @@ class TitleInput extends Component {
         return (
             <div className="title-input">
                 <div className="save-button">
-                    <Button.Group color="pink">
-                        <Button>임시저장</Button>
-                        <Dropdown floating button className='icon'>
-                        <Dropdown.Menu>
-                            <Dropdown.Item icon='edit' text='Edit Post' />
-                            <Dropdown.Item icon='delete' text='Remove Post' />
-                            <Dropdown.Item icon='hide' text='Hide Post' />
-                        </Dropdown.Menu>
-                        </Dropdown>
-                    </Button.Group>
+                    <Button color="pink">임시저장</Button>
                 </div>
                 <div className="input-wrapper">
                     <input type="text" placeholder="포스트 제목" onChange={handleChange}></input>

@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import Tree from 'react-ui-tree';
 import 'react-ui-tree/dist/react-ui-tree.css';
-import { flatten, diff } from 'helpers/category';
-
-const Category = ({module}) => {
-    return (
-        <div>
-            {module}
-            <button>삭제할테면 해봐</button>
-        </div>
-    );
-};
+import { flatten, diff, treeize, orderify } from 'helpers/category';
+import { Checkbox } from 'semantic-ui-react';
 
 
 class Test extends Component {
@@ -22,63 +14,91 @@ class Test extends Component {
 
     renderNode = (node) => {
         return (
-            <div>
-                {node.module}
-                <button onClick={()=>{this.onRemove(node.id)}}>삭제할테면 해봐</button>
-            </div>
+            <Checkbox label={node.name}/>
         );
 
     }
 
     state = { 
         tree: {
-            id: 1,
-            "module": "dev.log",
-            "children": [
-                {
-                    id: 2,
-                    "module": "Frontend",
-                    "children": [
-                        {
-                            id: 6,
-                            "module": "React"
-                        },
-                        {
-                            id: 7,
-                            "module": "Vue"
-                        }
-                    ]
-                },
-                {
-                    id: 3,
-                    "module": "Backend",
-                    "children": [
-                        {
-                            id: 4,
-                            "module": "Node.js"
-                        },
-                        {
-                            id:5,
-                            "module": "Mongodb"
-                        }
-                    ]
-                }
-            ]
+            
         }
     }
 
     componentDidMount() {
+        const category = [
+            {
+                "id": 2,
+                "name": "hello",
+                "parentId": 0,
+                "index": 0
+            }, {
+                "id": 3,
+                "name": "hello",
+                "parentId": 0,
+                "index": 1
+            }, {
+                "id": 4,
+                "name": "hello",
+                "parentId": 0,
+                "index": 2
+            }, {
+                "id": 5,
+                "name": "hello",
+                "parentId": 0,
+                "index": 3
+            }, {
+                "id": 6,
+                "name": "저기",
+                "parentId": 0,
+                "index": 4
+            }, {
+                "id": 7,
+                "name": "저기",
+                "parentId": 0,
+                "index": 5
+            }, {
+                "id": 10,
+                "name": "whatthe",
+                "parentId": 0,
+                "index": 6
+            }, {
+                "id": 9,
+                "name": "저기",
+                "parentId": 1,
+                "index": 0
+            }, {
+                "id": 8,
+                "name": "저기",
+                "parentId": 1,
+                "index": 1
+            }, {
+                "id": 1,
+                "name": "hello",
+                "parentId": 2,
+                "index": 0
+            }
+        ];
+
         this.setState({
-            flatTree: flatten(this.state.tree)
-        });
+            tree: treeize(category)
+        })
     }
+    
+
+    // componentDidMount() {
+    //     // this.setState({
+    //     //     flatTree: flatten(this.state.tree)
+    //     // });
+    // }
 
     handleChange = (tree) => {
-        console.log(diff(flatten(tree), this.state.flatTree));
-        this.setState({
-            tree,
-            flatTree: flatten(tree)
-        })
+        // console.log(diff(flatten(tree), this.state.flatTree));
+        // console.log(flatten(tree));
+        // this.setState({
+        //     tree,
+        //     flatTree: flatten(tree)
+        // })
     }
 
     render() {

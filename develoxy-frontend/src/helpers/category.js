@@ -16,8 +16,89 @@ export const flatten = (node, flat = {}, parent: 'root', index=0) => {
     return flat;
 }
 
-export const treefy = (flat) => {
-    
+
+export const orderify = (data) => {
+    const reference = {};
+
+    data.forEach(
+        (item) => {
+            reference[item.id.toString()] = item;
+        }
+    )
+
+    const keys = Object.keys(reference);
+
+    const converted = keys.map(
+        (key) => {
+            let item = reference[key];
+            let parent = reference[item.parentId.toString()];
+
+            item.depth = 0;
+
+            while(parent) {
+                item.depth++;
+                parent = reference[parent.parentId];
+            }
+
+            return item;
+        }
+    ).sort((a,b) => {
+        if(a.depth === b.depth) {
+            return a.index > b.index;
+        }
+        return a.depth > b.depth;
+    });
+
+    return converted;
+}
+
+
+export const treeize = (flat) => {
+
+    const reference = {};
+
+    flat.forEach(
+        (item) => {
+            reference[item.id.toString()] = item;
+        }
+    )
+
+    const keys = Object.keys(reference);
+
+    const converted = keys.map(
+        (key) => {
+            let item = reference[key];
+            let parent = reference[item.parentId.toString()];
+
+            item.depth = 0;
+
+            while(parent) {
+                item.depth++;
+                parent = reference[parent.parentId];
+            }
+
+            return item;
+        }
+    ).sort((a,b) => {
+        if(a.depth === b.depth) {
+            return a.index > b.index;
+        }
+        return a.depth > b.depth;
+    });
+
+    const root = { name: '카테고리' };
+
+    reference['0'] = root;
+
+    converted.forEach(
+        (item) => {
+            const parent = reference[item.parentId.toString()];
+            if(!parent.children) parent.children = [];
+            parent.children.push(item);
+        }
+    );
+
+    return root;
 }
 
 

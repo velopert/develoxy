@@ -5,15 +5,87 @@ import { bindActionCreators } from 'redux';
 import * as header from 'redux/modules/base/header';
 import * as write from 'redux/modules/write';
 
+import { orderify } from 'helpers/category';
+
 import Write, { Content, MarkdownEditor } from 'components/Write/Write';
+
 import Sidebar, { 
     SwitchButton,
     ImageUploadButton,
     Box,
     TagInput,
     TagContainer,
-    VisibilityOption
+    VisibilityOption,
+    Category
 } from 'components/Write/Sidebar/Sidebar';
+
+
+import { List, Map } from 'immutable';
+
+const mockData =  List(orderify([
+    {
+      "id": 2,
+      "name": "hello",
+      "parentId": 0,
+      "index": 0
+    },
+    {
+      "id": 3,
+      "name": "hello",
+      "parentId": 0,
+      "index": 1
+    },
+    {
+      "id": 4,
+      "name": "hello",
+      "parentId": 0,
+      "index": 2
+    },
+    {
+      "id": 5,
+      "name": "hello",
+      "parentId": 0,
+      "index": 3
+    },
+    {
+      "id": 6,
+      "name": "저기",
+      "parentId": 0,
+      "index": 4
+    },
+    {
+      "id": 7,
+      "name": "저기",
+      "parentId": 0,
+      "index": 5
+    },
+    {
+      "id": 10,
+      "name": "whatthe",
+      "parentId": 0,
+      "index": 6
+    },
+    {
+      "id": 9,
+      "name": "저기",
+      "parentId": 1,
+      "index": 0
+    },
+    {
+      "id": 8,
+      "name": "저기",
+      "parentId": 1,
+      "index": 1
+    },
+    {
+      "id": 1,
+      "name": "hello",
+      "parentId": 2,
+      "index": 0
+    }
+  ]).map(item=>Map(item)));
+
+console.log(mockData);
 
 class WriteRoute extends Component {
 
@@ -68,6 +140,9 @@ class WriteRoute extends Component {
                     </Box>
                     <Box title="공개 설정">
                         <VisibilityOption/>
+                    </Box>
+                    <Box title="카테고리">
+                        <Category category={mockData}/>
                     </Box>
                 </Sidebar>
                 <Content>

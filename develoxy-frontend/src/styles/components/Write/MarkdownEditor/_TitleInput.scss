@@ -5,13 +5,17 @@
     /*padding: 1rem;*/
     display: flex;
     flex-direction: row-reverse;
+    position: header;
+
 
     .save-button {
-        margin-right: 1rem;
         width: 9rem;
         display: flex;
-        align-items: center;
-        
+        align-items: center;     
+        .button {
+            width: 100%;
+        }   
+        padding-right: 1rem;
     }
 
     .input-wrapper {

@@ -23,6 +23,16 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         }
     }, {
+        indexes: [
+            {
+                fields: ['parent_id'],
+                using: 'BTREE'
+            },
+            {
+                fields: ['index'],
+                using: 'BTREE'
+            }
+        ],
         tableName: 'category',
         underscored: true,
         classMethods: {
@@ -37,6 +47,19 @@ module.exports = function(sequelize, DataTypes) {
                     where: {
                         parentId
                     }
+                });
+            },
+            findByUserId: function(userId) {
+                return Category.findAll({
+                    where: {
+                        userId
+                    },
+                    raw: true,
+                    order: [
+                        ['parentId', 'ASC'],
+                        ['index', 'ASC']
+                    ],
+                    attributes: { exclude: ['created_at', 'updated_at', 'userId'] }
                 });
             }
         },
