@@ -15,7 +15,8 @@ module.exports = function(sequelize, DataTypes) {
         parentId: {
             type: DataTypes.INTEGER,
             allowNull: true,
-            field: 'parent_id'
+            field: 'parent_id',
+            defaultValue: 0
         },
         index: {
             type: DataTypes.INTEGER,
@@ -28,8 +29,15 @@ module.exports = function(sequelize, DataTypes) {
             countBaseLeaves: function(userId) {
                 return Category.count({where: {
                     userId,
-                    parentId: null
+                    parentId: 0
                 }});
+            },
+            countChildren: function(parentId) {
+                return Category.count({
+                    where: {
+                        parentId
+                    }
+                });
             }
         },
         instanceMethods: {

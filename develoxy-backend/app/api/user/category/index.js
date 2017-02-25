@@ -10,6 +10,7 @@ const controller = require('./controller');
 // });
 
 router.post('/', controller.create);
+router.put('/', controller.move);
 
 
 module.exports = router;
