@@ -1,9 +1,14 @@
 import React from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const Sidebar = ({children}) => {
     return (
         <div className="sidebar">
-            {children}
+            <Scrollbars style={{height: '100vh'}}>
+                <div style={{padding:'1rem'}}>
+                    {children}
+                </div>
+            </Scrollbars>
         </div>
     );
 };
