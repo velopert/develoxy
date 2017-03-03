@@ -6,11 +6,25 @@ import { treeize } from 'helpers/category';
 import CategoryTree from './CategoryTree';
 import Disable from './Disable';
 import { Segment } from 'semantic-ui-react'
+import ActionSection from './ActionSection';
 
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group' 
 
-const CategoryModal = ({onHide, visible, category, onMove, onRevert, waiting, onError, error}) => {
+const CategoryModal = ({
+        onHide,
+        visible,
+        category,
+        onMove,
+        onRevert,
+        waiting,
+        activeNode,
+        onError,
+        error,
+        onSetOption,
+        selected,
+        onDelete
+    }) => {
 
     const tree = treeize(category.toJS());
 
@@ -34,7 +48,8 @@ const CategoryModal = ({onHide, visible, category, onMove, onRevert, waiting, on
                 >
                     { waiting && <Disable/> }
                 </ReactCSSTransitionGroup>
-                <CategoryTree tree={tree} onMove={onMove} onRevert={onRevert} onError={onError} error={error}/>
+                <CategoryTree tree={tree} onMove={onMove} onRevert={onRevert} onError={onError} error={error} onSetOption={onSetOption}/>
+                <ActionSection node={selected} onDelete={onDelete} onSetOption={onSetOption}/>
                 {error && <Segment inverted color="red">{error}</Segment> }
             </div>
             <div className="footer">

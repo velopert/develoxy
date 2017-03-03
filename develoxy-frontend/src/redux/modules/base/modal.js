@@ -5,6 +5,7 @@ import { Map } from 'immutable';
 const MODAL_OPEN = "base/modal/MODAL_OPEN";
 const MODAL_CLOSE = "base/modal/MODAL_CLOSE";
 const ERROR_SET = "base/modal/ERROR_SET";
+const OPTION_SET = "base/modal/OPTION_SET";
 
 
 
@@ -12,6 +13,7 @@ const ERROR_SET = "base/modal/ERROR_SET";
 export const openModal = createAction(MODAL_OPEN);
 export const closeModal = createAction(MODAL_CLOSE);
 export const setError = createAction(ERROR_SET);
+export const setOption = createAction(OPTION_SET);
 
 
 
@@ -19,7 +21,8 @@ export const setError = createAction(ERROR_SET);
 const initialState = Map({
     category: Map({
         open: false,
-        error: null
+        error: null,
+        selected: null
     }),
     login: Map({
         open: false,
@@ -63,5 +66,9 @@ export default handleActions({
         const { modalName, error } = action.payload;
 
         return state.setIn([modalName, 'error'], error);
+    },
+    [OPTION_SET]: (state, action) => {
+        const { modalName, optionName, value } = action.payload;
+        return state.setIn([modalName, optionName], typeof value === 'object' ? Map(value) : value);
     }
 }, initialState);

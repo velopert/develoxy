@@ -18,7 +18,6 @@ const IS_LASTLINE_SET = 'write/IS_LASTLINE_SET';
 const CATEGORY_GET = 'write/CATEGORY_GET';
 const CATEGORY_CREATE = 'write/CATEGORY_CREATE';
 const CATEGORY_MOVE = 'write/CATEGORY_MOVE';
-const CATEGORY_REVERT = 'write/CATEGORY_REVERT';
 const CATEGORY_DELETE = 'write/CATEGORY_DELETE';
 const CATEGORY_RENAME = 'write/CATEGORY_RENAME';
 
@@ -32,7 +31,8 @@ export const setIsLastLine = createAction(IS_LASTLINE_SET);
 
 export const getCategory = createPromiseAction(CATEGORY_GET, category.getCategory);
 export const moveCategory = createPromiseAction(CATEGORY_MOVE, category.moveCategory);
-export const revertCategory = createAction(CATEGORY_REVERT);
+export const deleteCategory = createPromiseAction(CATEGORY_DELETE, category.deleteCategory);
+
 
 import { orderify, treeize, flatten } from 'helpers/category';
 
@@ -41,7 +41,8 @@ import { orderify, treeize, flatten } from 'helpers/category';
 const initialState = Map({
     pending: Map({
         getCategory: false,
-        moveCategory: false
+        moveCategory: false,
+        deleteCategory: false
     }),
     editor: Map({
         title: '',
@@ -103,8 +104,14 @@ export default handleActions({
         }
     }),
 
-    [CATEGORY_REVERT]: (state, action) => {
-        const flatCpy = state.getIn(['category', 'flat']).merge();
-        return state.setIn(['category', 'flat'], flatCpy);
-    }
+    ...pender({
+        type: CATEGORY_DELETE,
+        name: 'deleteCategory',
+        onFulfill: (state, action) => {
+            const { data } = action.payload;
+            // const flat = List(orderify(data.category).map((item)=>Map(item)));
+            const flat = List(flatten(treeize(orderify(data.category))).map((item)=>Map(item)));
+            return state.setIn(['category', 'flat'], flat);
+        }
+    })
 }, initialState);

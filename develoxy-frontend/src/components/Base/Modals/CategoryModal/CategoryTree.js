@@ -15,7 +15,8 @@ class CategoryTree extends Component {
     state = {
         node: null,
         tree: null,
-        prevTree: null
+        prevTree: null,
+        activeNode: null
     }
 
     renderNode = (node) => {
@@ -25,7 +26,7 @@ class CategoryTree extends Component {
         //     </div>
         // );
         return (
-            <CategoryItem onMouseDown={()=>{this.handleClickNode(node)}}>
+            <CategoryItem active={this.state.activeNode && node.id===this.state.activeNode.id} onMouseDown={()=>{this.handleClickNode(node)}} node={node}>
                 {node.name}
             </CategoryItem>
         )
@@ -94,15 +95,30 @@ class CategoryTree extends Component {
 
     handleClickNode = (node) => {
 
-        const { error, onError } = this.props;
+        const { error, onError, onSetOption } = this.props;
 
         if(error) {
             onError(null);
         }
 
+        if(node.id === 0) return;
+
+        // // 선택이 이미 되어있으면 풀기
+        const selected = this.state.activeNode && node.id===this.state.activeNode.id ? undefined : node;
+
+        // redux store 에 담기
+
+        // state 에도 담기
         this.setState({
-            node
-        })
+            node,
+            activeNode: selected
+        });
+
+        onSetOption({
+            optionName: 'selected',
+            value: selected
+        });
+
     }
 
     render() {

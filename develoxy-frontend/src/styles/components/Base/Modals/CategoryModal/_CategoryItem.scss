@@ -1,12 +1,43 @@
 .category-item {
-    padding: 0.15rem;
-
+    padding: 0.2rem;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    padding-left: 0.5rem;
     .name {
         color: $oc-gray-7;
-        font-weight: 500;
-        &:hover {
+    }
+
+    .actions {
+        display: none;
+        position: relative;
+    }
+
+    &.root {
+        .name {
             color: $oc-gray-9;
-            font-weight: 600;
+            font-weight: 500;
+        }
+        cursor: default;
+    }
+
+    &.node {
+        &:hover {
+            .name {
+                color: $oc-gray-9;
+            }
+            background: $oc-gray-0;
+        }
+    }
+
+    &.active {
+        background: $oc-gray-2;
+        .name {
+            color: $oc-gray-9;
+            font-weight: 500;
+        }
+        
+        &:hover {
+            background: $oc-gray-2;
         }
     }
 }

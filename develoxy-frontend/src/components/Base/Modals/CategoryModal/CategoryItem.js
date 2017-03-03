@@ -1,8 +1,8 @@
 import React from 'react';
 
-const CategoryItem = ({onMouseDown, children}) => {
+const CategoryItem = ({onMouseDown, children, node, active}) => {
     return (
-        <div className="category-item" onMouseDown={onMouseDown}>
+        <div className={`category-item ${active ? 'active' : ''} ${node.id !== 0 ? 'node':'root'}`} onMouseDown={onMouseDown}>
             <span className="name">{children}</span>
         </div>
     );

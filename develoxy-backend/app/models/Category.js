@@ -91,6 +91,10 @@ module.exports = function(sequelize, DataTypes) {
             setParentId: function(parentId) {
                 this.parentId = parentId;
                 return this.save();
+            },
+            changeName: function(name) {
+                this.name = name;
+                return this.save();
             }
         }
     });

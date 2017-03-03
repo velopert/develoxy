@@ -363,5 +363,65 @@ module.exports = {
             };
         }
         
-    } 
+    },
+
+    change: async (ctx, next) => {
+        const userId = ctx.request.userId;
+
+        const schema = {
+            id: Joi.number().required(),
+           name: Joi.string().required()
+        };
+
+        const validate = Joi.validate(ctx.request.body, schema);
+        
+        if(validate.error) {
+            ctx.status = 400;
+            ctx.body = {
+                message: 'validation failure'
+            }
+            return;
+        }
+        
+        const { id, name } = ctx.request.body;
+
+        try {
+            const category = await models.Category.findById(id);
+
+            // 카테고리 존재유무 체크
+            if(!category) {
+                ctx.status = 403;
+                ctx.body = {
+                    message: 'not found'
+                }
+                return;
+            }
+
+            // 카테고리 본인껀지 체크
+            if(category.userId !== userId) {
+                ctx.status = 401;
+                ctx.body = {
+                    message: 'different userId'
+                }
+                return;
+            }
+
+            await category.changeName(name);
+
+            const result = await models.Category.findByUserId(userId);
+
+            ctx.body = {
+                category: result
+            };
+
+        } catch(e) {
+            ctx.status = 400;
+            ctx.body = {
+                message: 'error occurred'
+            };
+        }
+
+
+
+    }
 }

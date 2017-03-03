@@ -43,9 +43,8 @@ class WriteRoute extends Component {
             move: ({parentId, index, id}) => {
                 WriteActions.moveCategory({parentId, index, id})
             },
-            revert: () => {
-                console.log('what?');
-                WriteActions.revertCategory();
+            delete: (id) => {
+                WriteActions.deleteCategory(id);
             }
         }
     })()
@@ -83,6 +82,9 @@ class WriteRoute extends Component {
             },
             setError: (modalName) => {
                 return (error) => ModalActions.setError({modalName, error});
+            },
+            setOption: (modalName) => {
+                return ({optionName, value}) => ModalActions.setOption({modalName, optionName, value});
             }
         }
     })()
@@ -143,9 +145,15 @@ class WriteRoute extends Component {
                     category={write.getIn(['category', 'flat'])}
                     onMove={handleCategory.move}
                     onRevert={handleCategory.revert}
-                    waiting={write.getIn(['pending', 'moveCategory'])}
+                    waiting={
+                        write.getIn(['pending', 'moveCategory']) 
+                        || write.getIn(['pending', 'deleteCategory'])
+                    }
                     error={modal.getIn(['category', 'error'])}
                     onError={handleModal.setError('category')}
+                    onSetOption={handleModal.setOption('category')}
+                    selected={modal.getIn(['category', 'selected'])}
+                    onDelete={handleCategory.delete}
                 />
 
             </Write>

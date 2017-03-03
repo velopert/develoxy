@@ -12,6 +12,10 @@ export const moveCategory = ({id, parentId, index}) => {
     return axios.put('/api/user/category', {id, parentId, index});
 }
 
+export const deleteCategory = (id) => {
+    return axios.delete('/api/user/category/' + id)
+}
+
 
 // export const checkUsername = (username) => {
 //     return axios.get(`/api/auth/check-username/${username}`);
