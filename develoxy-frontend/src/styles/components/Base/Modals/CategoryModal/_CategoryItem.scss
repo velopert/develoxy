@@ -1,0 +1,12 @@
+.category-item {
+    padding: 0.15rem;
+
+    .name {
+        color: $oc-gray-7;
+        font-weight: 500;
+        &:hover {
+            color: $oc-gray-9;
+            font-weight: 600;
+        }
+    }
+}

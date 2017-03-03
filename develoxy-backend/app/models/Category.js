@@ -42,10 +42,11 @@ module.exports = function(sequelize, DataTypes) {
                     parentId: 0
                 }});
             },
-            countChildren: function(parentId) {
+            countChildren: function({parentId, userId}) {
                 return Category.count({
                     where: {
-                        parentId
+                        parentId,
+                        userId
                     }
                 });
             },

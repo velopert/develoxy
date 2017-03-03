@@ -1,4 +1,6 @@
 .category-modal {
+    @import 'Disable';
+    @import 'CategoryItem';
     
     .title-bar {
         background-color: $oc-gray-7;
@@ -11,6 +13,14 @@
     .contents {
         padding: 1rem;
         background: white;
+        position: relative;
+
+        .fadeIn, .fadeOut {
+            -webkit-animation-duration: 0.3s;
+            animation-duration: 0.3s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
     }
     
     .footer {

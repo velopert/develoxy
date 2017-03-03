@@ -107,28 +107,32 @@ module.exports = {
                     }
                 });
                 
-                const parent = await models.Category.findById(parentId);
+                // parentId 가 0 임
+                if(parentId !== 0) {
+                    const parent = await models.Category.findById(parentId);
 
-                // 존재하지 않는 부모
-                if(!parent) {
-                    ctx.status = 400;
-                    ctx.body = {
-                        message: 'invalid parent'
+                    // 존재하지 않는 부모
+                    if(!parent) {
+                        ctx.status = 400;
+                        ctx.body = {
+                            message: 'invalid parent'
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                // 부모 카테고리가 남의꺼
-                if(parent.userId !== userId) {
-                    ctx.status = 401;
-                    ctx.body = {
-                        message: 'parent has different userId'
+                    // 부모 카테고리가 남의꺼
+                    if(parent.userId !== userId) {
+                        ctx.status = 401;
+                        ctx.body = {
+                            message: 'parent has different userId'
+                        }
+                        return;
                     }
-                    return;
                 }
+                
 
                 // 자식 갯수를 센다
-                const childrenCount = await models.Category.countChildren(parentId);
+                const childrenCount = await models.Category.countChildren({parentId, userId});
 
                 // index 가 자식 수 보다 많으면 에러
                 if(index>childrenCount) {
@@ -228,9 +232,12 @@ module.exports = {
             prevInfo.index = index;
             prevInfo.parentId = parentId;
             await prevInfo.save();
+
+            const category = await models.Category.findByUserId(userId);
+
             ctx.body = {
-                success: true
-            }
+                category
+            };
 
         } catch (e) {
             console.log(e);

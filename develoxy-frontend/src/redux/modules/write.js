@@ -18,6 +18,7 @@ const IS_LASTLINE_SET = 'write/IS_LASTLINE_SET';
 const CATEGORY_GET = 'write/CATEGORY_GET';
 const CATEGORY_CREATE = 'write/CATEGORY_CREATE';
 const CATEGORY_MOVE = 'write/CATEGORY_MOVE';
+const CATEGORY_REVERT = 'write/CATEGORY_REVERT';
 const CATEGORY_DELETE = 'write/CATEGORY_DELETE';
 const CATEGORY_RENAME = 'write/CATEGORY_RENAME';
 
@@ -30,14 +31,17 @@ export const setScrollPercentage = createAction(SCROLL_PERCENTAGE_SET);
 export const setIsLastLine = createAction(IS_LASTLINE_SET);
 
 export const getCategory = createPromiseAction(CATEGORY_GET, category.getCategory);
+export const moveCategory = createPromiseAction(CATEGORY_MOVE, category.moveCategory);
+export const revertCategory = createAction(CATEGORY_REVERT);
 
-import { orderify } from 'helpers/category';
+import { orderify, treeize, flatten } from 'helpers/category';
 
 
 /* initialState */
 const initialState = Map({
     pending: Map({
-        getCategory: false
+        getCategory: false,
+        moveCategory: false
     }),
     editor: Map({
         title: '',
@@ -81,8 +85,26 @@ export default handleActions({
         name: 'getCategory',
         onFulfill: (state, action) => {
             const { data } = action.payload;
-            const flat = List(orderify(data.category).map((item)=>Map(item)));
+            // const flat = List(orderify(data.category).map((item)=>Map(item)));
+            const flat = List(flatten(treeize(orderify(data.category))).map((item)=>Map(item)));
             return state.setIn(['category', 'flat'], flat);
         }
     }),
+
+
+    ...pender({
+        type: CATEGORY_MOVE,
+        name: 'moveCategory',
+        onFulfill: (state, action) => {
+            const { data } = action.payload;
+            // const flat = List(orderify(data.category).map((item)=>Map(item)));
+            const flat = List(flatten(treeize(orderify(data.category))).map((item)=>Map(item)));
+            return state.setIn(['category', 'flat'], flat);
+        }
+    }),
+
+    [CATEGORY_REVERT]: (state, action) => {
+        const flatCpy = state.getIn(['category', 'flat']).merge();
+        return state.setIn(['category', 'flat'], flatCpy);
+    }
 }, initialState);

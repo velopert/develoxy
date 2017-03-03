@@ -1,9 +1,11 @@
 import React from 'react';
 import CategoryItem from './CategoryItem';
-
+import { treeize, flatten } from 'helpers/category';
 
 const Category = ({category, onConfigure}) => {
 
+    
+    
     const categoryList = category.map(
         (item) => {
             return (
@@ -15,7 +17,11 @@ const Category = ({category, onConfigure}) => {
                 />
             )
         }
-    )
+    );
+
+    // const ordered = flatten(treeize(category.toJS()));
+    // console.log(ordered);
+
     return (
         <div className="category">
             <div className="edit" onClick={onConfigure}>[수정]</div>

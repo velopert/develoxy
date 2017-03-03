@@ -4,9 +4,11 @@ import { Icon, Button } from 'semantic-ui-react';
 
 import { treeize } from 'helpers/category';
 import CategoryTree from './CategoryTree';
+import Disable from './Disable';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group' 
 
-const CategoryModal = ({onHide, visible,category}) => {
+const CategoryModal = ({onHide, visible, category, onMove, onRevert, waiting}) => {
 
     const tree = treeize(category.toJS());
 
@@ -20,7 +22,17 @@ const CategoryModal = ({onHide, visible,category}) => {
                 <Icon name="setting" fitted/>
             </div>
             <div className="contents">
-                <CategoryTree tree={tree}/>
+                <ReactCSSTransitionGroup
+                    transitionName={{
+                        enter: 'fadeIn',
+                        leave: 'fadeOut'
+                    }}
+                    transitionEnterTimeout={300}
+                    transitionLeaveTimeout={300}
+                >
+                    { waiting && <Disable/> }
+                </ReactCSSTransitionGroup>
+                <CategoryTree tree={tree} onMove={onMove} onRevert={onRevert}/>
             </div>
             <div className="footer">
                 <Button onClick={onHide}>닫기</Button>

@@ -30,9 +30,25 @@ class WriteRoute extends Component {
 
 
     componentDidMount() {
-        const {WriteActions} = this.props;
-        WriteActions.getCategory();
+        this.handleCategory.get();
     }
+
+    handleCategory = (() => {
+        const { WriteActions } = this.props;
+
+        return {
+            get: () => {
+                WriteActions.getCategory();
+            },
+            move: ({parentId, index, id}) => {
+                WriteActions.moveCategory({parentId, index, id})
+            },
+            revert: () => {
+                console.log('what?');
+                WriteActions.revertCategory();
+            }
+        }
+    })()
     
     handleEditor = (() =>{
         const { WriteActions } = this.props;
@@ -83,7 +99,7 @@ class WriteRoute extends Component {
     
     render() {
 
-        const { handleEditor, handleModal } = this;
+        const { handleEditor, handleModal, handleCategory } = this;
         const { status: { write, modal } } = this.props;
 
         return (
@@ -122,6 +138,9 @@ class WriteRoute extends Component {
                     visible={modal.getIn(['category', 'open'])} 
                     onHide={()=>handleModal.close('category')}
                     category={write.getIn(['category', 'flat'])}
+                    onMove={handleCategory.move}
+                    onRevert={handleCategory.revert}
+                    waiting={write.getIn(['pending', 'moveCategory'])}
                 />
 
             </Write>

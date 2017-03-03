@@ -1,21 +1,47 @@
-export const flatten = (node, flat = {}, parent: 'root', index=0) => {
-    flat[node.id] = {
-        name: node.module,
-        parent,
+export const flatten = (node, flat = [], parent: 'root', index=0, depth=0) => {
+
+    const item = {
+        name: node.name,
+        parentId: node.parentId,
+        index: node.index,
         id: node.id.toString(),
-        index
+        depth
     };
+
+    if(node.name !== '카테고리') {
+        flat.push(item);
+    }
+    
 
     if(node.children) {
         node.children.forEach(
             (child ,i) => {
-                flatten(child, flat, node.id, i);
+                flatten(child, flat, node.id, i, depth + 1);
             }
         );
     }
     return flat;
 }
 
+export const flattenWithId = (node, flat = [], parent: 'root', index=0, depth=0) => {
+    flat[node.id] = {
+        name: node.name,
+        parentId: node.parentId,
+        id: node.id.toString(),
+        parent,
+        index,
+        depth
+    };
+
+    if(node.children) {
+        node.children.forEach(
+            (child ,i) => {
+                flattenWithId(child, flat, node.id, i, depth + 1);
+            }
+        );
+    }
+    return flat;
+}
 
 export const orderify = (data) => {
     const reference = {};
@@ -43,11 +69,12 @@ export const orderify = (data) => {
             return item;
         }
     ).sort((a,b) => {
+
         if(a.depth === b.depth) {
             return a.index > b.index;
         }
         return a.depth > b.depth;
-    });
+    })
 
     return converted;
 }
