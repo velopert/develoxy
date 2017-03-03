@@ -4,16 +4,22 @@ import { Map } from 'immutable';
 /* actions */
 const MODAL_OPEN = "base/modal/MODAL_OPEN";
 const MODAL_CLOSE = "base/modal/MODAL_CLOSE";
+const ERROR_SET = "base/modal/ERROR_SET";
+
 
 
 /* action creators */
 export const openModal = createAction(MODAL_OPEN);
 export const closeModal = createAction(MODAL_CLOSE);
+export const setError = createAction(ERROR_SET);
+
+
 
 /* initialState */
 const initialState = Map({
     category: Map({
-        open: false
+        open: false,
+        error: null
     }),
     login: Map({
         open: false,
@@ -23,6 +29,7 @@ const initialState = Map({
         token: null,
         provider: null,
         existingProvider: null,
+
     })
 })
 
@@ -37,14 +44,24 @@ export default handleActions({
         */
         const { modalName, data } = action.payload;
 
-        return state.mergeIn([modalName], {
+        // 모달 열을때마다 초기화
+
+        const modal = initialState.get(modalName).merge({
             open: true,
             ...data
         });
+
+        return state.set(modalName, modal);
     },
     [MODAL_CLOSE]: (state, action) => {
         // modalName 모달을 숨긴다
         const modalName = action.payload;
         return state.setIn([modalName, 'open'], false);
+    },
+    [ERROR_SET]: (state, action) => {
+        // 에러 값을 설정한다
+        const { modalName, error } = action.payload;
+
+        return state.setIn([modalName, 'error'], error);
     }
 }, initialState);

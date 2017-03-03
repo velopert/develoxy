@@ -55,6 +55,8 @@ class CategoryTree extends Component {
         // 맨 위 아이템을 움직일경우
         if(index === undefined) return;
 
+        const { onError } = this.props;
+
         const flat = flattenWithId(tree);
 
         const nextIndex = flat[id].index;
@@ -65,13 +67,12 @@ class CategoryTree extends Component {
             this.setState({
                 tree: cloneDeep(this.state.prevTree)
             });
-            this.forceUpdate();
+            
+            onError('카테고리 최고 깊이에 도달했습니다.');
             return;
         }
 
         if(nextIndex !== index || nextParentId !== parentId) {
-            console.log(flat[id]);
-
             this.props.onMove({
                 id: id,
                 index: nextIndex,
@@ -88,9 +89,15 @@ class CategoryTree extends Component {
     }
 
     handleClickNode = (node) => {
+
+        const { error, onError } = this.props;
+
+        if(error) {
+            onError(null);
+        }
+
         this.setState({
             node
-
         })
     }
 

@@ -80,6 +80,9 @@ class WriteRoute extends Component {
             },
             close: (modalName) => {
                 ModalActions.closeModal(modalName);
+            },
+            setError: (modalName) => {
+                return (error) => ModalActions.setError({modalName, error});
             }
         }
     })()
@@ -141,6 +144,8 @@ class WriteRoute extends Component {
                     onMove={handleCategory.move}
                     onRevert={handleCategory.revert}
                     waiting={write.getIn(['pending', 'moveCategory'])}
+                    error={modal.getIn(['category', 'error'])}
+                    onError={handleModal.setError('category')}
                 />
 
             </Write>
