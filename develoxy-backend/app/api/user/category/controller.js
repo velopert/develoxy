@@ -73,7 +73,6 @@ module.exports = {
         const validate = Joi.validate(ctx.request.body, schema);
         
         if(validate.error) {
-            console.log(validate.error)
             ctx.status = 400;
             ctx.body = {
                 message: 'validation failure'
@@ -86,6 +85,15 @@ module.exports = {
 
             // 이전 정보 불러오기
             const prevInfo = await models.Category.findById(id);
+
+            // 존재하지 않음
+            if(!prevInfo) {
+                ctx.status = 403;
+                ctx.body = {
+                    message: 'not found'
+                }
+                return;
+            }
 
             if(prevInfo.userId !== userId) {
             // 본인의 카테고리가 아님
@@ -246,5 +254,114 @@ module.exports = {
                 message: 'error occurred'
             };
         }
-    }
+    },
+    delete: async (ctx, next) => {
+        const userId = ctx.request.userId;
+
+        // 스키마 검사
+        const schema = { 
+            id: Joi.number().required() 
+        };
+
+        const id = ctx.params.id;
+
+        const validate = Joi.validate({
+            id
+        }, schema);
+        
+
+        if(validate.error) {
+            ctx.status = 400;
+            ctx.body = {
+                message: 'validation failure'
+            }
+            return;
+        }
+
+        // 해당 카테고리 가져오기
+        try {
+            const category = await models.Category.findById(id);
+
+            // 카테고리 존재유무 체크
+            if(!category) {
+                ctx.status = 403;
+                ctx.body = {
+                    message: 'not found'
+                }
+                return;
+            }
+
+            // 카테고리 본인껀지 체크
+            if(category.userId !== userId) {
+                ctx.status = 401;
+                ctx.body = {
+                    message: 'different userId'
+                }
+                return;
+            }
+
+            const { parentId, index } = category;
+
+            // 자식들이 있다면,  자기 자신의 자식들을 자신의 parent 로 설정
+
+            const children = await models.Category.findByParentId(id);
+            
+            const count = await models.Category.countChildren({
+                userId,
+                parentId
+            });
+
+            // parentId 와 index 를 바꾼다
+            // index 는 parent 의 자식 count + i 번째
+            // 즉 기존 카테고리의 하단에 위치하게 된다는 말.
+
+            if(children.length > 0) {
+                const p = children.map(
+                    (child, i) => { 
+                        child.parentId = parentId;
+                        child.index = count + i;
+                        return child.save();
+                    }
+                );
+
+                // 다 기다린다.
+                await Promise.all(p);
+            }
+
+            // 자기 하단에 카테고리 
+            const itemsBelow = await models.Category.findAll({
+                where: {
+                    parentId: parentId,
+                    index: { $gt: index }
+                }
+            });
+
+            if(itemsBelow.length > 0) {
+                // 위로 올린다
+                const p = itemsBelow.map(
+                    item => item.moveUp()
+                );
+
+                // 다 기다린다
+                await Promise.all(p);
+            }
+
+            // 마지막으로, 삭제
+            await category.destroy();
+
+
+            const result = await models.Category.findByUserId(userId);
+
+            ctx.body = {
+                category: result
+            };
+
+        } catch(e) {
+            ctx.status = 400;
+            ctx.body = {
+                message: 'error occurred'
+            };
+        }
+        
+    } 
 }

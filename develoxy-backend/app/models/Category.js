@@ -62,6 +62,16 @@ module.exports = function(sequelize, DataTypes) {
                     ],
                     attributes: { exclude: ['created_at', 'updated_at', 'userId'] }
                 });
+            },
+            findByParentId: function(parentId) {
+                return Category.findAll({
+                    where: {
+                        parentId
+                    },
+                    order: [
+                        ['index', 'ASC']
+                    ]
+                });
             }
         },
         instanceMethods: {
@@ -76,6 +86,10 @@ module.exports = function(sequelize, DataTypes) {
             },
             moveDown: function() {
                 this.index = this.index + 1;
+                return this.save();
+            },
+            setParentId: function(parentId) {
+                this.parentId = parentId;
                 return this.save();
             }
         }

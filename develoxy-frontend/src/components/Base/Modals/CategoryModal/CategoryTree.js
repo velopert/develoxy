@@ -47,44 +47,48 @@ class CategoryTree extends Component {
     
 
     handleChange = (tree) => {
-        // 선택된 아이템 없음 (카테고리 접기)
-        if(!this.state.node) return;
+        try {
+            // 선택된 아이템 없음 (카테고리 접기)
+            if(!this.state.node) return;
 
-        const { id, index, parentId } = this.state.node;
+            const { id, index, parentId } = this.state.node;
 
-        // 맨 위 아이템을 움직일경우
-        if(index === undefined) return;
+            // 맨 위 아이템을 움직일경우
+            if(index === undefined) return;
 
-        const { onError } = this.props;
+            const { onError } = this.props;
 
-        const flat = flattenWithId(tree);
+            const flat = flattenWithId(tree);
 
-        const nextIndex = flat[id].index;
-        const nextParentId = parseInt(flat[id].parent, 10);
-        
-        if(flat[id].depth === 4) {
-            // 취소
-            this.setState({
-                tree: cloneDeep(this.state.prevTree)
-            });
+            const nextIndex = flat[id].index;
+            const nextParentId = parseInt(flat[id].parent, 10);
             
-            onError('카테고리 최고 깊이에 도달했습니다.');
-            return;
-        }
+            if(flat[id].depth === 4) {
+                // 취소
+                this.setState({
+                    tree: cloneDeep(this.state.prevTree)
+                });
+                
+                onError('카테고리 최고 깊이에 도달했습니다.');
+                return;
+            }
 
-        if(nextIndex !== index || nextParentId !== parentId) {
-            this.props.onMove({
-                id: id,
-                index: nextIndex,
-                parentId: nextParentId
-            });
-            this.setState({
-                node: undefined
-            });
-        } else {
-            this.setState({
-                node: undefined
-            });
+            if(nextIndex !== index || nextParentId !== parentId) {
+                this.props.onMove({
+                    id: id,
+                    index: nextIndex,
+                    parentId: nextParentId
+                });
+                this.setState({
+                    node: undefined
+                });
+            } else {
+                this.setState({
+                    node: undefined
+                });
+            }
+        } catch (e) {
+            this.forceUpdate();
         }
     }
 
@@ -106,7 +110,7 @@ class CategoryTree extends Component {
 
         return (
             <Tree
-                paddingLeft={10}
+                paddingLeft={20}
                 tree={this.state.tree}
                 renderNode={this.renderNode}
                 onChange={this.handleChange}

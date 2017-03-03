@@ -12,6 +12,8 @@ const controller = require('./controller');
 router.get('/', controller.get);
 router.post('/', controller.create);
 router.put('/', controller.move);
+router.delete('/:id', controller.delete);
+
 
 
 module.exports = router;

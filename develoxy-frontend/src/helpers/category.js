@@ -71,9 +71,9 @@ export const orderify = (data) => {
     ).sort((a,b) => {
 
         if(a.depth === b.depth) {
-            return a.index > b.index;
+            return a.index - b.index;
         }
-        return a.depth > b.depth;
+        return a.depth - b.depth;
     })
 
     return converted;
@@ -108,9 +108,9 @@ export const treeize = (flat) => {
         }
     ).sort((a,b) => {
         if(a.depth === b.depth) {
-            return a.index > b.index;
+            return a.index - b.index;
         }
-        return a.depth > b.depth;
+        return a.depth - b.depth;
     });
 
     const root = { name: '카테고리', id: 0 };
