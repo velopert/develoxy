@@ -40,16 +40,20 @@ module.exports = {
         try {
             const count = await models.Category.countBaseLeaves(userId);
 
-            const result = await models.Category.create({
+            await models.Category.create({
                 name,
                 userId,
                 index: count,
             });
 
             ctx.status = 201;
+            
+            const result = await models.Category.findByUserId(userId);
+
             ctx.body = {
-                id: result.id
+                category: result
             };
+            
         } catch (e) {
             console.log(e);
             ctx.status = 400;

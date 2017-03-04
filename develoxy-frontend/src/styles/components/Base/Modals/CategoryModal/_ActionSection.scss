@@ -1,8 +1,13 @@
 .action-section {
-    margin-top: 1rem;
-    border-top: 1px solid $oc-gray-2;
+    // margin-top: 1rem;
     padding-top: 1rem;
+    .add-category {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
     .action-container {
+        border-top: 1px solid $oc-gray-3;
+        padding-top: 1rem;
         .input {
             display: inline-block;
             width: 60%;
@@ -17,6 +22,8 @@
         }
     }
     .not-selected {
+        border-top: 1px solid $oc-gray-3;
+        padding-top: 1rem;
         text-align: center;
         color: $oc-gray-6;
     }

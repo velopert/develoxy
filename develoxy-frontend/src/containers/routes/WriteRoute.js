@@ -40,6 +40,9 @@ class WriteRoute extends Component {
             get: () => {
                 WriteActions.getCategory();
             },
+            create: () => {
+                WriteActions.createCategory("새 카테고리");
+            },
             move: ({parentId, index, id}) => {
                 WriteActions.moveCategory({parentId, index, id})
             },
@@ -152,6 +155,7 @@ class WriteRoute extends Component {
                         write.getIn(['pending', 'moveCategory']) 
                         || write.getIn(['pending', 'deleteCategory'])
                         || write.getIn(['pending', 'renameCategory'])
+                        || write.getIn(['pending', 'createCategory'])
                     }
                     error={modal.getIn(['category', 'error'])}
                     onError={handleModal.setError('category')}
@@ -159,6 +163,7 @@ class WriteRoute extends Component {
                     selected={modal.getIn(['category', 'selected'])}
                     onDelete={handleCategory.delete}
                     onRename={handleCategory.rename}
+                    onCreate={handleCategory.create}
                 />
 
             </Write>

@@ -3,10 +3,9 @@ import { Input, Button, Grid } from 'semantic-ui-react'
 
 class ActionSection extends Component {
 
-    componentDidMount() {
-        
+    state = {
+        name: ''
     }
-    
 
     componentWillReceiveProps(nextProps) {
         if(!nextProps.node) {
@@ -48,14 +47,20 @@ class ActionSection extends Component {
         });
     }
 
+    handleCreate = () => {
+        const { onCreate } = this.props;
+        onCreate();
+    }
+
     render() {
         const { node } = this.props;
-        const { handleDelete, handleChangeInput, handleChangeName } = this;
+        const { handleDelete, handleChangeInput, handleChangeName, handleCreate } = this;
 
         if(!this.state) return null;
         
         return (
             <div className="action-section">
+                <Button basic className="add-category" onClick={handleCreate}>새 카테고리 만들기</Button>
                 { node && node.size !== 0 ? (
                     <div className="action-container">
                         <Input onChange={handleChangeInput} value={this.state.name}/>

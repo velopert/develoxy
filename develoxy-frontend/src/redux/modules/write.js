@@ -30,6 +30,7 @@ export const setScrollPercentage = createAction(SCROLL_PERCENTAGE_SET);
 export const setIsLastLine = createAction(IS_LASTLINE_SET);
 
 export const getCategory = createPromiseAction(CATEGORY_GET, category.getCategory);
+export const createCategory = createPromiseAction(CATEGORY_CREATE, category.createCategory);
 export const moveCategory = createPromiseAction(CATEGORY_MOVE, category.moveCategory);
 export const deleteCategory = createPromiseAction(CATEGORY_DELETE, category.deleteCategory);
 export const renameCategory = createPromiseAction(CATEGORY_RENAME, category.renameCategory);
@@ -43,7 +44,9 @@ const initialState = Map({
     pending: Map({
         getCategory: false,
         moveCategory: false,
-        deleteCategory: false
+        deleteCategory: false,
+        renameCategory: false,
+        createCategory: false
     }),
     editor: Map({
         title: '',
@@ -119,6 +122,17 @@ export default handleActions({
     ...pender({
         type: CATEGORY_RENAME,
         name: 'renameCategory',
+        onFulfill: (state, action) => {
+            const { data } = action.payload;
+            // const flat = List(orderify(data.category).map((item)=>Map(item)));
+            const flat = List(flatten(treeize(orderify(data.category))).map((item)=>Map(item)));
+            return state.setIn(['category', 'flat'], flat);
+        }
+    }),
+
+    ...pender({
+        type: CATEGORY_CREATE,
+        name: 'createCategory',
         onFulfill: (state, action) => {
             const { data } = action.payload;
             // const flat = List(orderify(data.category).map((item)=>Map(item)));
