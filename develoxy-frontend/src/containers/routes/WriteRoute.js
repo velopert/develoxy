@@ -58,21 +58,22 @@ class WriteRoute extends Component {
     })()
 
     handleTag = (() => {
-        const { WriteActions, status: { write } } = this.props;
+        const { WriteActions } = this.props;
 
         return {
-            changeInput: (text) => {
-                const list = write.getIn(['tags', 'list']);
+            changeInput: (text) => {               
+                WriteActions.changeTagInput(text)
+            },
+            insert: (text) => {
+
+                const list = this.props.status.write.getIn(['tags', 'list']);
                 const exists = list.filter(item => item.toLowerCase() === text.toLowerCase()).size > 0;
-                
+
                 // 중복시 추가 안함
                 if(exists) {
                     return;
                 }
-                
-                WriteActions.changeTagInput(text)
-            },
-            insert: (text) => {
+
                 WriteActions.insertTag(text)
             },
             remove: (index) => {

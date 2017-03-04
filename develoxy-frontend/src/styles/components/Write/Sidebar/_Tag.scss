@@ -1,11 +1,11 @@
-.tag-container > .tag {
+.tag-container .tag {
     display: inline-block;
     font-size: 0.8rem;
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
     padding-left: 0.4rem;
     padding-right: 0.4rem;
-    background: $oc-gray-6;
+    background: $oc-gray-7;
     margin-right: 0.4rem;
     margin-bottom: 0.4rem;
     color: white;
@@ -16,7 +16,7 @@
     user-select: none;
     
     &:hover {
-        background: $oc-gray-4;
+        background: $oc-gray-5;
     }
 
     &:active {

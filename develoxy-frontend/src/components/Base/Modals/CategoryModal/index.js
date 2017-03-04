@@ -9,7 +9,7 @@ import { Segment } from 'semantic-ui-react'
 import ActionSection from './ActionSection';
 
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group' 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const CategoryModal = ({
         onHide,

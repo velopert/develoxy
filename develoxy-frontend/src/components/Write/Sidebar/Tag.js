@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Tag = ({children}) => {
+const Tag = ({children, onRemove}) => {
     return (
-        <div className="tag">
+        <div className="tag" onClick={onRemove}>
             {children}
         </div>
     );

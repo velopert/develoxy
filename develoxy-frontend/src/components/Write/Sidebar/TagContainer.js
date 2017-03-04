@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Tag from './Tag';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group' 
 
 class TagContainer extends Component {
 
@@ -18,7 +19,16 @@ class TagContainer extends Component {
 
         return (
             <div className="tag-container">
-                {tagList}
+                    <ReactCSSTransitionGroup
+                        transitionName={{
+                            enter: 'zoomIn',
+                            leave: 'zoomOut'
+                        }}
+                        transitionEnterTimeout={100}
+                        transitionLeaveTimeout={250}
+                    >
+                        {tagList}
+                    </ReactCSSTransitionGroup>
             </div>
         );
     }

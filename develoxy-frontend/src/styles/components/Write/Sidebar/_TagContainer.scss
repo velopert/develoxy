@@ -1,4 +1,19 @@
 .tag-container {
     margin-top: 0.5rem;
     margin-bottom: -0.5rem;
+
+
+    .zoomIn, {
+        -webkit-animation-duration: .1s;
+        animation-duration: .1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+
+    .zoomOut {
+        -webkit-animation-duration: .2s;
+        animation-duration: .2s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
 }
