@@ -23,6 +23,8 @@ import Sidebar, {
     Category
 } from 'components/Write/Sidebar/Sidebar';
 
+import debounce from 'lodash/debounce';
+
 
 import { List, Map } from 'immutable';
 
@@ -51,6 +53,30 @@ class WriteRoute extends Component {
             },
             rename: ({id, name}) => {
                 WriteActions.renameCategory({id, name})
+            }
+        }
+    })()
+
+    handleTag = (() => {
+        const { WriteActions, status: { write } } = this.props;
+
+        return {
+            changeInput: (text) => {
+                const list = write.getIn(['tags', 'list']);
+                const exists = list.filter(item => item.toLowerCase() === text.toLowerCase()).size > 0;
+                
+                // 중복시 추가 안함
+                if(exists) {
+                    return;
+                }
+                
+                WriteActions.changeTagInput(text)
+            },
+            insert: (text) => {
+                WriteActions.insertTag(text)
+            },
+            remove: (index) => {
+                WriteActions.removeTag(index)
             }
         }
     })()
@@ -110,7 +136,7 @@ class WriteRoute extends Component {
     
     render() {
 
-        const { handleEditor, handleModal, handleCategory } = this;
+        const { handleEditor, handleModal, handleCategory, handleTag } = this;
         const { status: { write, modal } } = this.props;
 
         return (
@@ -119,8 +145,8 @@ class WriteRoute extends Component {
                     {/*<SwitchButton/>*/}
                     <ImageUploadButton/>
                     <Box title="태그">
-                        <TagInput/>
-                        <TagContainer/>
+                        <TagInput value={write.getIn(['tags', 'input'])} onChange={handleTag.changeInput} onInsert={handleTag.insert}/>
+                        <TagContainer tags={write.getIn(['tags', 'list'])} onRemove={handleTag.remove}/>
                     </Box>
                     <Box title="공개 설정">
                         <VisibilityOption/>
