@@ -92,7 +92,7 @@ module.exports = function(sequelize, DataTypes) {
                 this.parentId = parentId;
                 return this.save();
             },
-            changeName: function(name) {
+            rename: function(name) {
                 this.name = name;
                 return this.save();
             }

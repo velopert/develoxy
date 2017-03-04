@@ -23,7 +23,8 @@ const CategoryModal = ({
         error,
         onSetOption,
         selected,
-        onDelete
+        onDelete,
+        onRename
     }) => {
 
     const tree = treeize(category.toJS());
@@ -48,8 +49,8 @@ const CategoryModal = ({
                 >
                     { waiting && <Disable/> }
                 </ReactCSSTransitionGroup>
-                <CategoryTree tree={tree} onMove={onMove} onRevert={onRevert} onError={onError} error={error} onSetOption={onSetOption}/>
-                <ActionSection node={selected} onDelete={onDelete} onSetOption={onSetOption}/>
+                <CategoryTree category={category} tree={tree} onMove={onMove} onRevert={onRevert} onError={onError} error={error} onSetOption={onSetOption}/>
+                <ActionSection node={selected} onDelete={onDelete} onSetOption={onSetOption} onRename={onRename}/>
                 {error && <Segment inverted color="red">{error}</Segment> }
             </div>
             <div className="footer">

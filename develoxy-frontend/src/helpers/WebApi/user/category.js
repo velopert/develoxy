@@ -16,6 +16,12 @@ export const deleteCategory = (id) => {
     return axios.delete('/api/user/category/' + id)
 }
 
+export const renameCategory = ({id, name}) => {
+    return axios.patch('/api/user/category/', {
+        id,
+        name
+    });
+}
 
 // export const checkUsername = (username) => {
 //     return axios.get(`/api/auth/check-username/${username}`);

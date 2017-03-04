@@ -365,7 +365,7 @@ module.exports = {
         
     },
 
-    change: async (ctx, next) => {
+    rename: async (ctx, next) => {
         const userId = ctx.request.userId;
 
         const schema = {
@@ -406,7 +406,7 @@ module.exports = {
                 return;
             }
 
-            await category.changeName(name);
+            await category.rename(name);
 
             const result = await models.Category.findByUserId(userId);
 

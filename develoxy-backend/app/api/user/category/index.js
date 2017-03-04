@@ -13,7 +13,7 @@ router.get('/', controller.get);
 router.post('/', controller.create);
 router.put('/', controller.move);
 router.delete('/:id', controller.delete);
-router.patch('/', controller.change);
+router.patch('/', controller.rename);
 
 
 

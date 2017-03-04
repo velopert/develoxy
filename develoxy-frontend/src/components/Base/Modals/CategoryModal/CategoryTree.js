@@ -40,6 +40,13 @@ class CategoryTree extends Component {
     }
     
     componentWillReceiveProps(nextProps) {
+
+        if(this.props.category !== nextProps.category) {
+            this.setState({
+                activeNode: null
+            });
+        }
+
         this.setState({
             tree: nextProps.tree,
             prevTree: cloneDeep(nextProps.tree)

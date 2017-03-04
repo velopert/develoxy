@@ -32,6 +32,7 @@ export const setIsLastLine = createAction(IS_LASTLINE_SET);
 export const getCategory = createPromiseAction(CATEGORY_GET, category.getCategory);
 export const moveCategory = createPromiseAction(CATEGORY_MOVE, category.moveCategory);
 export const deleteCategory = createPromiseAction(CATEGORY_DELETE, category.deleteCategory);
+export const renameCategory = createPromiseAction(CATEGORY_RENAME, category.renameCategory);
 
 
 import { orderify, treeize, flatten } from 'helpers/category';
@@ -107,6 +108,17 @@ export default handleActions({
     ...pender({
         type: CATEGORY_DELETE,
         name: 'deleteCategory',
+        onFulfill: (state, action) => {
+            const { data } = action.payload;
+            // const flat = List(orderify(data.category).map((item)=>Map(item)));
+            const flat = List(flatten(treeize(orderify(data.category))).map((item)=>Map(item)));
+            return state.setIn(['category', 'flat'], flat);
+        }
+    }),
+
+    ...pender({
+        type: CATEGORY_RENAME,
+        name: 'renameCategory',
         onFulfill: (state, action) => {
             const { data } = action.payload;
             // const flat = List(orderify(data.category).map((item)=>Map(item)));

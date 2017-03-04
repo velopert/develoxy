@@ -27,22 +27,41 @@ class ActionSection extends Component {
             value: null
         });
     }
+
+    handleChangeInput = (e) => {
+        this.setState({
+            name: e.target.value
+        });
+    }
     
+    handleChangeName = (e) => {
+        const { node, onRename, onSetOption } = this.props;
+
+        onRename({
+            id: node.get('id'),
+            name: this.state.name
+        });
+
+        onSetOption({
+            optionName: 'selected',
+            value: null
+        });
+    }
 
     render() {
         const { node } = this.props;
-        const { handleDelete } = this;
+        const { handleDelete, handleChangeInput, handleChangeName } = this;
 
         if(!this.state) return null;
         
         return (
             <div className="action-section">
-                { node.size !== 0 ? (
+                { node && node.size !== 0 ? (
                     <div className="action-container">
-                        <Input value={this.state.name}/>
+                        <Input onChange={handleChangeInput} value={this.state.name}/>
                         <div className="buttons-wrapper">
                             <Button.Group>
-                                <Button>수정</Button>
+                                <Button onClick={handleChangeName}>수정</Button>
                                     <Button.Or />
                                 <Button color="red" onClick={handleDelete}>삭제</Button>
                             </Button.Group>

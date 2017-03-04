@@ -45,6 +45,9 @@ class WriteRoute extends Component {
             },
             delete: (id) => {
                 WriteActions.deleteCategory(id);
+            },
+            rename: ({id, name}) => {
+                WriteActions.renameCategory({id, name})
             }
         }
     })()
@@ -148,12 +151,14 @@ class WriteRoute extends Component {
                     waiting={
                         write.getIn(['pending', 'moveCategory']) 
                         || write.getIn(['pending', 'deleteCategory'])
+                        || write.getIn(['pending', 'renameCategory'])
                     }
                     error={modal.getIn(['category', 'error'])}
                     onError={handleModal.setError('category')}
                     onSetOption={handleModal.setOption('category')}
                     selected={modal.getIn(['category', 'selected'])}
                     onDelete={handleCategory.delete}
+                    onRename={handleCategory.rename}
                 />
 
             </Write>
