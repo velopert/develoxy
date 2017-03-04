@@ -8,6 +8,8 @@ import * as category from 'helpers/WebApi/user/category';
 
 
 /* actions */
+const INITIALIZE = 'write/INITIALIZE';
+
 const TITLE_CHANGE = 'write/TITLE_CHANGE';
 const MARKDOWN_CHANGE = 'write/MARKDOWN_CHANGE';
 const FULLSCREEN_SET = 'write/FULLSCREEN_SET';
@@ -21,8 +23,17 @@ const CATEGORY_MOVE = 'write/CATEGORY_MOVE';
 const CATEGORY_DELETE = 'write/CATEGORY_DELETE';
 const CATEGORY_RENAME = 'write/CATEGORY_RENAME';
 
+const TAG_INPUT_CHANGE = 'write/TAG_INPUT_CHANGE';
+const TAG_INSERT = 'write/TAG_INSERT';
+const TAG_REMOVE = 'write/TAG_REMOVE';
+
+
+
+
 
 /* action creators */
+export const initialize = createAction(INITIALIZE);
+
 export const changeTitle = createAction(TITLE_CHANGE);
 export const changeMarkdown = createAction(MARKDOWN_CHANGE);
 export const setFullscreen = createAction(FULLSCREEN_SET);
@@ -34,6 +45,10 @@ export const createCategory = createPromiseAction(CATEGORY_CREATE, category.crea
 export const moveCategory = createPromiseAction(CATEGORY_MOVE, category.moveCategory);
 export const deleteCategory = createPromiseAction(CATEGORY_DELETE, category.deleteCategory);
 export const renameCategory = createPromiseAction(CATEGORY_RENAME, category.renameCategory);
+
+export const changeTagInput = createAction(TAG_INPUT_CHANGE);
+export const insertTag = createAction(TAG_INSERT);
+export const removeTag = createAction(TAG_REMOVE);
 
 
 import { orderify, treeize, flatten } from 'helpers/category';
@@ -55,6 +70,10 @@ const initialState = Map({
         scrollPercentage: 0,
         isLastLine: false
     }),
+    tags: Map({
+        input: '',
+        list: List()
+    }),
     category: Map({
         flat: List(),
         tree: Map()
@@ -63,6 +82,8 @@ const initialState = Map({
 
 /* reducer */
 export default handleActions({
+    [INITIALIZE]: (state, action) => initialState,
+
     [TITLE_CHANGE]: (state, action) => (
         state.setIn(['editor', 'title'], action.payload)
     ),
@@ -80,11 +101,13 @@ export default handleActions({
         if(current===action.payload) {
             return state;
         } else {
-            return state.setIn(['editor', 'isLastLine'], action.payload);
+            return state.setIn(['editor', 'isLastLine'], action.payCtload);
         }
     },
 
-
+    /*
+        Category
+    */
     ...pender({
         type: CATEGORY_GET,
         name: 'getCategory',
@@ -139,5 +162,32 @@ export default handleActions({
             const flat = List(flatten(treeize(orderify(data.category))).map((item)=>Map(item)));
             return state.setIn(['category', 'flat'], flat);
         }
-    })
+    }),
+
+    /*
+        tags
+    */
+
+    [TAG_INPUT_CHANGE]: (state, action) => {
+        // payload: string
+        return state.setIn(['tags', 'input'], action.payload);
+    },
+
+    [TAG_INSERT]: (state, action) => {
+        // payload: string
+        const list = state.getIn(['tags', 'list']);
+        return state.setIn(['tags', 'list'], list.push(action.payload));
+    },
+
+    [TAG_REMOVE]: (state, action) => {
+        const list = state.getIn(['tags', 'list']);
+        // payload: integer 
+        return state.setIn(['tags', 'list'], list.delete(action.payload));
+
+    }
+
+
+
+
+
 }, initialState);
