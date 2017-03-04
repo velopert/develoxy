@@ -75,16 +75,9 @@ class Preview extends Component {
 
             if(!(scrollPercentage >= 0 && scrollPercentage <= 1)) return;
 
-            console.log(scrollPercentage);
             const offsetHeight = preview.offsetHeight;
             const scrollTop = preview.scrollTop;
             const scrollHeight = preview.scrollHeight;
-
-            console.log({
-                offsetHeight,
-                scrollTop,
-                scrollHeight
-            });
             
             preview.scrollTop = scrollPercentage * (scrollHeight - offsetHeight);
             
@@ -101,14 +94,14 @@ class Preview extends Component {
         const { title } = this.props;
 
         return (
-            <div className="preview-wrapper">
-                <div className="preview">
+            <div className="preview-wrapper" >
+                <div className="preview" ref={ref=>{this.preview=ref}}>
                     <div className="title">{title}</div>
                     <div className="date"><DatePrint/></div>
                     <div 
                         className="md-preview" 
                         dangerouslySetInnerHTML={createMarkup()} 
-                        ref={ref=>{this.preview=ref}}></div>
+                    ></div>
                 </div>
             </div>
         );

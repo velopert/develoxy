@@ -53,6 +53,9 @@ class WriteRoute extends Component {
             },
             rename: ({id, name}) => {
                 WriteActions.renameCategory({id, name})
+            },
+            toggle: (index) => {
+                WriteActions.toggleCategory(index);
             }
         }
     })()
@@ -153,7 +156,11 @@ class WriteRoute extends Component {
                         <VisibilityOption/>
                     </Box>
                     <Box title="카테고리">
-                        <Category category={write.getIn(['category', 'flat'])} onConfigure={()=>handleModal.open({modalName: 'category'})}/>
+                        <Category 
+                            category={write.getIn(['category', 'flat'])} 
+                            onConfigure={()=>handleModal.open({modalName: 'category'})} 
+                            onToggle={handleCategory.toggle}
+                        />
                     </Box>
                 </Sidebar>
                 <Content>

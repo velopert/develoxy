@@ -23,6 +23,8 @@ const CATEGORY_MOVE = 'write/CATEGORY_MOVE';
 const CATEGORY_DELETE = 'write/CATEGORY_DELETE';
 const CATEGORY_RENAME = 'write/CATEGORY_RENAME';
 
+const CATEGORY_TOGGLE = 'write/CATEGORY_TOGGLE';
+
 const TAG_INPUT_CHANGE = 'write/TAG_INPUT_CHANGE';
 const TAG_INSERT = 'write/TAG_INSERT';
 const TAG_REMOVE = 'write/TAG_REMOVE';
@@ -45,6 +47,9 @@ export const createCategory = createPromiseAction(CATEGORY_CREATE, category.crea
 export const moveCategory = createPromiseAction(CATEGORY_MOVE, category.moveCategory);
 export const deleteCategory = createPromiseAction(CATEGORY_DELETE, category.deleteCategory);
 export const renameCategory = createPromiseAction(CATEGORY_RENAME, category.renameCategory);
+
+export const toggleCategory = createAction(CATEGORY_TOGGLE);
+
 
 export const changeTagInput = createAction(TAG_INPUT_CHANGE);
 export const insertTag = createAction(TAG_INSERT);
@@ -163,6 +168,13 @@ export default handleActions({
             return state.setIn(['category', 'flat'], flat);
         }
     }),
+
+    [CATEGORY_TOGGLE]: (state, action) => {
+        const flat = state.getIn(['category', 'flat']);
+        const currentValue = flat.getIn([action.payload, 'value']) === undefined ? false : flat.getIn([action.payload, 'value']);
+
+        return state.setIn(['category', 'flat'], flat.setIn([action.payload, 'value'], !currentValue))
+    },
 
     /*
         tags

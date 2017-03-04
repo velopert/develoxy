@@ -135,7 +135,7 @@ class CategoryTree extends Component {
         if(!this.state.tree) return null;
 
         return (
-            <Scrollbars style={{height: '500'}}>
+            <Scrollbars style={{height: '500px'}}>
                 <Tree
                     paddingLeft={20}
                     tree={this.state.tree}
