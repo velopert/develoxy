@@ -49,6 +49,27 @@ db.Category.belongsTo(db.User, {foreignKey: {
   field: 'user_id'
 }});
 
+db.Post.belongsTo(db.User, {foreignKey: {  
+  name: 'userId',
+  field: 'user_id'
+}});
+
+db.PostCategory.belongsTo(db.Post, {foreignKey: {  
+  name: 'postId',
+  field: 'post_id'
+}});
+
+
+db.PostCategory.belongsTo(db.Category, {foreignKey: {  
+  name: 'categoryId',
+  field: 'category_id'
+}});
+
+db.Tag.belongsTo(db.Post, {foreignKey: {  
+  name: 'postId',
+  field: 'post_id'
+}});
+
 
 
 

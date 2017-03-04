@@ -34,6 +34,16 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
         }
     }, {
+        indexes: [
+            {
+                fields: ['username'],
+                using: 'BTREE'
+            },
+            {
+                fields: ['email'],
+                using: 'BTREE'
+            }
+        ],
         tableName: 'user',
         underscored: true,
         classMethods: {
