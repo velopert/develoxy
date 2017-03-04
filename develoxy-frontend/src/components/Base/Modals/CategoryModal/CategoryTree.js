@@ -9,6 +9,9 @@ import { flattenWithId } from 'helpers/category';
 
 import { cloneDeep } from 'lodash';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
+
 
 class CategoryTree extends Component {
 
@@ -132,12 +135,14 @@ class CategoryTree extends Component {
         if(!this.state.tree) return null;
 
         return (
-            <Tree
-                paddingLeft={20}
-                tree={this.state.tree}
-                renderNode={this.renderNode}
-                onChange={this.handleChange}
-            />
+            <Scrollbars style={{height: '500'}}>
+                <Tree
+                    paddingLeft={20}
+                    tree={this.state.tree}
+                    renderNode={this.renderNode}
+                    onChange={this.handleChange}
+                />
+            </Scrollbars>
         );
     }
 }

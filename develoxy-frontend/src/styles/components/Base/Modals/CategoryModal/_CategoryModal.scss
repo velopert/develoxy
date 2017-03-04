@@ -3,6 +3,13 @@
     @import 'CategoryItem';
     @import 'ActionSection';
 
+    &.modal {
+        width: 60rem;
+
+        @include media("<desktop") {
+            width: 45rem;
+        }
+    }
 
     .title-bar {
         background-color: $oc-gray-7;
@@ -11,6 +18,21 @@
         line-height: 5rem;
         color: white;
         text-align: center;
+    }
+
+
+    .container {
+        display: flex;
+        .column {
+            width: 50%;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .column + .column {
+            border-left: 1px solid $oc-gray-3;
+            background: $oc-gray-0;
+        }
     }
     .contents {
         padding: 1rem;
@@ -31,20 +53,9 @@
         }
     }
     
-    .footer {
-        background: $oc-gray-0;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        padding-right: 1rem;
-        
-        text-align: right;
-        .or {
-            height: auto!important;
-        }
-        .button {
-            width: 9rem;
-            font-size: 1.3rem;
-            margin: 0;
-        }
+    .close-button {
+        position: absolute;
+        bottom: 1rem;
+        width: calc(100% - 2rem);
     }
 }

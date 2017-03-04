@@ -39,26 +39,58 @@ const CategoryModal = ({
             <div className="title-bar">
                 <Icon name="setting" fitted/>
             </div>
-            <div className="contents">
-                <ReactCSSTransitionGroup
-                    transitionName={{
-                        enter: 'fadeIn',
-                        leave: 'fadeOut'
-                    }}
-                    transitionEnterTimeout={300}
-                    transitionLeaveTimeout={300}
-                >
-                    { waiting && <Disable/> }
-                </ReactCSSTransitionGroup>
-                <CategoryTree category={category} tree={tree} onMove={onMove} onRevert={onRevert} onError={onError} error={error} onSetOption={onSetOption}/>
-                <ActionSection node={selected} onDelete={onDelete} onSetOption={onSetOption} onRename={onRename} onCreate={onCreate}/>
-                {error && <Segment inverted color="red">{error}</Segment> }
-            </div>
-            <div className="footer">
-                <Button onClick={onHide}>닫기</Button>
+            <div className="container">
+                <div className="column">
+                    <ReactCSSTransitionGroup
+                        transitionName={{
+                            enter: 'fadeIn',
+                            leave: 'fadeOut'
+                        }}
+                        transitionEnterTimeout={300}
+                        transitionLeaveTimeout={300}
+                    >
+                        { waiting && <Disable/> }
+                    </ReactCSSTransitionGroup>
+                    <CategoryTree category={category} tree={tree} onMove={onMove} onRevert={onRevert} onError={onError} error={error} onSetOption={onSetOption}/>
+                </div>
+                <div className="column">
+                    {error && <Segment inverted color="red">{error}</Segment> }
+                    <ActionSection node={selected} onDelete={onDelete} onSetOption={onSetOption} onRename={onRename} onCreate={onCreate}/>
+                    <Button secondary className="close-button" onClick={onHide}>닫기</Button>
+                </div>
             </div>
         </Modal>
     );
 };
 
 export default CategoryModal;
+
+
+
+        // <Modal 
+        //     onHide={onHide}
+        //     visible={visible}
+        //     className="category-modal"
+        // >
+        //     <div className="title-bar">
+        //         <Icon name="setting" fitted/>
+        //     </div>
+        //     <div className="contents">
+        //         <ReactCSSTransitionGroup
+        //             transitionName={{
+        //                 enter: 'fadeIn',
+        //                 leave: 'fadeOut'
+        //             }}
+        //             transitionEnterTimeout={300}
+        //             transitionLeaveTimeout={300}
+        //         >
+        //             { waiting && <Disable/> }
+        //         </ReactCSSTransitionGroup>
+        //         <CategoryTree category={category} tree={tree} onMove={onMove} onRevert={onRevert} onError={onError} error={error} onSetOption={onSetOption}/>
+        //         <ActionSection node={selected} onDelete={onDelete} onSetOption={onSetOption} onRename={onRename} onCreate={onCreate}/>
+        //         {error && <Segment inverted color="red">{error}</Segment> }
+        //     </div>
+        //     <div className="footer">
+        //         <Button onClick={onHide}>닫기</Button>
+        //     </div>
+        // </Modal>

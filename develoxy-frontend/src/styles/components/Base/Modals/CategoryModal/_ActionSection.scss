@@ -1,24 +1,25 @@
 .action-section {
-    // margin-top: 1rem;
-    padding-top: 1rem;
     .add-category {
         width: 100%;
         margin-bottom: 1rem;
+        background: white!important;
     }
     .action-container {
         border-top: 1px solid $oc-gray-3;
         padding-top: 1rem;
         .input {
-            display: inline-block;
-            width: 60%;
+            width: 100%;
             input {
                 width: 100%;
             }
         }
         .buttons-wrapper {
-            width: 40%;
-            display: inline-block;
+            padding-top: 1rem;
+            width: 100%;
             text-align: right;
+            .ui.buttons {
+                width: 100%;
+            }
         }
     }
     .not-selected {
