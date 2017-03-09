@@ -19,13 +19,20 @@ module.exports = async (ctx, next) => {
         ctx.request.logged = false;
         return await next();
     } else {
-        const tokenPayload = await verify(token);
-        ctx.request.tokenPayload = tokenPayload;
-        if(tokenPayload.data.type === 'user') {
-            ctx.request.logged = true;
-            ctx.request.userId = tokenPayload.data.userId
+        try {
+            const tokenPayload = await verify(token);
+            ctx.request.tokenPayload = tokenPayload;
+            if(tokenPayload.data.type === 'user') {
+                ctx.request.logged = true;
+                ctx.request.userId = tokenPayload.data.userId
+            }
+            return await next();
+        } catch (e) {
+            ctx.status = 401;
+            ctx.body = {
+                message: 'invalid token'
+            }
         }
-        return await next();
     }
     
 }
