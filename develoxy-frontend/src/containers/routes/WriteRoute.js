@@ -69,15 +69,32 @@ class WriteRoute extends Component {
             },
             insert: (text) => {
 
-                const list = this.props.status.write.getIn(['tags', 'list']);
-                const exists = list.filter(item => item.toLowerCase() === text.toLowerCase()).size > 0;
+                // 체크 
+                const check = (t) => {
+                    const list = this.props.status.write.getIn(['tags', 'list']);
+                    const exists = list.filter(item => item.toLowerCase() === t.toLowerCase()).size > 0;
 
-                // 중복시 추가 안함
-                if(exists) {
-                    return;
+                    return exists;
                 }
 
-                WriteActions.insertTag(text)
+                // 태그에 쉼표가 있다
+                if(text.indexOf(',')>0) {
+                    const tags = text.split(',');
+                    tags.forEach(
+                        item => {
+                            // 중복하는 경우 스킵
+                            if(check(item)) return;
+
+                            // 앞뒤에 space 있는경우 없앰 
+                            WriteActions.insertTag(item.trim());
+                        }
+                    );
+                } else {
+                    // 존재시 스킵
+                    if(check(text)) return;
+
+                    WriteActions.insertTag(text.trim());
+                }
             },
             remove: (index) => {
                 WriteActions.removeTag(index)

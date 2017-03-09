@@ -1,0 +1,50 @@
+.buttons {
+    display: flex;
+    align-items: center;   
+    margin-right: 1rem;  
+
+    div {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        display: inline-block;
+        font-weight: 500;
+        color: white;
+        cursor: pointer;
+        user-select: none;
+        
+    }
+
+    .save {
+        background: $oc-pink-5;
+        border: 1px solid $oc-pink-8;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-right: none;
+
+        &:hover {
+            background: $oc-pink-4;
+        }
+        &:active {
+            background: $oc-pink-6;
+        }
+    }
+
+    .release {
+
+        border: 1px solid $oc-pink-8;
+        background: $oc-pink-6;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        &:hover {
+            background: $oc-pink-5;
+        }
+        &:active {
+            background: $oc-pink-7;
+        }
+        
+    }
+    
+}

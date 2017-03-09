@@ -13,23 +13,6 @@ class Root extends React.Component {
         );
     }
 }
-// const Root = ({store, history}) => {
-//     return (
-//         <Provider store={store}>
-//             <Router routes={routes} history={history}/>
-//         </Provider>
-//     );
-// };
-
-// const Root = ({store, routes}) => {
-//     return (
-//         <Provider store={store}>
-//             <Router history={browserHistory}>
-//                 {routes}
-//             </Router>
-//         </Provider>
-//     );
-// };
 
 Root.propTypes = {
     store: PropTypes.object,

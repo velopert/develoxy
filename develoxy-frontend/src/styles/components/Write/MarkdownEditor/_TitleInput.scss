@@ -1,5 +1,5 @@
 .title-input {
-
+    @import 'Buttons';
     height: 5rem;
     border-bottom: 1px solid $oc-gray-2;
     /*padding: 1rem;*/
@@ -10,8 +10,7 @@
 
     .save-button {
         width: 9rem;
-        display: flex;
-        align-items: center;     
+
         .button {
             width: 100%;
         }   

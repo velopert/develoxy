@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Dropdown } from 'semantic-ui-react';
 import debounce from 'lodash/debounce';
+import Buttons from './Buttons';
 
 class TitleInput extends Component {
 
@@ -25,9 +26,7 @@ class TitleInput extends Component {
 
         return (
             <div className="title-input">
-                <div className="save-button">
-                    <Button color="pink">임시저장</Button>
-                </div>
+                <Buttons/>
                 <div className="input-wrapper">
                     <input type="text" placeholder="포스트 제목" onChange={handleChange}></input>
                 </div>
