@@ -18,9 +18,9 @@
 
     .save {
         background: $oc-pink-5;
-        border: 1px solid $oc-pink-8;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
+        border: 1px solid $oc-pink-6;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
         border-right: none;
 
         &:hover {
@@ -33,10 +33,10 @@
 
     .release {
 
-        border: 1px solid $oc-pink-8;
+        border: 1px solid $oc-pink-6;
         background: $oc-pink-6;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
 
         &:hover {
             background: $oc-pink-5;

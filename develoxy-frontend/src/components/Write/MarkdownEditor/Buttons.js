@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Buttons = ({ onSave, onRelease, saving, releasing }) => {
+const Buttons = ({ onCreate, onRelease, saving, releasing }) => {
     return (
         <div className="buttons">
-            <div className="save">임시저장</div>
-            <div className="release">게시</div>
+            <div className="save" onClick={()=>onCreate(true)}>임시저장</div>
+            <div className="release" onClick={()=>onCreate(false)}>게시</div>
         </div>
     );
 };

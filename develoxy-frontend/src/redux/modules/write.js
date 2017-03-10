@@ -5,7 +5,7 @@ import pender from 'helpers/pender';
 import { Map, List } from 'immutable';
 
 import * as category from 'helpers/WebApi/user/category';
-
+import * as post from 'helpers/WebApi/user/post';
 
 /* actions */
 const INITIALIZE = 'write/INITIALIZE';
@@ -15,6 +15,7 @@ const MARKDOWN_CHANGE = 'write/MARKDOWN_CHANGE';
 const FULLSCREEN_SET = 'write/FULLSCREEN_SET';
 const SCROLL_PERCENTAGE_SET = 'write/SCROLL_PERCENTAGE_SET';
 const IS_LASTLINE_SET = 'write/IS_LASTLINE_SET';
+const VISIBILITY_SET = 'write/VISIBILITY_SET';
 
 // Category
 const CATEGORY_GET = 'write/CATEGORY_GET';
@@ -29,6 +30,8 @@ const TAG_INPUT_CHANGE = 'write/TAG_INPUT_CHANGE';
 const TAG_INSERT = 'write/TAG_INSERT';
 const TAG_REMOVE = 'write/TAG_REMOVE';
 
+const POST_CREATE = 'write/POST_CREATE';
+
 
 
 
@@ -41,6 +44,7 @@ export const changeMarkdown = createAction(MARKDOWN_CHANGE);
 export const setFullscreen = createAction(FULLSCREEN_SET);
 export const setScrollPercentage = createAction(SCROLL_PERCENTAGE_SET);
 export const setIsLastLine = createAction(IS_LASTLINE_SET);
+export const setVisibility = createAction(VISIBILITY_SET);
 
 export const getCategory = createPromiseAction(CATEGORY_GET, category.getCategory);
 export const createCategory = createPromiseAction(CATEGORY_CREATE, category.createCategory);
@@ -56,6 +60,8 @@ export const insertTag = createAction(TAG_INSERT);
 export const removeTag = createAction(TAG_REMOVE);
 
 
+export const createPost = createPromiseAction(POST_CREATE, post.createPost);
+
 import { orderify, treeize, flatten } from 'helpers/category';
 
 
@@ -66,14 +72,17 @@ const initialState = Map({
         moveCategory: false,
         deleteCategory: false,
         renameCategory: false,
-        createCategory: false
+        createCategory: false,
+
+        createPost: false
     }),
     editor: Map({
         title: '',
         markdown: '',
         fullscreen: false,
         scrollPercentage: 0,
-        isLastLine: false
+        isLastLine: false,
+        visibility: 'public'
     }),
     tags: Map({
         input: '',
@@ -82,7 +91,8 @@ const initialState = Map({
     category: Map({
         flat: List(),
         tree: Map()
-    })
+    }),
+    postId: null
 })
 
 /* reducer */
@@ -102,13 +112,19 @@ export default handleActions({
         state.setIn(['editor', 'scrollPercentage'], action.payload)
     ),
     [IS_LASTLINE_SET]: (state, action) => {
+        // 마지막 줄이면 우측 preview 도 같이 스크롤되게끔
+        // 방금 수정한 줄이 맨 마지막 줄인지 기록한다
         const current = state.getIn(['editor', 'isLastLine']);
         if(current===action.payload) {
             return state;
         } else {
-            return state.setIn(['editor', 'isLastLine'], action.payCtload);
+            return state.setIn(['editor', 'isLastLine'], action.payload);
         }
     },
+    [VISIBILITY_SET]: (state, action) => (
+        // 게시글 공개 및 비공개 설정
+        state.setIn(['editor', 'visibility'], action.payload)
+    ),
 
     /*
         Category
@@ -196,10 +212,17 @@ export default handleActions({
         // payload: integer 
         return state.setIn(['tags', 'list'], list.delete(action.payload));
 
-    }
+    },
 
 
-
-
+    // 포스트 생성
+    ...pender({
+        type: POST_CREATE,
+        name: 'createPost',
+        onFulfill: (state, action) => {
+            const { data } = action.payload;
+            return state.set('postId', data.postId);
+        }
+    })
 
 }, initialState);

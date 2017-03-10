@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-const Sidebar = ({children}) => {
-    return (
-        <div className="sidebar">
-            <Scrollbars style={{height: '100vh'}}>
-                <div style={{padding:'1rem'}}>
-                    {children}
-                </div>
-            </Scrollbars>
-        </div>
-    );
-};
+
+class Sidebar extends Component {
+    
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.tags !== this.props.tags
+            || nextProps.category !== this.props.category;
+    }
+    
+    render() {
+        const { children } = this.props;
+
+        return (
+            <div className="sidebar">
+                <Scrollbars style={{height: '100vh'}}>
+                    <div style={{padding:'1rem'}}>
+                        {children}
+                    </div>
+                </Scrollbars>
+            </div>
+        );
+    }
+}
 
 export { default as SwitchButton } from './SwitchButton';
 export { default as ImageUploadButton } from './ImageUploadButton';

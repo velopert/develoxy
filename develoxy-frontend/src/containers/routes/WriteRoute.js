@@ -120,6 +120,10 @@ class WriteRoute extends Component {
             },
             setIsLastLine: (value) => {
                 WriteActions.setIsLastLine(value);
+            },
+            setVisibility: (value) => {
+                // 포스트 공개/비공개 설정
+                WriteActions.setVisibility(value);
             }
         }
     })()
@@ -142,6 +146,37 @@ class WriteRoute extends Component {
         }
     })()
 
+    handlePost = (() => {
+        const { WriteActions } = this.props;
+
+        return {
+            create: (isTemp) => {
+                const { status: { write } } = this.props;
+                const editor = write.get('editor');
+                
+                const categories = write.getIn(['category', 'flat'])
+                                    .filter(category=>category.get('value'))
+                                    .map(category=>category.get('id'))
+                                    .toJS();
+                
+                const tags = write.getIn(['tags', 'list'])
+                              .toJS();
+                
+                
+                const payload = {
+                    title: editor.get('title'),
+                    content: editor.get('markdown'),
+                    visibility: editor.get('visibility'),
+                    isTemp,
+                    categories,
+                    tags
+                }
+
+                return WriteActions.createPost(payload);
+            }
+        }
+    })()
+
     componentWillMount() {
         // 헤더를 숨긴다
         const { HeaderActions } = this.props;
@@ -157,12 +192,15 @@ class WriteRoute extends Component {
     
     render() {
 
-        const { handleEditor, handleModal, handleCategory, handleTag } = this;
+        const { handleEditor, handleModal, handleCategory, handleTag, handlePost } = this;
         const { status: { write, modal } } = this.props;
 
         return (
             <Write>
-                <Sidebar>
+                <Sidebar 
+                    tags={write.get('tags')}
+                    category={write.get('category')}
+                >
                     {/*<SwitchButton/>*/}
                     <ImageUploadButton/>
                     <Box title="태그">
@@ -170,7 +208,7 @@ class WriteRoute extends Component {
                         <TagContainer tags={write.getIn(['tags', 'list'])} onRemove={handleTag.remove}/>
                     </Box>
                     <Box title="공개 설정">
-                        <VisibilityOption/>
+                        <VisibilityOption onChange={handleEditor.setVisibility}/>
                     </Box>
                     <Box title="카테고리">
                         <Category 
@@ -192,6 +230,7 @@ class WriteRoute extends Component {
                         fullscreen={write.getIn(['editor', 'fullscreen'])}
                         scrollPercentage={write.getIn(['editor', 'scrollPercentage'])}
                         isLastLine={write.getIn(['editor', 'isLastLine'])}
+                        onCreate={handlePost.create}
                     />
                 </Content>
 

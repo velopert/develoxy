@@ -10,7 +10,7 @@
         z-index: 1;
 
 
-        transition: width .7s ease-out;
+        // transition: width .7s ease-out;
 
         .ace {
             width: 100%;
@@ -26,5 +26,5 @@
             width: 200%;
         }
     }
-    border-right: 1px solid $oc-gray-4;
+    // border-right: 1px solid $oc-gray-4;
 }

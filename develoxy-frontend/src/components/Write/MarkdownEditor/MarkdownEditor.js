@@ -16,7 +16,8 @@ class MarkdownEditor extends Component {
         markdown: PropTypes.string,
         fullscreen: PropTypes.bool,
         scrollPercentage: PropTypes.number,
-        isLastLine: PropTypes.bool
+        isLastLine: PropTypes.bool,
+        onCreate: PropTypes.func
     }
 
     render() {
@@ -30,12 +31,13 @@ class MarkdownEditor extends Component {
             markdown, 
             fullscreen,
             scrollPercentage,
-            isLastLine
+            isLastLine,
+            onCreate
         } = this.props;
 
         return (
             <div className="markdown-editor">
-                <TitleInput onChange={onChangeTitle}/>
+                <TitleInput onChange={onChangeTitle} onCreate={onCreate}/>
                 <ContentBody>
                     <Editor 
                         onChange={onChangeMarkdown} 

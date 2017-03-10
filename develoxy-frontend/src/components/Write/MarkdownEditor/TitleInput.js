@@ -23,10 +23,11 @@ class TitleInput extends Component {
     
     render() {
         const { handleChange } = this;
+        const { onCreate } = this.props;
 
         return (
             <div className="title-input">
-                <Buttons/>
+                <Buttons onCreate={onCreate}/>
                 <div className="input-wrapper">
                     <input type="text" placeholder="포스트 제목" onChange={handleChange}></input>
                 </div>
