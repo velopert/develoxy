@@ -27,7 +27,24 @@ module.exports = function(sequelize, DataTypes) {
                 fields: ['category_id'],
                 using: 'BTREE'
             }
-        ]
+        ],
+        classMethods: {
+            findByPostId: function(postId) {
+                return PostCategory.findAll({
+                    where: {
+                        postId
+                    }
+                });
+            },
+            destroyByPostCategory: function({postId, categoryId}) {
+                return PostCategory.destroy({
+                    where: {
+                        postId,
+                        categoryId
+                    }
+                });
+            }
+        }
     });
 
     return PostCategory;

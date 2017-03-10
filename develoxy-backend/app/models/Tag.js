@@ -26,7 +26,24 @@ module.exports = function(sequelize, DataTypes) {
                 fields: ['tag'],
                 using: 'BTREE'
             }
-        ]
+        ],
+        classMethods: {
+            findByPostId: function(postId) {
+                return Tag.findAll({
+                    where: {
+                        postId
+                    }
+                });
+            },
+            destroyByPostTag: function({postId, tag}) {
+                return Tag.destroy({
+                    where: {
+                        postId,
+                        Tag
+                    }
+                });
+            }
+        }
     });
 
     return Tag;
