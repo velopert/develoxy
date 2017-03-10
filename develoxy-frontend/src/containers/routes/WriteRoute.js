@@ -150,7 +150,7 @@ class WriteRoute extends Component {
         const { WriteActions } = this.props;
 
         return {
-            create: (isTemp) => {
+            save: (isTemp) => {
                 const { status: { write } } = this.props;
                 const editor = write.get('editor');
                 
@@ -230,7 +230,7 @@ class WriteRoute extends Component {
                         fullscreen={write.getIn(['editor', 'fullscreen'])}
                         scrollPercentage={write.getIn(['editor', 'scrollPercentage'])}
                         isLastLine={write.getIn(['editor', 'isLastLine'])}
-                        onCreate={handlePost.create}
+                        onSave={handlePost.save}
                     />
                 </Content>
 
