@@ -10,8 +10,8 @@ module.exports = {
             content: Joi.string().required(),
             visibility: Joi.string().regex(/^(public|private)$/).required(),
             isTemp: Joi.boolean().required(),
-            categories: Joi.array().items(Joi.number().required()).required(),
-            tags: Joi.array().items(Joi.string().required()).required()
+            categories: Joi.array().items(Joi.number()).required(),
+            tags: Joi.array().items(Joi.string()).required()
         };
 
         const validate = Joi.validate(ctx.request.body, schema);
@@ -31,20 +31,56 @@ module.exports = {
             isTemp,
             categories,
             tags
-        } = this.request.body;
+        } = ctx.request.body;
 
 
         const userId = ctx.request.userId;
 
         try {
-            
-            // 만약에 isTemp 가 아니라면,
-            // 카테고리 id 배열.. 사용해서 
-            // PostCategory 에 데이터들을 추가
 
-            // 태그도 마찬가지로, PostTag에 데이터 추가
+            // 먼저 데이터를 생성한다.
+            const post = await models.Post.create({
+                title,
+                content,
+                visibility,
+                isTemp,
+                userId
+            });
 
-            // 그 다음에, Post 에 데이터 추가            
+            const postId = post.id;
+
+            if(!isTemp) {
+                // 카테고리 관련 작업.
+                const categoryPromises = categories.map(
+                    categoryId => {
+                        return models.PostCategory.create({
+                            postId,
+                            categoryId
+                        });
+                    }
+                )
+
+                // 태그 관련 작업
+                const tagPromises = tags.map(
+                    tag => {
+                        return models.Tag.create({
+                            postId,
+                            tag
+                        })
+                    }
+                );
+
+                /// Promise 를 기다린다
+                await Promise.all(categoryPromises);
+                await Promise.all(tagPromises);
+            }
+
+            // 성공시...
+            ctx.status = 201;
+            ctx.body = {
+                postId: postId
+            }; 
+
         } catch (e) {
             console.log(e);
             ctx.status = 400;

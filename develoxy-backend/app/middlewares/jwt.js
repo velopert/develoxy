@@ -32,6 +32,8 @@ module.exports = async (ctx, next) => {
             ctx.body = {
                 message: 'invalid token'
             }
+            console.log(e);
+            // return await next();
         }
     }
     
