@@ -31,7 +31,7 @@ module.exports = {
 
             // username으로 조회
             if(username) {
-                const key = `graphql:user:username:${id}`;
+                const key = `graphql:user:username:${username}`;
                 const attributes = ['id', 'username', 'displayName', 'thumbnail'];
 
                 try {
