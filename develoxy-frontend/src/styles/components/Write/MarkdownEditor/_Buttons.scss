@@ -46,5 +46,22 @@
         }
         
     }
+
+    .update {
+
+        border: 1px solid $oc-pink-6;
+        background: $oc-pink-6;
+        border-radius: 3px;
+
+        &:hover {
+            background: $oc-pink-5;
+        }
+
+        &:active {
+            background: $oc-pink-7;
+        }
+        
+    }
+    
     
 }

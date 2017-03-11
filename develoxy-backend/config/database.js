@@ -1,6 +1,6 @@
 module.exports = {
   "username": "develoxy",
-  "password": "develoxy",
+  "password": "",
   "database": "develoxy",
   "host": "localhost",
   "dialect": "postgres"

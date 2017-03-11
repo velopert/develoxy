@@ -107,7 +107,8 @@ module.exports = {
             // 성공시...
             ctx.status = 201;
             ctx.body = {
-                postId: postId
+                postId: postId,
+                isTemp
             }; 
 
         } catch (e) {
@@ -293,10 +294,13 @@ module.exports = {
                 const deletedCategory = _.difference(prevCategory, categories);
                 const deletedTag = _.difference(prevTag, tags);
 
-                const deleteCategory = deletedCategory.map(categoryId => models.PostCategory
-                                                                            .destroyByPostCategory({postId, categoryId}));
-                const deleteTag = deletedTag.map(tag => models.Tag
-                                                                .destroyByPostTag({postId, tag}));
+                const deleteCategory = deletedCategory.map(
+                    categoryId => models.PostCategory.destroyByPostCategory({postId, categoryId})
+                );
+
+                const deleteTag = deletedTag.map(
+                    tag => models.Tag.destroyByPostTag({postId, tag})
+                );
 
                 
                 // 기다린다
@@ -308,7 +312,8 @@ module.exports = {
             }
 
             ctx.body = {
-                success: true
+                postId,
+                isTemp
             };
             
         } catch (e) {

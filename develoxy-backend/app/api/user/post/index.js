@@ -11,10 +11,7 @@ const controller = require('./controller');
 
 // router.get('/', controller.get);
 router.post('/', controller.create);
-// // router.put('/', controller.move);
-// router.delete('/:id', controller.delete);
-// router.patch('/', controller.rename);
-
+router.patch('/:postId', controller.update);
 
 
 module.exports = router;

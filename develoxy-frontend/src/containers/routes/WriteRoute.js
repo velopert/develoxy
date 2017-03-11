@@ -152,6 +152,8 @@ class WriteRoute extends Component {
         return {
             save: (isTemp) => {
                 const { status: { write } } = this.props;
+
+                const postId = write.getIn(['workingPost', 'postId']);
                 const editor = write.get('editor');
                 
                 const categories = write.getIn(['category', 'flat'])
@@ -172,7 +174,18 @@ class WriteRoute extends Component {
                     tags
                 }
 
-                return WriteActions.createPost(payload);
+                if(!postId) {
+                    // 포스트 아이디가 존재하지 않는 경우에는
+                    // 게시글을 새로 작성한다
+                    return WriteActions.createPost(payload);
+                } else {
+                    // 포스트 아이디가 이미 존재하는 경우에는
+                    // payload 에 postId 넣고, updatePost 를 호출
+                    payload.postId = postId;
+                    return WriteActions.updatePost(payload);
+                }
+
+                
             }
         }
     })()
@@ -231,6 +244,7 @@ class WriteRoute extends Component {
                         scrollPercentage={write.getIn(['editor', 'scrollPercentage'])}
                         isLastLine={write.getIn(['editor', 'isLastLine'])}
                         onSave={handlePost.save}
+                        isTemp={write.getIn(['workingPost', 'isTemp'])}
                     />
                 </Content>
 

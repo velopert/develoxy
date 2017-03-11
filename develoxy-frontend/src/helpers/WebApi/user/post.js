@@ -18,3 +18,21 @@ export const createPost = ({
     });
 }
 
+export const updatePost = ({
+    postId,
+    title,
+    content,
+    visibility,
+    isTemp,
+    categories,
+    tags
+}) => {
+    return axios.patch(`/api/user/post/${postId}`, {
+        title,
+        content,
+        visibility,
+        isTemp,
+        categories,
+        tags
+    });
+}

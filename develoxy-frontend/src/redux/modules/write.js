@@ -31,6 +31,7 @@ const TAG_INSERT = 'write/TAG_INSERT';
 const TAG_REMOVE = 'write/TAG_REMOVE';
 
 const POST_CREATE = 'write/POST_CREATE';
+const POST_UPDATE = 'write/POST_UPDATE';
 
 
 
@@ -61,6 +62,7 @@ export const removeTag = createAction(TAG_REMOVE);
 
 
 export const createPost = createPromiseAction(POST_CREATE, post.createPost);
+export const updatePost = createPromiseAction(POST_UPDATE, post.updatePost);
 
 import { orderify, treeize, flatten } from 'helpers/category';
 
@@ -74,7 +76,8 @@ const initialState = Map({
         renameCategory: false,
         createCategory: false,
 
-        createPost: false
+        createPost: false,
+        updatePost: false
     }),
     editor: Map({
         title: '',
@@ -92,7 +95,10 @@ const initialState = Map({
         flat: List(),
         tree: Map()
     }),
-    postId: null
+    workingPost: Map({
+        postId: null,
+        isTemp: true
+    })
 })
 
 /* reducer */
@@ -221,7 +227,18 @@ export default handleActions({
         name: 'createPost',
         onFulfill: (state, action) => {
             const { data } = action.payload;
-            return state.set('postId', data.postId);
+            return state.set('workingPost', Map(data));
+        }
+    }),
+
+
+    // 포스트 업데이트
+    ...pender({
+        type: POST_UPDATE,
+        name: 'updatePost',
+        onFulfill: (state, action) => {
+            const { data } = action.payload;
+            return state.set('workingPost', Map(data));
         }
     })
 
