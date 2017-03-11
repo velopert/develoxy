@@ -9,6 +9,12 @@ const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const jwtMiddleware =require('./middlewares/jwt');
 
+// GraphQL 관련
+const mount = require('koa-mount');
+const convert = require('koa-convert');
+const graphqlHTTP = require('koa-graphql');
+const schema = require('./graphql');
+
 // 라우터
 const api = require('./api');
 
@@ -27,6 +33,13 @@ const router = new Router();
 
 router.use('/api', api.routes());
 app.use(router.routes());
+
+
+// GraphQL 설정
+app.use(mount('/graphql', convert(graphqlHTTP({
+    schema: schema,
+    graphiql: true
+}))));
 
 
 // 서버 실행
