@@ -1,8 +1,6 @@
-const Account = require('./Account');
 const Query = require('./Query');
+const User = require('./User');
 
 const { merge } = require('lodash');
 
-console.log(merge(Account, Query))
-
-module.exports = merge(Account, Query);
+module.exports = merge(User);

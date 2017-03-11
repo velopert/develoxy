@@ -30,9 +30,13 @@ import { List, Map } from 'immutable';
 
 class WriteRoute extends Component {
 
+    static contextTypes = {
+        router: React.PropTypes.object
+    }
 
     componentDidMount() {
         this.handleCategory.get();
+        console.log(this.context.router.location.pathname);
     }
 
     handleCategory = (() => {

@@ -15,6 +15,9 @@ const convert = require('koa-convert');
 const graphqlHTTP = require('koa-graphql');
 const schema = require('./graphql');
 
+// Redis
+const redis = require('./redis');
+
 // 라우터
 const api = require('./api');
 

@@ -1,4 +1,4 @@
-const Account = require('./Account');
+const User = require('./User');
 const Query = require('./Query');
 
 const Schema = `
@@ -7,4 +7,4 @@ const Schema = `
     }    
 `;
 
-module.exports = [Schema, Query, Account];
+module.exports = [Schema, Query, User];
