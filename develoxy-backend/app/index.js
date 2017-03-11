@@ -13,7 +13,7 @@ const jwtMiddleware =require('./middlewares/jwt');
 const mount = require('koa-mount');
 const convert = require('koa-convert');
 const graphqlHTTP = require('koa-graphql');
-const schema = require('./graphql');
+const graphql = require('./graphql');
 
 // Redis
 const redis = require('./redis');
@@ -35,14 +35,18 @@ app.use(jwtMiddleware);
 const router = new Router();
 
 router.use('/api', api.routes());
+router.post('/graph', graphql);
+
 app.use(router.routes());
 
 
-// GraphQL 설정
-app.use(mount('/graphql', convert(graphqlHTTP({
-    schema: schema,
-    graphiql: true
-}))));
+
+// // GraphQL 설정
+// app.use(mount('/graphql', convert(graphqlHTTP(ctx => ({
+//     schema: schema,
+//     rootValue: { auth: ctx.request.userId },
+//     graphiql: true
+// })))));
 
 
 // 서버 실행
