@@ -1,5 +1,5 @@
 const models = require('./../../models/index');
-const redis = require('./../../redis');
+const cache = require('./../../helpers/cache');
 
 module.exports = {
     Query: {
@@ -12,17 +12,19 @@ module.exports = {
                 
                 try {
                     // 캐시 체크
-                    const cache = await redis.getAsync(key);
-                    if(cache) {
-                        return JSON.parse(cache);
+                    const cached = await cache.get(key);
+
+                    if(cached) {
+                        return cached;
                     }
+                    
                     // DB 조회
                     const user = await models.User.findById(id, {
                         attributes,
                         raw: true
                     });
                     // 캐시 저장
-                    redis.set(key, JSON.stringify(user));
+                    cache.set(key, user);
                     return user;
 
                 } catch(e) {
@@ -37,14 +39,15 @@ module.exports = {
 
                 try {
                     // 캐시 체크
-                    const cache = await redis.getAsync(key);
-                    if(cache) {
-                        return JSON.parse(cache);
+                    const cached = await cache.get(key);
+
+                    if(cached) {
+                        return cached;
                     }
                     // DB 조회
                     const user = await models.User.findOne({ where: { username }, attributes, raw: true});
                     // 캐시 저장
-                    redis.set(key, JSON.stringify(user));
+                    cache.set(key, user);
                     return user;
                 } catch(e) {
                     throw new Error('DB ERROR');

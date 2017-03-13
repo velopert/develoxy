@@ -7,7 +7,8 @@ const Post = `
         releaseDate: String,
         userId: Int,
         visibility: Boolean,
-        isTemp: Boolean
+        isTemp: Boolean,
+        tags: [String]
     }
 `
 

@@ -16,7 +16,9 @@ const graphqlHTTP = require('koa-graphql');
 const Schema = require('./graphql');
 
 // Redis
-const redis = require('./redis');
+// const redis = require('./redis');
+const cache = require('./helpers/cache');
+cache.connect();
 
 // 라우터
 const api = require('./api');

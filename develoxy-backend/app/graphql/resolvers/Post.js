@@ -1,7 +1,7 @@
 const models = require('./../../models/index');
-const redis = require('./../../redis');
+// const redis = require('./../../redis');
 const removeMd = require('remove-markdown');
-
+const cache = require('./../../helpers/cache');
 
 const attributes = [
     'id', 
@@ -16,10 +16,10 @@ const attributes = [
 async function getPost({userId, id}) {
     const key = `graphql:post:id:${id}`;
 
-    const cache = await redis.getAsync(key);
-
-    if(cache) {
-        return Promise.resolve(cache);
+    const cached = await cache.get(key);
+    
+    if(cached) {
+        return Promise.resolve(cached);
     }
 
     const post = await models.Post.findById(id, {
@@ -43,7 +43,7 @@ async function getPost({userId, id}) {
 
     if(!(post.isTemp || post.visibility !== 'public')) {
         // 공개 됐을 경우에만 캐싱
-        redis.set(key, post);
+        cache.set(key, post);
     }
 
     return Promise.resolve(post);
@@ -61,6 +61,12 @@ module.exports = {
             });
 
             return post;
+        }
+    },
+
+    Post: {
+        preview: (obj, params, ctx) => {
+            return removeMd(obj.content).substring(0,150);
         }
     }
 }

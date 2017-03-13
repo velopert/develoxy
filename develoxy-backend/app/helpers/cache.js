@@ -17,7 +17,7 @@ module.exports = (() => {
             client.set(key, stringify ? JSON.stringify(value) : value);
         },
         get: (key, parseJSON = true) => {
-            const promise = (
+            const promise = new Promise(
                 (resolve, reject) => {
                     client.get(key, (err, reply) => {
                         if(err) { reject(err); }
