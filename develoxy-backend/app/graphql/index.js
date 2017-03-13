@@ -9,25 +9,27 @@ const Schema  = makeExecutableSchema({
     resolvers: resolvers
 });
 
-module.exports = async (ctx, next) => {
-    const { query, variables } = ctx.request.body;
-    const { userId } = ctx.request;
+module.exports = Schema;
 
-    if(!query) {
-        ctx.status = 400;
-        ctx.body = {
-            message: 'invalid request'
-        };
-        return;
-    }
-    try {
-        const result = await graphql(Schema, query, { userId }, variables);
-        ctx.body = result;
-    } catch (e) {
-        ctx.status = 400;
-        ctx.body = {
-            message: "GraphQL Error",
-            description: e.message
-        };
-    }
-}
+// module.exports = async (ctx, next) => {
+//     const { query, variables } = ctx.request.body;
+//     const { userId } = ctx.request;
+
+//     if(!query) {
+//         ctx.status = 400;
+//         ctx.body = {
+//             message: 'invalid request'
+//         };
+//         return;
+//     }
+//     try {
+//         const result = await graphql(Schema, query, { userId }, variables);
+//         ctx.body = result;
+//     } catch (e) {
+//         ctx.status = 400;
+//         ctx.body = {
+//             message: "GraphQL Error",
+//             description: e.message
+//         };
+//     }
+// }

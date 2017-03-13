@@ -3,7 +3,8 @@ const redis = require('./../../redis');
 
 module.exports = {
     Query: {
-        user: async (obj, {id, username}) => {
+        user: async (obj, {id, username}, ctx) => {
+            
             // id 로 조회
             if(id) {
                 const key = `graphql:user:id:${id}`;

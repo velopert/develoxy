@@ -3,8 +3,12 @@ const Post = `
         id: Int!
         title: String,
         content: String,
+        preview: String,
         releaseDate: String,
         userId: Int,
-        visibility
+        visibility: Boolean,
+        isTemp: Boolean
     }
 `
+
+module.exports = Post;
