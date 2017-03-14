@@ -19,7 +19,7 @@ async function getPost({userId, id}) {
     const cached = await cache.get(key);
     
     if(cached) {
-        return Promise.resolve(cached);
+        return cached;
     }
 
     const post = await models.Post.findById(id, {
@@ -27,13 +27,17 @@ async function getPost({userId, id}) {
         attributes
     });
 
+    if(!post) {
+        // 포스트가 존재하지 않는경우 널!
+        return null;
+    }
 
     if(post.isTemp || post.visibility !== 'public') {
         // 현재 공개되선 안되는 게시물
-        if(userId !== post.userId) return Promise.resolve(null);
+        if(userId !== post.userId) return null;
     }
 
-    const writer = await models.User.findById(userId, {
+    const writer = await models.User.findById(post.userId, {
         raw: true,
         attributes: ['username']
     });
@@ -46,8 +50,16 @@ async function getPost({userId, id}) {
         cache.set(key, post);
     }
 
-    return Promise.resolve(post);
+    return post;
 }
+
+const getTags = cache.injector(async (id) => {
+    const tags = await models.Tag.findByPostId(id, true);
+    
+    const mapped = tags.map(tag=>tag.tag);
+    return mapped;
+}, 'graphql:post:tag:id');
+
 
 module.exports = {
     Query: {
@@ -67,6 +79,11 @@ module.exports = {
     Post: {
         preview: (obj, params, ctx) => {
             return removeMd(obj.content).substring(0,150);
+        },
+        tags: async (obj, params, ctx) => {
+            const tags = await getTags(obj.id);
+
+            return tags;
         }
     }
 }

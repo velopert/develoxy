@@ -28,11 +28,12 @@ module.exports = function(sequelize, DataTypes) {
             }
         ],
         classMethods: {
-            findByPostId: function(postId) {
+            findByPostId: function(postId, raw=false) {
                 return Tag.findAll({
                     where: {
                         postId
-                    }
+                    },
+                    raw
                 });
             },
             destroyByPostTag: function({postId, tag}) {
