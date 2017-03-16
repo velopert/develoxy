@@ -34,7 +34,7 @@ module.exports = (function() {
         client.del(key);
     }
 
-    function injector(handler, key) {
+    function inject(handler, key) {
         return params => {
             let needsCaching = false;
             // promise 생성
@@ -73,6 +73,6 @@ module.exports = (function() {
         set,
         get,
         del,
-        injector
+        inject
     }
 })();

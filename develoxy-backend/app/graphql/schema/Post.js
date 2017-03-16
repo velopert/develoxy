@@ -9,6 +9,7 @@ const Post = `
         visibility: Boolean,
         isTemp: Boolean,
         tags: [String]
+        categories: [Category]
     }
 `
 

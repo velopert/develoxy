@@ -53,13 +53,33 @@ async function getPost({userId, id}) {
     return post;
 }
 
-const getTags = cache.injector(async (id) => {
+const getTags = cache.inject(async (id) => {
     const tags = await models.Tag.findByPostId(id, true);
     
     const mapped = tags.map(tag=>tag.tag);
     return mapped;
 }, 'graphql:post:tag:id');
 
+
+const getCategories = cache.inject(async (id) => {
+    const postCategories = await models.PostCategory.findAll({
+        where: {
+            postId: id
+        }, 
+        include: [
+            models.Category
+        ],
+        raw: true
+    });
+
+    return postCategories.map(
+        postCategory => ({
+            id: postCategory['categoryId'],
+            name: postCategory['Category.name'],
+            parentId: postCategory['Category.parentId']
+        })
+    );
+}, 'graphql:post:category:id')
 
 module.exports = {
     Query: {
@@ -84,6 +104,11 @@ module.exports = {
             const tags = await getTags(obj.id);
 
             return tags;
+        },
+        categories: async (obj, params, ctx) => {
+            const categories = await getCategories(obj.id);
+            console.log(categories);
+            return categories;
         }
     }
 }
