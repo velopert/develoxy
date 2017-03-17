@@ -28,7 +28,6 @@ async function getPost({userId, id}) {
     });
 
     if(!post) {
-        // 포스트가 존재하지 않는경우 널!
         return null;
     }
 
@@ -107,7 +106,6 @@ module.exports = {
         },
         categories: async (obj, params, ctx) => {
             const categories = await getCategories(obj.id);
-            console.log(categories);
             return categories;
         }
     }

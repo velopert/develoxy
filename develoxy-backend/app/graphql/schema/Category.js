@@ -3,6 +3,7 @@ const Category = `
         id: Int!
         name: String
         parentId: Int!
+        parent: Category
     }
  `
 
