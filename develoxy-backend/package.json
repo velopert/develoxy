@@ -34,7 +34,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node app",
-    "dev": "NODE_ENV=development nodemon app"
+    "dev": "NODE_ENV=development nodemon --inspect app"
   },
   "author": "",
   "license": "ISC",

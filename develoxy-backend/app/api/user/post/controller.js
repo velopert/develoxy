@@ -153,7 +153,7 @@ module.exports = {
         const validate = Joi.validate(ctx.request.body, schema);
         
         if(validate.error) {
-            ctx.status = 400;개
+            ctx.status = 400;
             ctx.body = {
                 message: 'validation failure'
             }

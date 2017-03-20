@@ -36,11 +36,14 @@ module.exports = (function() {
 
     function inject(handler, key) {
         return params => {
+            
+            const paramString = (typeof params) === 'object' ? JSON.stringify(params) : params;
+
             let needsCaching = false;
             // promise 생성
             const promise = new Promise(
                 (resolve, reject) => {
-                    get(`${key}:${params}`).then(
+                    get(`${key}:${paramString}`).then(
                         cached => {
                             // 캐시가 존재 할 시 이걸 리턴함
                             if(cached) { 
@@ -55,7 +58,7 @@ module.exports = (function() {
                         data => {
                             // 캐싱을 해야 하는 경우
                             if(needsCaching) {
-                                set(`${key}:${params}`, data);
+                                set(`${key}:${paramString}`, data);
                             }
 
                             resolve(data);

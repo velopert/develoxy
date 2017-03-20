@@ -18,6 +18,10 @@ class TagInput extends Component {
         const { value } = this.state;
 
 
+        if(value === '') {
+            return;
+        }
+        
         if(e.key === 'Enter') {
             onInsert(value);
             this.setState({

@@ -72,6 +72,44 @@ module.exports = function(sequelize, DataTypes) {
                         ['index', 'ASC']
                     ]
                 });
+            },
+            findAllDescendant: async function(rootId) {
+
+                // 특정 카테고리의 모든 자식들을 불러온다.
+                async function getChildren(id) {
+                    return Category.findAll({
+                        where: {
+                            parentId: id
+                        },
+                        raw: true
+                    }).map(child=>child.id);
+                }
+
+                let categories = []; // 이 배열에 모든 자손들을 넣는다.
+                let children = await getChildren(rootId);
+                children.forEach(id => categories.push(id)); // 2차 카테고리
+                while(children.length > 0) {
+                    // 각 child의 children들을 가져온다.
+                    const promises = children.map(getChildren);
+                    const childrenGroups = await Promise.all(promises); // [1,2,3],[5,6],[7,8]
+
+                    let flatten = [];
+                    
+                    // 각 배열에서 꺼내서 flatten 안에 넣는다
+                    childrenGroups.forEach(
+                        children => {
+                            flatten = flatten.concat(children)
+                            categories = categories.concat(children);
+                        }
+                    );
+
+                    // children 을 flatten으로 대체한다.
+                    children = flatten;
+
+                    // 이제 이 카테고리들의 자식들을 조사함.
+                }
+
+                return categories;
             }
         },
         instanceMethods: {

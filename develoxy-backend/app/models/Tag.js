@@ -33,6 +33,7 @@ module.exports = function(sequelize, DataTypes) {
                     where: {
                         postId
                     },
+                    order: ['id'],
                     raw
                 });
             },
