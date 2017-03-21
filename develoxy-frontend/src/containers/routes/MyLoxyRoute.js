@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 // MyLoxy 관련 컴포넌트 로딩
-import MyLoxy from 'components/MyLoxy';
+import MyLoxy, { LeftBar } from 'components/MyLoxy';
 
 
 class MyLoxyRoute extends Component {
@@ -27,7 +27,7 @@ class MyLoxyRoute extends Component {
     render() {
         return (
             <MyLoxy>
-                dmdkdkdk
+                <LeftBar/>
             </MyLoxy>
         );
     }

@@ -1,0 +1,17 @@
+.thumbnail {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    border-radius: 1.5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+
+    &:hover {
+        filter: brightness(1.1);
+    }
+
+    &:active {
+        filter: brightness(0.9);
+    }
+}

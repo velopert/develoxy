@@ -1,0 +1,35 @@
+.left-bar {
+    width: 4.5rem;
+    background: white;
+    border-right: 1px solid $oc-gray-3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .logo {
+        width: 4.5rem;
+        height: 4.5rem;
+        background: $oc-pink-6;
+        font-size: 2rem;
+        line-height: 4.5rem;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        user-select: none;
+        cursor: pointer;
+        &:hover {
+            background: $oc-pink-5;
+        }
+        &:active {
+            background: $oc-pink-7;
+        }
+    }
+
+    .buttons {
+        margin-top: 1rem;
+    }
+
+    .placeholder {
+        flex-grow: 1;
+    }
+}

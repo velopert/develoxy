@@ -1,0 +1,30 @@
+.circular-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    border: 2px solid $oc-gray-6;
+    color: $oc-gray-6;
+
+    .icon {
+        font-size: 1.5rem;
+    }
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        color: $oc-pink-5;
+        border: 2px solid $oc-pink-5;
+    }
+
+    &:active {
+        color: $oc-pink-6;
+        border: 2px solid $oc-pink-6;
+    }
+}
+
+.circular-icon + .circular-icon {
+    margin-top: 1rem;
+}

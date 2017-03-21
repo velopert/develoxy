@@ -1,3 +1,12 @@
 .my-loxy {
-    
+    // 하위 컴포넌트들 불러오기
+    @import 'LeftBar/all';
+
+    // 전체 페이지를 꽉 채움
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
 }
