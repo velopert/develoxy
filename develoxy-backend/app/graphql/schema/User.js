@@ -4,6 +4,7 @@ const User = `
         username: String
         displayName: String
         thumbnail: String
+        categories: [Category]
     }
 `;
 

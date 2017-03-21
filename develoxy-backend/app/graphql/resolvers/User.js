@@ -1,10 +1,26 @@
 const models = require('./../../models/index');
 const cache = require('./../../helpers/cache');
 
+/*
+    type User {
+        id: Int!
+        username: String
+        displayName: String
+        thumbnail: String
+        categories: [Category]
+    }
+*/
+
 module.exports = {
+    User: {
+        categories: async ({id}, params, ctx) => {
+            // 유저의 카테고리를 불러온다
+            const categories = await models.Category.findByUserId(id);
+            return categories;
+        }
+    },
     Query: {
         user: async (obj, {id, username}, ctx) => {
-            
             // id 로 조회
             if(id) {
                 const key = `graphql:user:id:${id}`;
