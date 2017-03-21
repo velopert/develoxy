@@ -54,12 +54,12 @@ async function getPost({userId, id}) {
     return post;
 }
 
-const getTags = cache.inject(async (id) => {
+const getTags = async (id) => {
     const tags = await models.Tag.findByPostId(id, true);
     
     const mapped = tags.map(tag=>tag.tag);
     return mapped;
-}, 'graphql:post:tag:id');
+}
 
 
 const getCategories = cache.inject(async (id) => {
@@ -91,7 +91,7 @@ const getUser = cache.inject(async (userId) => {
     return user;
 }, 'graphql:user:id');
 
-const getPostsByTag = cache.inject(async ({tag, cursor}) => {
+const getPostsByTag = async ({tag, cursor}) => {
     const posts = await models.Tag.findAll({
         where: {
             tag,
@@ -139,10 +139,10 @@ const getPostsByTag = cache.inject(async ({tag, cursor}) => {
         data: posts,
         nextExists: nextCount > 0
     };
-}, `graphql:posts:tag`)
+}
 
 
-const getPostsByCategory = cache.inject(async ({category, cursor}) => {
+const getPostsByCategory = async ({category, cursor}) => {
     const descendants = await models.Category.findAllDescendant(category);
 
     const posts = await models.PostCategory.findAll({
@@ -193,7 +193,7 @@ const getPostsByCategory = cache.inject(async ({category, cursor}) => {
         data: posts,
         nextExists: nextCount > 0
     };
-}, `graphql:posts:category:id`)
+}
 
 const getPostsByUsername = async ({username, cursor}) => {
     const posts = await models.Post.findAll({

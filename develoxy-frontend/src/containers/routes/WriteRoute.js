@@ -35,8 +35,10 @@ class WriteRoute extends Component {
     }
 
     componentDidMount() {
+        // 헤더를 숨긴다
+        const { HeaderActions } = this.props;
+        HeaderActions.hideHeader();
         this.handleCategory.get();
-        console.log(this.context.router.location.pathname);
     }
 
     handleCategory = (() => {
@@ -193,12 +195,6 @@ class WriteRoute extends Component {
             }
         }
     })()
-
-    componentWillMount() {
-        // 헤더를 숨긴다
-        const { HeaderActions } = this.props;
-        HeaderActions.hideHeader();
-    }
 
     componentWillUnmount() {
         // 헤더를 보여준다
