@@ -16,11 +16,11 @@ const LeftBar = () => {
                 d
              </div>
              <div className="buttons">
-                <CircularIcon><IonHome className="icon"/></CircularIcon>
-                <CircularIcon><IonSearch className="icon"/></CircularIcon>
-                <CircularIcon><IonApps className="icon"/></CircularIcon>
-                <CircularIcon><IonFolder className="icon"/></CircularIcon>
-                <CircularIcon><IonPound className="icon" style={{fontSize: '1.2rem', transform: 'translateX(0.1rem)'}}/></CircularIcon>
+                <CircularIcon tooltip="홈으로"><IonHome className="icon"/></CircularIcon>
+                <CircularIcon tooltip="검색"><IonSearch className="icon"/></CircularIcon>
+                <CircularIcon tooltip="전체보기"><IonApps className="icon"/></CircularIcon>
+                <CircularIcon tooltip="태그" ><IonFolder className="icon"/></CircularIcon>
+                <CircularIcon tooltip="태그" ><IonPound className="icon" style={{fontSize: '1.2rem', transform: 'translateX(0.1rem)'}}/></CircularIcon>
              </div>
              <div className="placeholder"></div>
              <Thumbnail/>

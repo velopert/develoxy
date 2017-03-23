@@ -68,6 +68,7 @@
     "react-onclickoutside": "^5.8.3",
     "react-redux": "^5.0.2",
     "react-router": "^3.0.2",
+    "react-tooltip": "^3.2.9",
     "react-ui-tree": "^2.6.0",
     "redux": "^3.6.0",
     "redux-actions": "^1.2.1",

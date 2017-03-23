@@ -1,6 +1,8 @@
 .my-loxy {
     // 하위 컴포넌트들 불러오기
     @import 'LeftBar/all';
+    @import 'SideContents/all';
+    @import 'PostBody/all';
 
     // 전체 페이지를 꽉 채움
     position: absolute;
