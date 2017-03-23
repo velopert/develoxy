@@ -1,0 +1,18 @@
+.preview-wrapper {
+    .preview {
+        height: 9rem;
+        padding: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        cursor: pointer;
+        &:hover {
+            background: $oc-pink-5;
+            color: white;
+            
+        }
+    }
+}
+
+.preview-wrapper + .preview-wrapper {
+    border-top: 1px solid $oc-gray-3;
+}

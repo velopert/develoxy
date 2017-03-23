@@ -1,5 +1,52 @@
 .side-contents {
-    width: 25rem;
+    // 하위 컴포넌트 스타일 불러오기
+    @import 'Preview';
+    @import 'PreviewList';
+
+    width: 23rem;
     background: $oc-gray-0;
     border-right: 1px solid $oc-gray-2;
+    display: flex;
+    flex-direction: column;
+    .header {
+        border-bottom: 1px solid $oc-gray-4;
+        .title {
+            padding: 1rem;
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: $oc-gray-7;
+        }
+
+        .top-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-left: 1rem;
+            padding-bottom: 0.5rem;
+            padding-right: 0.75rem;
+            font-size: 0.9rem;
+            color: $oc-gray-5;
+            .sort-by {
+                padding: 0.25rem;
+                .icon {
+                    margin-left: 0.25rem;
+                }
+                border-radius: 2px;
+                border: 1px solid transparent;
+                cursor: pointer;
+                user-select: none;
+                &:hover {
+                    border: 1px solid $oc-gray-5;
+                }
+                &:active {
+                    background: $oc-gray-1;
+                }
+            }
+        }
+    }
+    .contents {
+        flex-grow: 1;
+        position: relative;
+    }
 }

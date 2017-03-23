@@ -15,13 +15,13 @@
     cursor: pointer;
 
     &:hover {
-        color: $oc-pink-5;
-        border: 2px solid $oc-pink-5;
+        color: $oc-pink-4;
+        border: 2px solid $oc-pink-4;
     }
 
-    &:active {
-        color: $oc-pink-6;
-        border: 2px solid $oc-pink-6;
+    &:active, &.active {
+        color: $oc-pink-5;
+        border: 2px solid $oc-pink-5;
     }
 }
 
