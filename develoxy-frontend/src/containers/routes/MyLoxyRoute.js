@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 // MyLoxy 관련 컴포넌트 로딩
 import MyLoxy, { LeftBar, PostBody } from 'components/MyLoxy';
 import SideContents, { PreviewList } from 'components/MyLoxy/SideContents';
-
+import DuruwaBar from 'components/MyLoxy/DuruwaBar';
 
 class MyLoxyRoute extends Component {
 
@@ -26,6 +26,15 @@ class MyLoxyRoute extends Component {
 
         const { MyLoxyActions } = this.props;
         MyLoxyActions.selectLeftBarMenu(value);
+
+        if(value !== 'all') {
+            MyLoxyActions.setDuruwaBarVisibility(true);
+        }
+    }
+
+    handleCancelDuruwaBar = () => {
+        const { MyLoxyActions } = this.props;
+        MyLoxyActions.setDuruwaBarVisibility(false);
     }
 
     componentDidMount() {
@@ -43,21 +52,23 @@ class MyLoxyRoute extends Component {
     
     render() {
         // 편의를 위한 리퍼런스 생성
-        const { status: { leftBarMenu } } = this.props;
+        const { handleCancelDuruwaBar } = this;
+        const { status: { leftBar, duruwaBar } } = this.props;
         const { handleLeftBarClick } = this;
         const count = 713;
 
 
         return (
             <MyLoxy>
-                <LeftBar selected={leftBarMenu} onClick={handleLeftBarClick}/>
+                <DuruwaBar visible={duruwaBar.get('visible')} onCancel={handleCancelDuruwaBar}/>
+                <LeftBar selected={leftBar.get('current')} onClick={handleLeftBarClick}/>
                 <SideContents 
-                    menu={leftBarMenu}
+                    menu={leftBar.get('current')}
                     count={count}
                 >
                     <PreviewList/>
                 </SideContents>
-                <PostBody/>
+                <PostBody darken={duruwaBar.get('visible')}/>
             </MyLoxy>
         );
     }
@@ -66,7 +77,8 @@ class MyLoxyRoute extends Component {
 MyLoxyRoute = connect(
     state => ({
         status: {
-            leftBarMenu: state.myloxy.get('leftBarMenu')
+            leftBar: state.myloxy.get('leftBar'),
+            duruwaBar: state.myloxy.get('duruwaBar')
         }
     }),
     dispatch => ({

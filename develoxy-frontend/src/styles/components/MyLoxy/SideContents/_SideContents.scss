@@ -4,6 +4,7 @@
     @import 'PreviewList';
 
     width: 23rem;
+    flex-shrink: 0;
     background: $oc-gray-0;
     border-right: 1px solid $oc-gray-2;
     display: flex;

@@ -1,4 +1,28 @@
 .post-body {
+    @import 'Layer';
     background: white;
     flex-grow: 1;
+    overflow-y: scroll;
+    position: relative;
+
+    .inner {
+        padding: 1rem;
+        padding-top: 4rem;
+        margin: 0 auto;
+        
+        .content {
+            white-space: pre-line;
+            word-wrap: break-word;         
+        }
+        overflow: hidden;
+        width: 80%;
+    }
+
+
+    
+    @include media("<desktop") {
+        .inner {
+            width: 100%;
+        }
+    }
 }

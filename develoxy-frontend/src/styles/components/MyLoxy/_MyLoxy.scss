@@ -3,6 +3,7 @@
     @import 'LeftBar/all';
     @import 'SideContents/all';
     @import 'PostBody/all';
+    @import 'DuruwaBar/all';
 
     // 전체 페이지를 꽉 채움
     position: absolute;
@@ -11,5 +12,4 @@
     bottom: 0;
     right: 0;
     display: flex;
-
 }

@@ -5,24 +5,40 @@
         padding-left: 1rem;
         padding-right: 1rem;
         cursor: pointer;
-        &:hover {
-            background: $oc-pink-5;
-            color: white;
-        }
-        &:active {
-            background: $oc-pink-6;
-        }
 
         .title {
             font-size: 1.3rem;
             color: $oc-gray-7;
-            font-weight: 500;
+            font-weight: 400;
         }
 
-        .contents {
-            
+        .date {
+            color: $oc-gray-6;
+            font-size: 0.8rem;
+            font-weight: 300;
+            margin-top: 0.25rem;
+        }
+
+        .content {
+            margin-top: 0.45rem;
+            color: $oc-gray-7;
+            overflow: hidden;
+            height: 4rem;
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+
+        &:hover {
+            background: $oc-pink-5;
+            .title, .date, .content {
+                color: white;
+            }
+        }
+        &:active {
+            background: $oc-pink-6;
         }
     }
+    
 }
 
 .preview-wrapper + .preview-wrapper {
