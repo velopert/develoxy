@@ -3,13 +3,18 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import routes from 'routes';
 
+import { ApolloProvider } from 'react-apollo';
+
+import { client } from 'redux/configureStore';
+
+
 class Root extends React.Component { 
     render() {
         const { store, history } = this.props;
         return(
-          <Provider store={store}>
+          <ApolloProvider store={store} client={client}>
              <Router routes={routes} history={history} createElement={this.createElement}/>
-          </Provider>
+          </ApolloProvider>
         );
     }
 }
