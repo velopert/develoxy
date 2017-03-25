@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Preview from './Preview';
 
-const mockData = new Array(30);
+const mockData = new Array(15);
 mockData.fill(0);
 
 class PreviewList extends Component {

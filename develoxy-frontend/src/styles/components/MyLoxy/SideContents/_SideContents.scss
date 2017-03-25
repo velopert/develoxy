@@ -8,6 +8,8 @@
     border-right: 1px solid $oc-gray-2;
     display: flex;
     flex-direction: column;
+
+
     .header {
         border-bottom: 1px solid $oc-gray-4;
         .title {
@@ -47,6 +49,6 @@
     }
     .contents {
         flex-grow: 1;
-        position: relative;
+        overflow-y: scroll;
     }
 }

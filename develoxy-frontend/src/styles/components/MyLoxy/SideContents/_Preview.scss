@@ -1,13 +1,25 @@
 .preview-wrapper {
     .preview {
         height: 9rem;
-        padding: 0.5rem;
+        padding: 0.75rem;
         padding-left: 1rem;
         padding-right: 1rem;
         cursor: pointer;
         &:hover {
             background: $oc-pink-5;
             color: white;
+        }
+        &:active {
+            background: $oc-pink-6;
+        }
+
+        .title {
+            font-size: 1.3rem;
+            color: $oc-gray-7;
+            font-weight: 500;
+        }
+
+        .contents {
             
         }
     }
