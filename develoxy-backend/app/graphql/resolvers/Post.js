@@ -105,7 +105,7 @@ const getPostsByTag = async ({tag, cursor, me}) => {
             models.Post
         ],
         order: [[models.Post, 'id', 'DESC']],
-        limit: 5,
+        limit: 10,
         raw: true
     });
 
@@ -131,7 +131,7 @@ const getPostsByTag = async ({tag, cursor, me}) => {
             models.Post
         ],
         order: [[models.Post, 'id', 'DESC']],
-        limit: 5,
+        limit: 10,
         raw: true
     });
 
@@ -159,7 +159,7 @@ const getPostsByCategory = async ({category, cursor, me}) => {
             models.Post
         ],
         order: [[models.Post, 'id', 'DESC']],
-        limit: 5,
+        limit: 10,
         raw: true
     });
 
@@ -185,7 +185,7 @@ const getPostsByCategory = async ({category, cursor, me}) => {
             models.Post
         ],
         order: [[models.Post, 'id', 'DESC']],
-        limit: 5,
+        limit: 10,
         raw: true
     });
 
@@ -198,7 +198,7 @@ const getPostsByCategory = async ({category, cursor, me}) => {
 const getPostsByUsername = async ({username, cursor, me, temp}) => {
     const posts = await models.Post.findAll({
         where: {
-            isTemp: (me && temp) ? true : false,
+            isTemp: (me && temp) ? { ne: null } : false,
             visibility: me ? { ne: null } : 'public',
             '$User.username$': username,
             id: cursor ? { lt: cursor } : { ne: null },
@@ -207,7 +207,7 @@ const getPostsByUsername = async ({username, cursor, me, temp}) => {
             models.User
         ],
         order: [['id', 'DESC']],
-        limit: 5,
+        limit: 10,
         raw: true
     });
 
@@ -222,7 +222,7 @@ const getPostsByUsername = async ({username, cursor, me, temp}) => {
 
     const nextCount = await models.Post.count({
         where: {
-            isTemp: (me && temp) ? true : false,
+            isTemp: (me && temp) ? { ne: null } : false,
             visibility: me ? { ne: null } : 'public',
             '$User.username$': username,
             id: lastId ? { lt: lastId } : { ne: null },
@@ -231,7 +231,7 @@ const getPostsByUsername = async ({username, cursor, me, temp}) => {
             models.User
         ],
         order: [['id', 'DESC']],
-        limit: 5,
+        limit: 10,
         raw: true
     });
 
