@@ -222,7 +222,7 @@ const getPostsByUsername = async ({username, cursor}) => {
 
     const lastId = posts[posts.length - 1].id;
 
-    const nextCount = await models.Post.findAll({
+    const nextCount = await models.Post.count({
         where: {
             isTemp: false,
             visibility: 'public',
@@ -236,6 +236,7 @@ const getPostsByUsername = async ({username, cursor}) => {
         limit: 5,
         raw: true
     });
+
 
     return {
         data: posts,
@@ -258,7 +259,10 @@ module.exports = {
         },
 
 
-        posts: async (obj, {tag, category, username, cursor}, ctx) => {
+        posts: async (obj, {tag, category, username, cursor, me}, ctx) => {
+            if(me) {
+                console.log(ctx.tokenPayload.data);
+            }
             const handler = {
                 tag: async () => {
                     const results = await getPostsByTag({tag, cursor});
