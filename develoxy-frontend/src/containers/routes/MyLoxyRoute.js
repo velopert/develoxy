@@ -11,6 +11,9 @@ import MyLoxy, { LeftBar, PostBody } from 'components/MyLoxy';
 import SideContents, { PreviewList } from 'components/MyLoxy/SideContents';
 import DuruwaBar from 'components/MyLoxy/DuruwaBar';
 
+// Apollo 
+import { gql, graphql } from 'react-apollo';
+
 class MyLoxyRoute extends Component {
 
     handleLeftBarClick = (value) => {
@@ -74,8 +77,28 @@ class MyLoxyRoute extends Component {
     }
 }
 
+const IHateYou = gql`query Posts($username:String) {
+  posts(username:$username){
+    data {
+      id
+    }
+  }
+}`;
+
+// 데이터 로딩
+MyLoxyRoute = graphql(IHateYou)(MyLoxyRoute, {
+  options: ({ username, ...rest }) => { 
+      console.log(rest)
+      return { variables: { username: "what?" } }
+    }
+})
+
+
 MyLoxyRoute = connect(
     state => ({
+ 
+            username: 'velopert',
+
         status: {
             leftBar: state.myloxy.get('leftBar'),
             duruwaBar: state.myloxy.get('duruwaBar')
