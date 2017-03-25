@@ -91,7 +91,7 @@ const getUser = cache.inject(async (userId) => {
     return user;
 }, 'graphql:user:id');
 
-const getPostsByTag = async ({tag, cursor}) => {
+const getPostsByTag = async ({tag, cursor, me}) => {
     const posts = await models.Tag.findAll({
         where: {
             tag,
@@ -99,7 +99,7 @@ const getPostsByTag = async ({tag, cursor}) => {
                 lt: cursor
             } : { ne: null },
             '$Post.is_temp$': false,
-            '$Post.visibility$': 'public'
+            '$Post.visibility$': me ? { ne: null } : 'public'
         },
         include: [
             models.Post
@@ -125,7 +125,7 @@ const getPostsByTag = async ({tag, cursor}) => {
                 lt: lastId
             } : { ne: null },
             '$Post.is_temp$': false,
-            '$Post.visibility$': 'public'
+            '$Post.visibility$': me ? { ne: null } : 'public'
         },
         include: [
             models.Post
@@ -142,7 +142,7 @@ const getPostsByTag = async ({tag, cursor}) => {
 }
 
 
-const getPostsByCategory = async ({category, cursor}) => {
+const getPostsByCategory = async ({category, cursor, me}) => {
     const descendants = await models.Category.findAllDescendant(category);
 
     const posts = await models.PostCategory.findAll({
@@ -152,7 +152,7 @@ const getPostsByCategory = async ({category, cursor}) => {
                 lt: cursor
             } : { ne: null },
             '$Post.is_temp$': false,
-            '$Post.visibility$': 'public'
+            '$Post.visibility$': me ? { ne: null } : 'public'
         },
         attributes: [[models.sequelize.fn('DISTINCT', models.sequelize.col('post_id')), 'postId']],
         include: [
@@ -179,7 +179,7 @@ const getPostsByCategory = async ({category, cursor}) => {
                 lt: lastId
             } : { ne: null },
             '$Post.is_temp$': false,
-            '$Post.visibility$': 'public'
+            '$Post.visibility$': me ? { ne: null } : 'public'
         },
         include: [
             models.Post
@@ -195,11 +195,11 @@ const getPostsByCategory = async ({category, cursor}) => {
     };
 }
 
-const getPostsByUsername = async ({username, cursor}) => {
+const getPostsByUsername = async ({username, cursor, me, temp}) => {
     const posts = await models.Post.findAll({
         where: {
-            isTemp: false,
-            visibility: 'public',
+            isTemp: (me && temp) ? true : false,
+            visibility: me ? { ne: null } : 'public',
             '$User.username$': username,
             id: cursor ? { lt: cursor } : { ne: null },
         },
@@ -210,8 +210,6 @@ const getPostsByUsername = async ({username, cursor}) => {
         limit: 5,
         raw: true
     });
-    
-    console.log(posts);
 
     if(posts.length === 0) {
         return {
@@ -224,8 +222,8 @@ const getPostsByUsername = async ({username, cursor}) => {
 
     const nextCount = await models.Post.count({
         where: {
-            isTemp: false,
-            visibility: 'public',
+            isTemp: (me && temp) ? true : false,
+            visibility: me ? { ne: null } : 'public',
             '$User.username$': username,
             id: lastId ? { lt: lastId } : { ne: null },
         },
@@ -259,13 +257,16 @@ module.exports = {
         },
 
 
-        posts: async (obj, {tag, category, username, cursor, me}, ctx) => {
+        posts: async (obj, {tag, category, username, cursor, me, temp}, ctx) => {
+            
             if(me) {
-                console.log(ctx.tokenPayload.data);
+                if(!ctx.request.logged) throw new Error('no permission');
+                if(ctx.request.tokenPayload.data.username !== username) throw new Error('no permission');
             }
+
             const handler = {
                 tag: async () => {
-                    const results = await getPostsByTag({tag, cursor});
+                    const results = await getPostsByTag({tag, cursor, me});
 
                     if(results.data === null) return { data: null, next: null };
 
@@ -297,7 +298,7 @@ module.exports = {
                     };   
                 },
                 category: async () => {
-                    const results = await getPostsByCategory({category, cursor});
+                    const results = await getPostsByCategory({category, cursor, me});
 
                     if(results.data === null) return { data: null, next: null };
 
@@ -329,7 +330,7 @@ module.exports = {
                     };  
                 },
                 username: async () => {
-                    const results = await getPostsByUsername({username, cursor});
+                    const results = await getPostsByUsername({username, cursor, me, temp});
 
                     if(results.data === null) return { data: null, next: null };
 
@@ -387,7 +388,6 @@ module.exports = {
         },
         user: async (obj, params, ctx) => {
             const user = await getUser(obj.userId);
-            console.log(user);
             return user;
         }
     }
