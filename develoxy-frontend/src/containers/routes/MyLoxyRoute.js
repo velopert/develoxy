@@ -86,20 +86,16 @@ const IHateYou = gql`query Posts($username:String) {
 }`;
 
 // 데이터 로딩
-MyLoxyRoute = graphql(IHateYou)(MyLoxyRoute, {
-  options: ({ username, ...rest }) => { 
-      console.log(rest)
-      return { variables: { username: "what?" } }
+MyLoxyRoute = graphql(IHateYou, {
+  options: ({ status }) => { 
+      return { variables: { username: status.username } }
     }
-})
-
+})(MyLoxyRoute)
 
 MyLoxyRoute = connect(
     state => ({
- 
+         status: {
             username: 'velopert',
-
-        status: {
             leftBar: state.myloxy.get('leftBar'),
             duruwaBar: state.myloxy.get('duruwaBar')
         }

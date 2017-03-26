@@ -91,7 +91,7 @@ const getUser = cache.inject(async (userId) => {
     return user;
 }, 'graphql:user:id');
 
-const getPostsByTag = async ({tag, cursor, me}) => {
+const getPostsByTag = async ({tag, cursor, me, username}) => {
     const posts = await models.Tag.findAll({
         where: {
             tag,
@@ -99,10 +99,19 @@ const getPostsByTag = async ({tag, cursor, me}) => {
                 lt: cursor
             } : { ne: null },
             '$Post.is_temp$': false,
-            '$Post.visibility$': me ? { ne: null } : 'public'
+            '$Post.visibility$': me ? { ne: null } : 'public',
+            '$Post.User.username$': username ? username : { ne: null } 
         },
         include: [
-            models.Post
+            {
+                model: models.Post,
+                include: [
+                    {
+                        model: models.User,
+                        attributes: ['username']
+                    }
+                ]
+            }
         ],
         order: [[models.Post, 'id', 'DESC']],
         limit: 10,
@@ -125,10 +134,19 @@ const getPostsByTag = async ({tag, cursor, me}) => {
                 lt: lastId
             } : { ne: null },
             '$Post.is_temp$': false,
-            '$Post.visibility$': me ? { ne: null } : 'public'
+            '$Post.visibility$': me ? { ne: null } : 'public',
+            '$Post.User.username$': username ? username : { ne: null } 
         },
         include: [
-            models.Post
+            {
+                model: models.Post,
+                include: [
+                    {
+                        model: models.User,
+                        attributes: ['username']
+                    }
+                ]
+            }
         ],
         order: [[models.Post, 'id', 'DESC']],
         limit: 10,
@@ -264,9 +282,11 @@ module.exports = {
                 if(ctx.request.tokenPayload.data.username !== username) throw new Error('no permission');
             }
 
+
+
             const handler = {
                 tag: async () => {
-                    const results = await getPostsByTag({tag, cursor, me});
+                    const results = await getPostsByTag({tag, cursor, me, username});
 
                     if(results.data === null) return { data: null, next: null };
 

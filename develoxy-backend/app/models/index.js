@@ -12,7 +12,7 @@ const sequelize = new Sequelize(
     {
         host: config.host,
         dialect: config.dialect,
-        logging: false
+        logging: true
     }
 );
 
@@ -49,10 +49,14 @@ db.Category.belongsTo(db.User, {foreignKey: {
   field: 'user_id'
 }});
 
+db.User.hasMany(db.Post);
+
 db.Post.belongsTo(db.User, {foreignKey: {  
   name: 'userId',
   field: 'user_id'
 }});
+
+
 
 db.PostCategory.belongsTo(db.Post, {foreignKey: {  
   name: 'postId',
