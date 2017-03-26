@@ -69,7 +69,7 @@ class MyLoxyRoute extends Component {
                     menu={leftBar.get('current')}
                     count={count}
                 >
-                    <PreviewList/>
+                    <PreviewList username="velopert"/>
                 </SideContents>
                 <PostBody darken={duruwaBar.get('visible')}/>
             </MyLoxy>
@@ -77,25 +77,26 @@ class MyLoxyRoute extends Component {
     }
 }
 
-const IHateYou = gql`query Posts($username:String) {
-  posts(username:$username){
-    data {
-      id
-    }
-  }
-}`;
+// const IHateYou = gql`query Posts($username:String, $category: Integer, $tag: String) {
+//   posts(username:$username){
+//     data {
+//       id
+//     }
+//   }
+// }`;
 
-// 데이터 로딩
-MyLoxyRoute = graphql(IHateYou, {
-  options: ({ status }) => { 
-      return { variables: { username: status.username } }
-    }
-})(MyLoxyRoute)
+// // 데이터 로딩
+// MyLoxyRoute = graphql(IHateYou, {
+//   options: ({ status }) => { 
+//       return { variables: { username: status.test } }
+//     }
+// })(MyLoxyRoute)
 
 MyLoxyRoute = connect(
     state => ({
          status: {
             username: 'velopert',
+            test: state.myloxy.get('test'),
             leftBar: state.myloxy.get('leftBar'),
             duruwaBar: state.myloxy.get('duruwaBar')
         }

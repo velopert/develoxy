@@ -1,24 +1,60 @@
 import React, { Component } from 'react';
 import Preview from './Preview';
 
-const mockData = new Array(15);
-mockData.fill(0);
+import { gql, graphql } from 'react-apollo';
 
 class PreviewList extends Component {
     render() {
 
-        const previewList = mockData.map(
-            (preview, i) => (<Preview key={i}/>)
+        if (!this.props.data.posts) { return null };
+        const previews = this.props.data.posts.data;
+
+        const previewList = previews.map(
+            preview => (
+                <Preview
+                    key={preview.id}
+                    title={preview.title}
+                    content={preview.preview}
+                    date={preview.releaseDate}
+                />
+                )
         );
 
         return (
             <div className="preview-list-wrapper">
                 <div className="preview-list">
-                    {previewList}
+                    { previewList }
                 </div>
             </div>
         );
     }
 }
 
-export default PreviewList;
+// const LoadPreview = gql`
+//     query loadPreview($username: String, $category: Integer, $tag: String) {
+//         posts(username: $username) {
+//             data: {
+//                 id
+//                 title
+//                 preview
+//                 releaseDate
+//             }
+//         }
+//     }
+// `
+
+const LoadPreview = gql`query Posts($username: String, $category: Int, $tag: String) {
+  posts(username: $username, category: $category, tag: $tag){
+    data {
+        id
+        title
+        preview
+        releaseDate
+    }
+  }
+}`;
+
+const PreviewListWithData = graphql(LoadPreview)(PreviewList)
+
+
+export default PreviewListWithData;

@@ -282,8 +282,6 @@ module.exports = {
                 if(ctx.request.tokenPayload.data.username !== username) throw new Error('no permission');
             }
 
-
-
             const handler = {
                 tag: async () => {
                     const results = await getPostsByTag({tag, cursor, me, username});
@@ -302,19 +300,7 @@ module.exports = {
 
                     return {
                         data: posts,
-                        next: results.nextExists ? `/graphql?query=${encodeURI(`
-                                query { 
-                                    posts(tag:"${tag}", cursor: ${posts[posts.length-1].id}) {
-                                        data {
-                                            id
-                                            title
-                                            preview
-                                            releaseDate
-                                        }
-                                        next
-                                    }
-                                }
-                            `.replace(/  +/g, ' '))}` : null
+                        hasNext: results.nextExists
                     };   
                 },
                 category: async () => {
@@ -334,19 +320,7 @@ module.exports = {
 
                     return {
                         data: posts,
-                        next: results.nextExists ? `/graphql?query=${encodeURI(`
-                                query { 
-                                    posts(category:${category}, cursor: ${posts[posts.length-1].id}) {
-                                        data {
-                                            id
-                                            title
-                                            preview
-                                            releaseDate
-                                        }
-                                        next
-                                    }
-                                }
-                            `.replace(/  +/g, ' '))}` : null
+                        hasNext: results.nextExists
                     };  
                 },
                 username: async () => {
@@ -358,19 +332,7 @@ module.exports = {
 
                     return {
                         data: posts,
-                        next: results.nextExists ? `/graphql?query=${encodeURI(`
-                                query { 
-                                    posts(username:"${username}", cursor: ${posts[posts.length-1].id}) {
-                                        data {
-                                            id
-                                            title
-                                            preview
-                                            releaseDate
-                                        }
-                                        next
-                                    }
-                                }
-                            `.replace(/  +/g, ' '))}` : null
+                        hasNext: results.nextExists
                     };  
                 }
             };
