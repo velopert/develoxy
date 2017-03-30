@@ -9,6 +9,7 @@
     "fb": "^1.1.1",
     "googleapis": "^16.1.0",
     "graphql": "^0.9.1",
+    "graphql-server-koa": "^0.6.0",
     "graphql-tools": "^0.10.1",
     "joi": "^10.2.2",
     "jsonwebtoken": "^7.3.0",

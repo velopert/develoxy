@@ -3,7 +3,7 @@
     position: relative;
     .preview {
         .title {
-            font-size: 2em;
+            font-size: 1.5rem;
             font-weight: 600;
         }
         .date {
@@ -16,12 +16,16 @@
         width: 100%;
         height: 100%;
         padding: 2rem;
-        line-height: 1.5;
-        color: #333;
-        font-size: 1.5rem;
-        line-height: 1.5;
+        // line-height: 1.5;
+        // color: #333;
+        // font-size: 1.5rem;
         word-wrap: break-word;
         overflow: auto;
         @import 'markdown';
+
+        line-height: 1.45rem;
+        color: $oc-gray-8;
+        font-weight: 300;
+        font-size: 1.45rem;
     }
 }

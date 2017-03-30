@@ -44,7 +44,7 @@ class EyeCatchy extends Component {
         // if(hidden) return null;
 
         return (
-            <Content  hide={handleHide}>
+            <Content  hide={handleHide} eventTypes={["click", "touchend"]}>
                 {children}
             </Content>
         )

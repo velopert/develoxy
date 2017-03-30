@@ -16,7 +16,7 @@ import { gql, graphql } from 'react-apollo';
 
 class MyLoxyRoute extends Component {
 
-    handleLeftBarClick = (value) => {
+    handleLeftBarClick = async (value) => {
         if(value === 'home') {
             // 홈의 경우..
             return;
@@ -27,10 +27,13 @@ class MyLoxyRoute extends Component {
             return;
         }
 
-        const { MyLoxyActions } = this.props;
+        const { MyLoxyActions, status: { leftBar, duruwaBar } } = this.props;
         MyLoxyActions.selectLeftBarMenu(value);
+        //&& (!duruwaBar.get('visible') && value !== leftBar.get('current'))
 
         if(value !== 'all') {
+            // 만약에, 이미 열려있어!
+            if(duruwaBar.get('visible') && value === leftBar.get('prev')) return; // 똑같은거 누르면 다시 안열음
             MyLoxyActions.setDuruwaBarVisibility(true);
         }
     }
@@ -71,7 +74,7 @@ class MyLoxyRoute extends Component {
                     menu={leftBar.get('current')}
                     count={count}
                 >
-                    <PreviewList username="velopert" onSelect={handleSelectPostId}/>
+                    <PreviewList username="velopert" onSelect={handleSelectPostId} postId={postId}/>
                 </SideContents>
                 <PostBody darken={duruwaBar.get('visible')} postId={postId}/>
             </MyLoxy>

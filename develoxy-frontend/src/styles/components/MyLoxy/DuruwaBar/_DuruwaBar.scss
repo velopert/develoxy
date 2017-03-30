@@ -5,12 +5,16 @@
     width: 30rem;
     background: white;
     transition: all 0.3s ease-in-out;
-    left: -34.5rem;
     border-right: 5px solid $oc-pink-5;
     background: white;
 
     z-index: $z-index-myloxy-duruwabar;
-    &.visible {
-        left: 4.5rem;
+    left: 4.5rem;
+
+    &.fadeInLeft, &.fadeOutLeft {
+        -webkit-animation-duration: 0.3s;
+        animation-duration: 0.3s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
     }
 }

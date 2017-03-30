@@ -49,6 +49,14 @@ class PreviewList extends Component {
 
     }, 200)
 
+    componentWillUpdate(nextProps, nextState) {
+        // 열린 포스트가 없고, 불러올 포스트가 있는 경우 첫번째 아이템을 불러온다.
+        if(nextProps.previews && nextProps.previews.length > 0 && !this.props.postId ) {
+            this.props.onSelect(nextProps.previews[0].id);
+        }
+    }
+    
+
     render() {
         const { onSelect } = this.props;
 
@@ -63,6 +71,7 @@ class PreviewList extends Component {
                     title={preview.title}
                     content={preview.preview}
                     date={preview.releaseDate}
+                    isTemp={preview.isTemp}
                     onClick={onSelect}
                 />
                 )
@@ -80,12 +89,13 @@ class PreviewList extends Component {
     }
 }
 const LoadPreview = gql`query Posts($username: String, $category: Int, $tag: String, $cursor: Int) {
-  posts(username: $username, category: $category, tag: $tag, cursor: $cursor){
+  posts(username: $username, category: $category, tag: $tag, cursor: $cursor, temp: true, me: true){
     data {
         id
         title
         preview
-        releaseDate
+        releaseDate,
+        isTemp
     }
     hasNext
   }

@@ -7,6 +7,12 @@
         cursor: pointer;
 
         .title {
+
+            .temp {
+                color: $oc-pink-5;
+                font-weight: 500;
+            }
+
             font-size: 1.3rem;
             color: $oc-gray-7;
             font-weight: 400;
@@ -36,6 +42,7 @@
 
         &:hover {
             background: $oc-pink-5;
+            .title .temp { color: $oc-pink-2; }
             .title, .date, .content {
                 color: white;
             }

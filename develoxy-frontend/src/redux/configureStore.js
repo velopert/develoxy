@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
-import { ApolloClient } from 'react-apollo';
+import { createNetworkInterface, ApolloClient } from 'react-apollo';
+import storage from 'helpers/storage';
+
 
 /* load modules */
 import base from './modules/base';
@@ -11,7 +13,28 @@ import write from './modules/write';
 import myloxy from './modules/myloxy';
 
 // Initialize Apollo ApolloClient
-export const client = new ApolloClient();
+const networkInterface = createNetworkInterface({
+    uri: '/graphql'
+});
+
+networkInterface.use([{
+    applyMiddleware(req, next) {
+        if(!req.options.headers) {
+            req.options.headers = {}; // 존재하지 않으면 생성한다
+        }
+        const token = storage.get('token');
+        if(token) {
+            req.options.headers['x-access-token'] = token;
+        }
+        next();
+    }
+}]);
+
+export const client = new ApolloClient({
+    networkInterface
+});
+
+
 
 
 

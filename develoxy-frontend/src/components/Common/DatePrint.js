@@ -15,9 +15,9 @@ const monthName = {
     12: 'DEC'
 };
 
-const DatePrint = ({date = new Date()}) => {
+const DatePrint = ({date = new Date(), ...rest}) => {
     return (
-        <span>
+        <span {...rest}>
             {monthName[date.getMonth()]} {("0"+date.getDate()).slice(-2)}. {date.getFullYear()}
         </span>
     );

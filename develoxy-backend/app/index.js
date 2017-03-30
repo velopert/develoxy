@@ -10,13 +10,11 @@ const bodyParser = require('koa-bodyparser');
 const jwtMiddleware =require('./middlewares/jwt');
 
 // GraphQL 관련
-const mount = require('koa-mount');
-const convert = require('koa-convert');
-const graphqlHTTP = require('koa-graphql');
+const graphqlKoa = require('graphql-server-koa').graphqlKoa;
+const graphiqlKoa = require('graphql-server-koa').graphiqlKoa;
 const Schema = require('./graphql');
 
 // Redis
-// const redis = require('./redis');
 const cache = require('./helpers/cache');
 cache.connect();
 
@@ -37,17 +35,16 @@ app.use(jwtMiddleware);
 const router = new Router();
 
 router.use('/api', api.routes());
-// router.post('/graph', graphql);
+
+// GraphQL 적용 (아폴로)
+const graphqlHandler = graphqlKoa(ctx => ({ schema: Schema, context: ctx }))
+router.post('/graphql', graphqlHandler);
+router.get('/graphql', graphqlHandler);
+router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }));
+
 
 app.use(router.routes());
-
-
-
-// // GraphQL 설정
-app.use(mount('/graphql', convert(graphqlHTTP({
-    schema: Schema,
-    graphiql: true
-}))));
+app.use(router.allowedMethods());
 
 
 // 서버 실행
