@@ -5,10 +5,14 @@ import { Map, List } from 'immutable';
 // action types
 const LEFT_BAR_MENU_SELECT = 'myloxy/LEFT_BAR_MENU_SELECT';
 const DURUWA_BAR_VISIBILITY_SET = 'myloxy/DURUWA_BAR_VISIBILITY_SET';
+const POST_ID_SELECT = 'myloxy/POST_ID_SELECT';
+
+
 
 // action creator
 export const selectLeftBarMenu = createAction(LEFT_BAR_MENU_SELECT);
 export const setDuruwaBarVisibility = createAction(DURUWA_BAR_VISIBILITY_SET);
+export const selectPostId = createAction(POST_ID_SELECT);
 
 // initial state
 const initialState = Map({
@@ -18,7 +22,8 @@ const initialState = Map({
     }),
     duruwaBar: Map({
         visible: false
-    })
+    }),
+    postId: null
 });
 
 // reducer
@@ -31,5 +36,8 @@ export default handleActions({
     },
     [DURUWA_BAR_VISIBILITY_SET]: (state, action) => {
         return state.setIn(['duruwaBar', 'visible'], action.payload);
+    },
+    [POST_ID_SELECT]: (state, action) => {
+        return state.set('postId', action.payload)
     }
 }, initialState);

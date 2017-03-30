@@ -14,7 +14,7 @@ const Post = `
     }
     type Posts {
         data: [Post]
-        next: String
+        hasNext: Boolean
     }
 `
 

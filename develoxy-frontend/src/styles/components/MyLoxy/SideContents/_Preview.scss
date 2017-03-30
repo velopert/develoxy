@@ -10,13 +10,19 @@
             font-size: 1.3rem;
             color: $oc-gray-7;
             font-weight: 400;
+            text-overflow: ellipsis;
+            width: 100%;
+            white-space: nowrap;
+            line-height: 1.3rem;
+            height: 1.5rem;
+            overflow: hidden;
         }
 
         .date {
             color: $oc-gray-6;
             font-size: 0.8rem;
             font-weight: 300;
-            margin-top: 0.25rem;
+            margin-top: 0.05rem;
         }
 
         .content {

@@ -8,16 +8,16 @@ const formatDate = (date) => {
 class Preview extends Component {
 
     static defaultProps = {
-        title: '타이틀',
-        content: '내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 내용 '
+        title: '',
+        content: ''
     }
 
 
     render() {
-        const { title, content, date } = this.props;
+        const { id, title, content, date, onClick  } = this.props;
 
         return (
-            <div className="preview-wrapper">
+            <div className="preview-wrapper" onClick={()=>onClick(id)}>
                 <div className="preview">
                     <div className="title">{title}</div>
                     <div className="date">{formatDate(date)}</div>

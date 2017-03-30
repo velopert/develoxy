@@ -40,6 +40,8 @@ class MyLoxyRoute extends Component {
         MyLoxyActions.setDuruwaBarVisibility(false);
     }
 
+    handleSelectPostId = (id) => this.props.MyLoxyActions.selectPostId(id)
+
     componentDidMount() {
         // 마운트 시 헤더를 숨긴다
         const { HeaderActions } = this.props;
@@ -55,9 +57,9 @@ class MyLoxyRoute extends Component {
     
     render() {
         // 편의를 위한 리퍼런스 생성
-        const { handleCancelDuruwaBar } = this;
-        const { status: { leftBar, duruwaBar } } = this.props;
-        const { handleLeftBarClick } = this;
+        const { handleCancelDuruwaBar, handleLeftBarClick, handleSelectPostId } = this;
+        const { status: { leftBar, duruwaBar, postId } } = this.props;
+        
         const count = 713;
 
 
@@ -69,9 +71,9 @@ class MyLoxyRoute extends Component {
                     menu={leftBar.get('current')}
                     count={count}
                 >
-                    <PreviewList username="velopert"/>
+                    <PreviewList username="velopert" onSelect={handleSelectPostId}/>
                 </SideContents>
-                <PostBody darken={duruwaBar.get('visible')}/>
+                <PostBody darken={duruwaBar.get('visible')} postId={postId}/>
             </MyLoxy>
         );
     }
@@ -98,7 +100,8 @@ MyLoxyRoute = connect(
             username: 'velopert',
             test: state.myloxy.get('test'),
             leftBar: state.myloxy.get('leftBar'),
-            duruwaBar: state.myloxy.get('duruwaBar')
+            duruwaBar: state.myloxy.get('duruwaBar'),
+            postId: state.myloxy.get('postId')
         }
     }),
     dispatch => ({
