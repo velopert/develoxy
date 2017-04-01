@@ -77,7 +77,8 @@
     "redux-promise-middleware": "^4.2.0",
     "semantic-ui-css": "^2.2.4",
     "semantic-ui-react": "^0.64.4",
-    "showdown": "^1.6.4"
+    "showdown": "^1.6.4",
+    "styled-components": "^1.4.4"
   },
   "scripts": {
     "start": "node scripts/start.js",

@@ -1,4 +1,4 @@
-export const flatten = (node, flat = [], parent: 'root', index=0, depth=0) => {
+export const flatten = (node, flat = [], parent= 'root', index=0, depth=0) => {
 
     const item = {
         name: node.name,
@@ -23,7 +23,7 @@ export const flatten = (node, flat = [], parent: 'root', index=0, depth=0) => {
     return flat;
 }
 
-export const flattenWithId = (node, flat = [], parent: 'root', index=0, depth=0) => {
+export const flattenWithId = (node, flat = [], parent= 'root', index=0, depth=0) => {
     flat[node.id] = {
         name: node.name,
         parentId: node.parentId,
@@ -43,7 +43,12 @@ export const flattenWithId = (node, flat = [], parent: 'root', index=0, depth=0)
     return flat;
 }
 
-export const orderify = (data) => {
+export const orderify = (categories) => {
+    // clone
+    const data = categories.map(category => ({
+        ...category
+    }));
+
     const reference = {};
 
     data.forEach(
@@ -119,7 +124,8 @@ export const treeize = (flat) => {
 
     converted.forEach(
         (item) => {
-            const parent = reference[item.parentId.toString()];
+            let parent = reference[item.parentId.toString()];
+            if(!parent) parent = reference['0'];
             if(!parent.children) parent.children = [];
             parent.children.push(item);
         }

@@ -4,6 +4,7 @@ const Category = `
         name: String
         parentId: Int!
         parent: Category
+        index: Int
     }
  `
 

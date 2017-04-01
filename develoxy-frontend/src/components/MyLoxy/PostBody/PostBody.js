@@ -8,6 +8,40 @@ import 'highlight.js/styles/monokai-sublime.css';
 import $ from 'jquery';
 import DatePrint from 'components/Common/DatePrint';
 
+import IonFolder from 'react-icons/io/folder';
+
+import Tag from 'components/Common/Tag';
+import styled from 'styled-components'
+import oc from 'open-color';
+
+import { orderify, treeize, flatten } from 'helpers/category';
+
+const StyledFolder = styled(IonFolder)`
+    margin-right: 0.4rem;
+    color: ${oc.gray[6]};
+`
+
+const Categories = styled.div`
+    margin-top: 0.25rem;
+`
+
+const Category = styled.span`
+    color: ${oc.gray[7]};
+    font-size: 0.8rem;
+    &:after {
+        content: " / ";
+        color: ${oc.black};
+    }
+    &:last-child:after {
+        content: "";
+    }
+
+`
+
+const Tags = styled.div`
+    margin-top: 0.35rem;
+`;
+
 class PostBody extends Component {
 
     static defaultProps = {
@@ -16,7 +50,8 @@ class PostBody extends Component {
     }
     
     state = { 
-        html: ''
+        html: '',
+        categories: []
     }
 
     converter = null
@@ -38,7 +73,9 @@ class PostBody extends Component {
 
     renderMarkdown(body) {
         const html = this.converter.makeHtml(body);
-        
+        // 카테고리도 소팅함
+
+
         // state 에 렌더링 결과 담음
         this.setState({
             html
@@ -53,6 +90,10 @@ class PostBody extends Component {
         const { content } = nextProps.data.post;
         if(!this.props.data.post || this.props.data.post.content !== content) {
             this.renderMarkdown(content);
+            const orderedCategory = flatten(treeize(orderify(nextProps.data.post.categories)))
+            this.setState({
+                categories: orderedCategory
+            });
         }
     }
 
@@ -76,7 +117,8 @@ class PostBody extends Component {
 
     render() {
         const { darken, data } = this.props;
-        
+        const { categories } = this.state;
+
         return (
             <div className="post-body">
                 <Layer visible={darken}/>
@@ -84,7 +126,27 @@ class PostBody extends Component {
                     data.post && (
                         <div className="inner" >
                             <div className="title">{data.post.title}</div>
+                            
                             <DatePrint date={new Date(data.post.releaseDate)} className="date"/>
+                            <Tags>
+                                {
+                                    data.post.tags.map(
+                                        tag => (
+                                            <Tag className="tag" key={tag}>
+                                                {tag}
+                                            </Tag>
+                                        )
+                                    )
+                                }
+                            </Tags>
+                            <Categories>
+                                <StyledFolder/>
+                                {
+                                    categories.map(
+                                        category => <Category key={category.id}>{category.name}</Category>
+                                    )
+                                }
+                            </Categories>
                             <div className="content" dangerouslySetInnerHTML={this.createMarkup()}>
                                 
                             </div>
@@ -110,8 +172,9 @@ query Post($id: Int){
     categories {
       id
       name
+      parentId
+      index
     }
-    
   }
 }`
 

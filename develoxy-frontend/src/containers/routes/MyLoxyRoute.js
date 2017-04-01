@@ -33,7 +33,11 @@ class MyLoxyRoute extends Component {
 
         if(value !== 'all') {
             // 만약에, 이미 열려있어!
-            if(duruwaBar.get('visible') && value === leftBar.get('prev')) return; // 똑같은거 누르면 다시 안열음
+            if(duruwaBar.get('visible') && value === leftBar.get('prev')) {
+                
+                return; // 똑같은거 누르면 다시 안열음
+            }
+
             MyLoxyActions.setDuruwaBarVisibility(true);
         }
     }
@@ -41,6 +45,7 @@ class MyLoxyRoute extends Component {
     handleCancelDuruwaBar = () => {
         const { MyLoxyActions } = this.props;
         MyLoxyActions.setDuruwaBarVisibility(false);
+        MyLoxyActions.revertDuruwaBar();
     }
 
     handleSelectPostId = (id) => this.props.MyLoxyActions.selectPostId(id)

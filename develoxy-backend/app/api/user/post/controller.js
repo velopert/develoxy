@@ -94,7 +94,8 @@ module.exports = {
                     tag => {
                         return models.Tag.create({
                             postId,
-                            tag
+                            tag,
+                            userId
                         })
                     }
                 );
@@ -281,7 +282,8 @@ module.exports = {
                     tag => {
                         return models.Tag.create({
                             postId,
-                            tag
+                            tag,
+                            userId
                         })
                     }
                 );

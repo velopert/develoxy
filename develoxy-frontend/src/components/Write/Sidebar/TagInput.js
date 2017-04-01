@@ -18,7 +18,7 @@ class TagInput extends Component {
         const { value } = this.state;
 
 
-        if(value === '') {
+        if(value === '' || value.trim() === '') {
             return;
         }
         

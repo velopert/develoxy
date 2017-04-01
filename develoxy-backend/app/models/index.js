@@ -74,6 +74,13 @@ db.Tag.belongsTo(db.Post, {foreignKey: {
   field: 'post_id'
 }});
 
+db.Tag.belongsTo(db.User, {
+    foreignKey: {
+        name: 'userId',
+        field: 'user_id'
+    }
+});
+
 
 
 

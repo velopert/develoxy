@@ -41,7 +41,7 @@ module.exports = function(sequelize, DataTypes) {
                 return Tag.destroy({
                     where: {
                         postId,
-                        Tag
+                        tag
                     }
                 });
             }

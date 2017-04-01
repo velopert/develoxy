@@ -62,7 +62,7 @@ const getTags = async (id) => {
 }
 
 
-const getCategories = cache.inject(async (id) => {
+const getCategories = async (id) => {
     const postCategories = await models.PostCategory.findAll({
         where: {
             postId: id
@@ -77,10 +77,11 @@ const getCategories = cache.inject(async (id) => {
         postCategory => ({
             id: postCategory['categoryId'],
             name: postCategory['Category.name'],
+            index: postCategory['Category.index'],
             parentId: postCategory['Category.parentId']
         })
     );
-}, 'graphql:post:category:id');
+}
 
 const getUser = cache.inject(async (userId) => {
     const attributes = ['id', 'username', 'displayName', 'thumbnail'];
