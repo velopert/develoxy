@@ -8,18 +8,20 @@ import * as user from 'redux/modules/base/user';
 
 import environment from 'environment';
 
+// routes
+import Routes from './Routes';
+
+
+
 // load components
 import Header, {SidebarButton, BrandLogo, AuthButton, UserButton, UserMenu } from 'components/Base/Header/Header';
-
 import * as Modals from 'components/Base/Modals';
 const { LoginModal, LinkAccountModal } = Modals;
 const { SocialLoginButton } = LoginModal;
 
+
 import storage from 'helpers/storage';
-
 import axios from 'axios';
-
-
 
 class App extends Component {
 
@@ -134,8 +136,8 @@ class App extends Component {
                     email={modal.getIn(['linkAccount', 'email'])}
                 />
 
-
-                {children}
+                <Routes/>
+                
             </div>
         );
     }

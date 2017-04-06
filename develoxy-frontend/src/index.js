@@ -1,56 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Root from 'containers/Root';
+import Root from './containers/Root';
+import { AppContainer } from 'react-hot-loader';
 import { browserHistory } from 'react-router';
 
 
 // redux
 import configureStore from 'redux/configureStore';
 
-
 const store = configureStore();
-
 
 const rootElement = document.getElementById('root');
 
+const render = Component =>
+    ReactDOM.render(
+        <AppContainer>
+            <Component store={store}/>
+        </AppContainer>,
+    rootElement
+);
+
 
 window.onload = function () {
-    ReactDOM.render(
-        <Root store={store} history={browserHistory}/>, rootElement
-    );
+    render(Root);
 }
 
-// ReactDOM.render(
-//     <AppContainer><Root store={store} history={browserHistory}/></AppContainer>, rootElement
-// )
-
-
-// if(module.hot) {
-
-//     /**
-//      * Warning from React Router, caused by react-hot-loader.
-//      * The warning can be safely ignored, so filter it from the console.
-//      * Otherwise you'll see it every time something changes.
-//      * See https://github.com/gaearon/react-hot-loader/issues/298
-//      */
-    
-//     const orgError = console.error;
-//     console.error = (...args) => {
-//         if (args && args[0] && typeof args[0] === 'string' &&
-//             args[0].indexOf('You cannot change <Router routes>;') > -1) {
-//             // React route changed
-//         } else {
-//             // Log the error as normal
-//             orgError.apply(console, args);
-//         }
-//     };
-
-//     module.hot.accept('./containers/Root', () => {
-//         const NextRoot = require('./containers/Root').default;
-//         ReactDOM.render(
-//             <AppContainer>
-//                 <NextRoot store={store} history={browserHistory}/>
-//             </AppContainer>, rootElement
-//         )
-//     })
-// }
+if (module.hot) module.hot.accept('./containers/Root', () => render(Root));

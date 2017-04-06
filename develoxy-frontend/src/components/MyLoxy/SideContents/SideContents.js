@@ -1,5 +1,5 @@
 import React from 'react';
-import IonChevronDown from 'react-icons/io/chevron-down';
+import IonChevronDown from 'react-icons/lib/io/chevron-down';
 
 const menuText = {
     all: '전체보기',

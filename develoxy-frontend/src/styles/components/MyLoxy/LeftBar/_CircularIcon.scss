@@ -4,6 +4,7 @@
     border-radius: 1.5rem;
     border: 2px solid $oc-gray-6;
     color: $oc-gray-6;
+    transition: border-radius .2s;
 
     .icon {
         font-size: 1.5rem;
@@ -17,8 +18,12 @@
     &:hover {
         color: $oc-pink-4;
         border: 2px solid $oc-pink-4;
+        border-radius: 1.2rem;
     }
 
+    &:active {
+        border-radius: .5rem;
+    }
     &:active, &.active {
         color: $oc-pink-5;
         border: 2px solid $oc-pink-5;

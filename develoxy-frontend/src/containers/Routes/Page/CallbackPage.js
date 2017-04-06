@@ -12,7 +12,7 @@ import jwtDecode from 'jwt-decode';
 
 import { Loader } from 'semantic-ui-react';
 
-class CallbackRoute extends Component {
+class CallbackPage extends Component {
 
     static contextTypes = {
         router: React.PropTypes.object
@@ -110,7 +110,7 @@ class CallbackRoute extends Component {
     }
 }
 
-CallbackRoute = connect(
+CallbackPage = connect(
     state => ({
         status: {
             linking: state.register.getIn('pending', 'linkAccount')
@@ -121,7 +121,7 @@ CallbackRoute = connect(
         ModalActions: bindActionCreators(modal, dispatch),
         RegisterActions: bindActionCreators(register, dispatch)
     })
-)(CallbackRoute);
+)(CallbackPage);
 
-export default CallbackRoute;
+export default CallbackPage;
 

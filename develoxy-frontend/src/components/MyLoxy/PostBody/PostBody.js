@@ -8,7 +8,7 @@ import 'highlight.js/styles/monokai-sublime.css';
 import $ from 'jquery';
 import DatePrint from 'components/Common/DatePrint';
 
-import IonFolder from 'react-icons/io/folder';
+import IonFolder from 'react-icons/lib/io/folder';
 
 import Tag from 'components/Common/Tag';
 import styled from 'styled-components'
@@ -35,11 +35,16 @@ const Category = styled.span`
     &:last-child:after {
         content: "";
     }
-
 `
+
 
 const Tags = styled.div`
     margin-top: 0.35rem;
+`;
+
+const NoCategory = styled.span`
+    color: ${oc.gray[5]};
+    font-size: 0.9rem;
 `;
 
 class PostBody extends Component {
@@ -128,24 +133,17 @@ class PostBody extends Component {
                             <div className="title">{data.post.title}</div>
                             
                             <DatePrint date={new Date(data.post.releaseDate)} className="date"/>
-                            <Tags>
-                                {
-                                    data.post.tags.map(
-                                        tag => (
-                                            <Tag className="tag" key={tag}>
-                                                {tag}
-                                            </Tag>
-                                        )
-                                    )
-                                }
-                            </Tags>
+                            
                             <Categories>
                                 <StyledFolder/>
                                 {
-                                    categories.map(
+                                    categories.length === 0 
+                                    ? <NoCategory>분류 없음</NoCategory> 
+                                    : categories.map(
                                         category => <Category key={category.id}>{category.name}</Category>
                                     )
                                 }
+
                             </Categories>
                             <div className="content" dangerouslySetInnerHTML={this.createMarkup()}>
                                 

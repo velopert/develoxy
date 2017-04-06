@@ -1,20 +1,22 @@
-import React, { PropTypes } from 'react';
-import { Provider } from 'react-redux';
-import { Router } from 'react-router';
-import routes from 'routes';
+import React, {PropTypes} from 'react';
+import {Provider} from 'react-redux';
+import {BrowserRouter as Router} from 'react-router-dom';
+import App from './App';
 
-import { ApolloProvider } from 'react-apollo';
+import {ApolloProvider} from 'react-apollo';
+import {client} from 'redux/configureStore';
 
-import { client } from 'redux/configureStore';
 
-
-class Root extends React.Component { 
+class Root extends React.Component {
     render() {
-        const { store, history } = this.props;
-        return(
-          <ApolloProvider store={store} client={client}>
-             <Router routes={routes} history={history} createElement={this.createElement}/>
-          </ApolloProvider>
+        const {store} = this.props;
+
+        return (
+            <ApolloProvider store={store} client={client}>
+                <Router>
+                    <App/>
+                </Router>
+            </ApolloProvider>
         );
     }
 }

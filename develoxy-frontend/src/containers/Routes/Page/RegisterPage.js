@@ -28,7 +28,7 @@ const messages = {
     'USERNAME_EXISTS': '이미 존재하는 아이디입니다.'
 }
 
-class RegisterRoute extends Component {
+class RegisterPage extends Component {
 
     static contextTypes = {
         router: React.PropTypes.object
@@ -222,7 +222,7 @@ class RegisterRoute extends Component {
 
 }
 
-RegisterRoute = connect(
+RegisterPage = connect(
     state => ({
         status: {
             validation: state.register.get('validation'),
@@ -238,6 +238,6 @@ RegisterRoute = connect(
         RegisterActions: bindActionCreators(register, dispatch),
         UserActions: bindActionCreators(user, dispatch)
     })
-)(RegisterRoute);
+)(RegisterPage);
 
-export default RegisterRoute;
+export default RegisterPage;

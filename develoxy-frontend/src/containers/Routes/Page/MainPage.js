@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import * as main from 'redux/modules/main';
 
 
-class MainRoute extends Component {
+class MainPage extends Component {
 
     mainHandler =(() => {
         const { MainActions } = this.props;
@@ -53,7 +53,7 @@ class MainRoute extends Component {
     }
 }
 
-MainRoute = connect(
+MainPage = connect(
     state => ({
         status: {
             main: state.main
@@ -62,6 +62,6 @@ MainRoute = connect(
     dispatch => ({
         MainActions: bindActionCreators(main, dispatch)
     })
-)(MainRoute);
+)(MainPage);
 
-export default MainRoute;
+export default MainPage;

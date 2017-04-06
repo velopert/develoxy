@@ -3,11 +3,11 @@ import CircularIcon from './CircularIcon';
 import Thumbnail from './Thumbnail';
 
 // 아이콘 불러오기
-import IonHome from 'react-icons/io/home';
-import IonSearch from 'react-icons/io/search';
-import IonFolder from 'react-icons/io/folder';
-import IonApps from 'react-icons/io/android-apps';
-import IonPound from 'react-icons/io/pound';
+import IonHome from 'react-icons/lib/io/home';
+import IonSearch from 'react-icons/lib/io/search';
+import IonFolder from 'react-icons/lib/io/folder';
+import IonApps from 'react-icons/lib/io/android-apps';
+import IonPound from 'react-icons/lib/io/pound';
 
 const LeftBar = ({selected, onClick}) => {
     return (

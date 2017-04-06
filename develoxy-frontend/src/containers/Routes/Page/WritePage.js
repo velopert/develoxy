@@ -28,7 +28,7 @@ import debounce from 'lodash/debounce';
 
 import { List, Map } from 'immutable';
 
-class WriteRoute extends Component {
+class WritePage extends Component {
 
     static contextTypes = {
         router: React.PropTypes.object
@@ -90,6 +90,7 @@ class WriteRoute extends Component {
                         item => {
                             // 중복하는 경우 스킵
                             if(check(item)) return;
+                            if(item === '' || item.trim() === '') return;
 
                             // 앞뒤에 space 있는경우 없앰 
                             WriteActions.insertTag(item.trim());
@@ -277,7 +278,7 @@ class WriteRoute extends Component {
 
 
 
-WriteRoute = connect(
+WritePage = connect(
     state => ({
         status: {
             header: state.base.header,
@@ -290,6 +291,6 @@ WriteRoute = connect(
         WriteActions: bindActionCreators(write, dispatch),
         ModalActions: bindActionCreators(modal, dispatch),
     })
-)(WriteRoute);
+)(WritePage);
 
-export default WriteRoute;
+export default WritePage;

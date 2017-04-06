@@ -14,7 +14,7 @@ import DuruwaBar from 'components/MyLoxy/DuruwaBar';
 // Apollo 
 import { gql, graphql } from 'react-apollo';
 
-class MyLoxyRoute extends Component {
+class MyLoxyPage extends Component {
 
     handleLeftBarClick = async (value) => {
         if(value === 'home') {
@@ -96,13 +96,13 @@ class MyLoxyRoute extends Component {
 // }`;
 
 // // 데이터 로딩
-// MyLoxyRoute = graphql(IHateYou, {
+// MyLoxyPage = graphql(IHateYou, {
 //   options: ({ status }) => { 
 //       return { variables: { username: status.test } }
 //     }
-// })(MyLoxyRoute)
+// })(MyLoxyPage)
 
-MyLoxyRoute = connect(
+MyLoxyPage = connect(
     state => ({
          status: {
             username: 'velopert',
@@ -117,6 +117,6 @@ MyLoxyRoute = connect(
         HeaderActions: bindActionCreators(headerActions, dispatch),
         MyLoxyActions: bindActionCreators(myloxyActions, dispatch)
     })
-)(MyLoxyRoute);
+)(MyLoxyPage);
 
-export default MyLoxyRoute;
+export default MyLoxyPage;

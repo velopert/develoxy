@@ -9,3 +9,13 @@ body {
     color: white;
     text-shadow: none;
 }
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}

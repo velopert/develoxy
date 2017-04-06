@@ -15,9 +15,8 @@ const Tag = styled.span`
     font-weight: 400;
     color: ${oc.gray[7]};
     cursor: pointer;
-    & + & {
-        margin-left: 0.6rem;
-    }
+    margin-right: 0.4rem;
+    margin-bottom: 0.4rem;
 
     &:hover {
         background: ${oc.pink[7]};
