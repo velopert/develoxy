@@ -4,6 +4,7 @@ import storage from 'helpers/storage';
 import * as user from 'redux/modules/base/user';
 import * as modal from 'redux/modules/base/modal';
 import * as register from 'redux/modules/register';
+import parseQuery from 'helpers/parse-query';
 
 
 import { connect } from 'react-redux';
@@ -23,20 +24,21 @@ class CallbackPage extends Component {
     }
 
     handleCallback = async () => {
-        const { location: {query} } = this.props;
+        const { location: {search} } = this.props;
 
         // 쿼리 데이터 제대로 안받은경우 그냥 메인페이지로 이동
-
-        if(!query) {
-            this.context.router.history.push('/');
+        if(search === "") {
+            return this.context.router.history.push('/');
         }
 
-        if(!query.token) {
-            this.context.router.history.push('/');
-        }
+        // 쿼리 변환
+        const query = parseQuery(search);
 
         const token = query.token;
 
+        if(!token) {
+            this.context.router.history.push('/');
+        }
 
         axios.defaults.headers.common['x-access-token'] = token;
 
@@ -105,7 +107,7 @@ class CallbackPage extends Component {
     
 
     render() {
-        const { location: {query}, status } = this.props;
+        const { status } = this.props;
         return status.linking ? <Loader active size="massive"/> : null;
     }
 }
