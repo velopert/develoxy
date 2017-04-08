@@ -28,11 +28,11 @@ class CallbackPage extends Component {
         // 쿼리 데이터 제대로 안받은경우 그냥 메인페이지로 이동
 
         if(!query) {
-            this.context.router.push('/');
+            this.context.router.history.push('/');
         }
 
         if(!query.token) {
-            this.context.router.push('/');
+            this.context.router.history.push('/');
         }
 
         const token = query.token;
@@ -42,7 +42,7 @@ class CallbackPage extends Component {
 
         if(query.register) {
             storage.set('tempToken', token);
-            this.context.router.push('/register');  
+            this.context.router.history.push('/register');  
         } 
 
         const { UserActions, ModalActions, RegisterActions } = this.props;
@@ -75,7 +75,7 @@ class CallbackPage extends Component {
                 catch(e) {
                     // TODO: LINK 실패
                 }
-                this.context.router.push('/');
+                this.context.router.history.push('/');
                 return;
             }
 
@@ -83,14 +83,14 @@ class CallbackPage extends Component {
             // 로컬스토리지에 저장
             storage.set('profile', profile);
 
-            this.context.router.push('/');
+            this.context.router.history.push('/');
             // TODO: 마지막으로 보던 페이지로 이동
         }
 
         if(query.integrate) {
             // 연동할 토큰 스토어에 넣기
             const { provider, existingProvider, email } = query;
-            this.context.router.push('/');
+            this.context.router.history.push('/');
             ModalActions.openModal({
                 modalName: 'linkAccount',
                 data: {
