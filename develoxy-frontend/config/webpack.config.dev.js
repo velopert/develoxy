@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     context: paths.context,
+    devtool: 'cheap-module-source-map',
     entry: [
             'react-hot-loader/patch', 
             'webpack-dev-server/client?http://0.0.0.0:3000', 
@@ -19,6 +20,12 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                enforce: 'pre',
+                test: /\.(js|jsx)$/,
+                loader: 'eslint-loader',
+                include: paths.context
+            },
             {
                 exclude: [
                     /\.html$/,

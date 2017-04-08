@@ -96,7 +96,7 @@ class App extends Component {
     
 
     render() {        
-        const { children, status: { modal, user, header } } = this.props;
+        const { status: { modal, user, header } } = this.props;
         const { handleAuth, handleModal, handleLinkAccount, handleUserMenu } = this;
 
         const profile = user.get('profile');

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Route} from 'react-router-dom';
 import {
     MainPage,
-    ReigsterPage,
+    RegisterPage,
     WritePage,
     CallbackPage,
     MyLoxyPage
@@ -16,6 +16,7 @@ class Routes extends Component {
                 <Route path="/write" component={WritePage}/>
                 <Route path="/callback" component={CallbackPage}/>
                 <Route path="/me" component={MyLoxyPage}/>
+                <Route path="/register" component={RegisterPage}/>
             </div>
         );
     }

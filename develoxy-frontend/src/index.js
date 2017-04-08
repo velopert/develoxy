@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './containers/Root';
 import { AppContainer } from 'react-hot-loader';
-import { browserHistory } from 'react-router';
+
 
 
 // redux
