@@ -102,7 +102,7 @@ class MyLoxyPage extends Component {
 //     }
 // })(MyLoxyPage)
 
-MyLoxyPage = connect(
+export default connect(
     state => ({
          status: {
             username: 'velopert',
@@ -118,5 +118,3 @@ MyLoxyPage = connect(
         MyLoxyActions: bindActionCreators(myloxyActions, dispatch)
     })
 )(MyLoxyPage);
-
-export default MyLoxyPage;

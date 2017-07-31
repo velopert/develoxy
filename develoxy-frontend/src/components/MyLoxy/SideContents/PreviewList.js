@@ -72,6 +72,7 @@ class PreviewList extends Component {
                     content={preview.preview}
                     date={preview.releaseDate}
                     isTemp={preview.isTemp}
+                    tags={preview.tags}
                     onClick={onSelect}
                 />
                 )
@@ -95,7 +96,8 @@ const LoadPreview = gql`query Posts($username: String, $category: Int, $tag: Str
         title
         preview
         releaseDate,
-        isTemp
+        isTemp,
+        tags
     }
     hasNext
   }

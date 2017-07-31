@@ -143,7 +143,7 @@ class App extends Component {
     }
 }
 
-App = connect(
+export default connect(
     state => ({
         status: {
             header: state.base.header,
@@ -157,5 +157,3 @@ App = connect(
         UserActions: bindActionCreators(user, dispatch)
     })
 )(App);
-
-export default App;

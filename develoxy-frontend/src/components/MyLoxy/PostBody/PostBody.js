@@ -124,6 +124,12 @@ class PostBody extends Component {
         const { darken, data } = this.props;
         const { categories } = this.state;
 
+        if(!data.post) return null;
+
+        const tagList = data.post.tags.map(
+            tag => <Tag key={tag}>{tag}</Tag>
+        );
+
         return (
             <div className="post-body">
                 <Layer visible={darken}/>
@@ -143,8 +149,10 @@ class PostBody extends Component {
                                         category => <Category key={category.id}>{category.name}</Category>
                                     )
                                 }
-
                             </Categories>
+                            {
+                                data.post.tags.length !== 0 && <Tags>{tagList}</Tags>
+                            }
                             <div className="content" dangerouslySetInnerHTML={this.createMarkup()}>
                                 
                             </div>
